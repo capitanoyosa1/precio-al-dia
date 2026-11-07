@@ -51,6 +51,7 @@ h2{font-size:19px;margin:15px 2px 10px}
 .cart-summary{font-size:13px;color:var(--muted);line-height:1.7;margin-top:5px}
 .clear{margin-top:10px;background:#fff;color:#a32929;border:1px solid #e7caca;border-radius:8px;padding:8px 12px}
 .notice{font-size:12px;color:#66552b;background:#fff9e9;border-color:#f0e3bd;line-height:1.5}
+.piece-note{font-size:10px;color:#76530a;line-height:1.3}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 @media(min-width:650px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}.product h3{font-size:14px}.product-body{padding:10px}.price{font-size:18px}}
 </style>
@@ -68,7 +69,9 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   </section>
 
   <section class="notice">
-    <strong>Información importante:</strong> estos 15 productos y sus precios son datos de demostración para probar la aplicación. No representan ofertas verificadas ni precios actuales de los comercios.
+    <strong>Información importante:</strong> estos 15 productos y sus precios son datos de demostración. No representan ofertas verificadas ni precios actuales de los comercios.
+    <br><br>
+    <strong>Precios por pieza:</strong> cuando un producto se vende por kilogramo, el precio por pieza se estima usando un peso promedio orientativo. El peso real puede variar según el tamaño.
   </section>
 
   <input class="search" id="buscar" type="search" placeholder="🔎 Buscar productos...">
@@ -131,15 +134,19 @@ const productos = [
 {id:2,n:"Frijol negro",marca:"Básico",tienda:"Soriana",cat:"Granos",tam:"Paquete 1 kg",precio:32,antes:40,imagen:"https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=400",tipo:"paquete",unidad:"paquete"},
 {id:3,n:"Leche entera",marca:"Lácteos",tienda:"Bodega Aurrera",cat:"Lácteos",tam:"Envase 1 litro",precio:23,antes:29,imagen:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400",tipo:"volumen",unidad:"L"},
 {id:4,n:"Huevo blanco",marca:"Fresco",tienda:"Casa Ley",cat:"Abarrotes",tam:"Paquete 18 piezas",precio:48,antes:60,imagen:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400",tipo:"paquete",unidad:"paquete"},
-{id:5,n:"Plátano",marca:"Fruta fresca",tienda:"Chedraui",cat:"Frutas",tam:"Por kilogramo",precio:19,antes:27,imagen:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400",tipo:"peso",unidad:"kg"},
-{id:6,n:"Manzana roja",marca:"Fruta fresca",tienda:"Walmart",cat:"Frutas",tam:"Por kilogramo",precio:35,antes:49,imagen:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400",tipo:"peso",unidad:"kg"},
-{id:7,n:"Jitomate",marca:"Verdura fresca",tienda:"Soriana",cat:"Verduras",tam:"Por kilogramo",precio:22,antes:30,imagen:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400",tipo:"peso",unidad:"kg"},
-{id:8,n:"Papa blanca",marca:"Verdura fresca",tienda:"Bodega Aurrera",cat:"Verduras",tam:"Por kilogramo",precio:18,antes:25,imagen:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400",tipo:"peso",unidad:"kg"},
+
+{id:5,n:"Plátano",marca:"Fruta fresca",tienda:"Chedraui",cat:"Frutas",tam:"Por kilogramo",precio:19,antes:27,imagen:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400",tipo:"peso",unidad:"kg",pesoPieza:120},
+{id:6,n:"Manzana roja",marca:"Fruta fresca",tienda:"Walmart",cat:"Frutas",tam:"Por kilogramo",precio:35,antes:49,imagen:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400",tipo:"peso",unidad:"kg",pesoPieza:180},
+{id:7,n:"Jitomate",marca:"Verdura fresca",tienda:"Soriana",cat:"Verduras",tam:"Por kilogramo",precio:22,antes:30,imagen:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400",tipo:"peso",unidad:"kg",pesoPieza:150},
+{id:8,n:"Papa blanca",marca:"Verdura fresca",tienda:"Bodega Aurrera",cat:"Verduras",tam:"Por kilogramo",precio:18,antes:25,imagen:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400",tipo:"peso",unidad:"kg",pesoPieza:180},
+
 {id:9,n:"Aceite vegetal",marca:"Cocina",tienda:"Casa Ley",cat:"Abarrotes",tam:"Botella 1 litro",precio:34,antes:42,imagen:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400",tipo:"volumen",unidad:"L"},
 {id:10,n:"Agua natural",marca:"Bebida",tienda:"OXXO",cat:"Bebidas",tam:"Botella 1 litro",precio:12,antes:16,imagen:"https://images.unsplash.com/photo-1560023907-5f339617ea30?w=400",tipo:"volumen",unidad:"L"},
 {id:11,n:"Detergente",marca:"Limpieza",tienda:"Walmart",cat:"Limpieza",tam:"Bolsa 1 kg",precio:39,antes:50,imagen:"https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400",tipo:"paquete",unidad:"paquete"},
-{id:12,n:"Naranja",marca:"Fruta fresca",tienda:"Merza",cat:"Frutas",tam:"Por kilogramo",precio:17,antes:22,imagen:"https://images.unsplash.com/photo-1547514701-42782101795e?w=400",tipo:"peso",unidad:"kg"},
-{id:13,n:"Zanahoria",marca:"Verdura fresca",tienda:"Soriana",cat:"Verduras",tam:"Por kilogramo",precio:14,antes:19,imagen:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400",tipo:"peso",unidad:"kg"},
+
+{id:12,n:"Naranja",marca:"Fruta fresca",tienda:"Merza",cat:"Frutas",tam:"Por kilogramo",precio:17,antes:22,imagen:"https://images.unsplash.com/photo-1547514701-42782101795e?w=400",tipo:"peso",unidad:"kg",pesoPieza:200},
+{id:13,n:"Zanahoria",marca:"Verdura fresca",tienda:"Soriana",cat:"Verduras",tam:"Por kilogramo",precio:14,antes:19,imagen:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400",tipo:"peso",unidad:"kg",pesoPieza:100},
+
 {id:14,n:"Refresco",marca:"Bebida",tienda:"Chedraui",cat:"Bebidas",tam:"Botella 2 litros",precio:29,antes:36,imagen:"https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400",tipo:"volumen",unidad:"L"},
 {id:15,n:"Papel higiénico",marca:"Hogar",tienda:"Waldo's",cat:"Limpieza",tam:"Paquete 4 rollos",precio:25,antes:32,imagen:"https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=400",tipo:"paquete",unidad:"paquete"}
 ];
@@ -151,31 +158,52 @@ const dinero=n=>"$"+n.toFixed(2);
 const descuento=p=>Math.round((1-p.precio/p.antes)*100);
 
 function opcionesUnidad(p){
- if(p.tipo==="peso") return '<option value="kg">kg</option><option value="g">gramos</option>';
- if(p.tipo==="volumen") return '<option value="L">litros</option><option value="ml">mililitros</option>';
- if(p.tipo==="pieza") return '<option value="pieza">piezas</option>';
+ if(p.tipo==="peso"){
+  return '<option value="kg">kg</option><option value="g">gramos</option><option value="pieza">piezas</option>';
+ }
+ if(p.tipo==="volumen"){
+  return '<option value="L">litros</option><option value="ml">mililitros</option>';
+ }
+ if(p.tipo==="pieza"){
+  return '<option value="pieza">piezas</option>';
+ }
  return '<option value="paquete">paquetes</option>';
 }
-function factorUnidad(u){
- return ({kg:1,g:.001,L:1,ml:.001,pieza:1,paquete:1})[u]||1;
+
+function factorUnidad(p,u){
+ if(u==="kg"||u==="L")return 1;
+ if(u==="g"||u==="ml")return 0.001;
+ if(u==="pieza")return (p.pesoPieza||0)/1000;
+ if(u==="paquete")return 1;
+ return 1;
 }
+
 function unidadTexto(u){
  return ({kg:"kg",g:"g",L:"L",ml:"ml",pieza:"piezas",paquete:"paquetes"})[u]||u;
 }
+
 function mostrarProductos(){
  const buscar=document.getElementById("buscar").value.toLowerCase();
  const tienda=document.getElementById("tienda").value;
  const orden=document.getElementById("orden").value;
+
  let lista=productos.filter(p=>
   (p.n+" "+p.marca+" "+p.tienda+" "+p.cat).toLowerCase().includes(buscar)&&
   (!tienda||p.tienda===tienda)&&
   (!categoriaActual||p.cat===categoriaActual)
  );
+
  if(orden==="descuento")lista.sort((a,b)=>descuento(b)-descuento(a));
  if(orden==="precio")lista.sort((a,b)=>a.precio-b.precio);
  if(orden==="nombre")lista.sort((a,b)=>a.n.localeCompare(b.n));
+
  const cont=document.getElementById("productos");
- if(!lista.length){cont.innerHTML='<div class="empty">No encontramos productos con esos filtros.</div>';return;}
+
+ if(!lista.length){
+  cont.innerHTML='<div class="empty">No encontramos productos con esos filtros.</div>';
+  return;
+ }
+
  cont.innerHTML=lista.map(p=>`
  <article class="product">
   <img class="photo" src="${p.imagen}" alt="${p.n}" loading="lazy" onerror="this.style.display='none'">
@@ -187,31 +215,54 @@ function mostrarProductos(){
    <div class="discount">-${descuento(p)}% descuento</div>
    <div class="old">${dinero(p.antes)}</div>
    <div class="price">${dinero(p.precio)}</div>
+
+   ${p.pesoPieza?`<div class="piece-note">Peso promedio estimado: ${p.pesoPieza} g por pieza. Precio base por kg.</div>`:""}
+
    <div class="quantity">
-    <input type="number" min="0.01" step="${p.tipo==="paquete"?"1":"0.01"}" value="1" id="cant-${p.id}" aria-label="Cantidad">
+    <input type="number" min="0.01" step="${p.tipo==="paquete"||p.pesoPieza?"1":"0.01"}" value="1" id="cant-${p.id}" aria-label="Cantidad">
     <select id="unidad-${p.id}" aria-label="Unidad">${opcionesUnidad(p)}</select>
    </div>
    <button class="add" onclick="agregar(${p.id})">Agregar al carrito</button>
   </div>
  </article>`).join("");
 }
+
 function agregar(id){
  const p=productos.find(x=>x.id===id);
  const cantidad=parseFloat(document.getElementById("cant-"+id).value);
  const unidad=document.getElementById("unidad-"+id).value;
- if(!cantidad||cantidad<=0){alert("Escribe una cantidad válida.");return;}
- if(p.tipo==="paquete"&&!Number.isInteger(cantidad)){alert("Este producto se vende por paquetes completos.");return;}
+
+ if(!Number.isFinite(cantidad)||cantidad<=0){
+  alert("Escribe una cantidad válida.");
+  return;
+ }
+
+ if((p.tipo==="paquete"||unidad==="pieza")&&!Number.isInteger(cantidad)){
+  alert("Los paquetes y las piezas se seleccionan en cantidades completas.");
+  return;
+ }
+
+ if(unidad==="pieza"&&!p.pesoPieza){
+  alert("No hay un peso promedio configurado para este producto.");
+  return;
+ }
+
  const existente=carrito.find(x=>x.id===id&&x.unidad===unidad);
+
  if(existente)existente.cantidad+=cantidad;
  else carrito.push({id,unidad,cantidad});
+
  mostrarCarrito();
 }
+
 function precioLinea(item){
  const p=productos.find(x=>x.id===item.id);
- return p.precio*item.cantidad*factorUnidad(item.unidad);
+ return p.precio*item.cantidad*factorUnidad(p,item.unidad);
 }
+
 function mostrarCarrito(){
  const cont=document.getElementById("carrito");
+
  if(!carrito.length){
   cont.innerHTML='<p class="section-note">Todavía no has agregado productos.</p>';
   document.getElementById("total").textContent="Total: $0.00";
@@ -219,46 +270,82 @@ function mostrarCarrito(){
   document.getElementById("promedio").textContent="Descuento promedio: 0%";
   return;
  }
+
  cont.innerHTML=carrito.map((item,i)=>{
   const p=productos.find(x=>x.id===item.id);
+  const estimado=item.unidad==="pieza"?" · precio estimado":"";
+
   return `<div class="cart-row">
-   <div><strong>${p.n}</strong><small>${item.cantidad} ${unidadTexto(item.unidad)} · ${p.tienda}</small></div>
-   <div class="cart-controls"><button onclick="cambiar(${i},-1)">−</button><button onclick="cambiar(${i},1)">+</button><strong>${dinero(precioLinea(item))}</strong><button onclick="quitar(${i})">×</button></div>
+   <div>
+    <strong>${p.n}</strong>
+    <small>${item.cantidad} ${unidadTexto(item.unidad)} · ${p.tienda}${estimado}</small>
+    ${item.unidad==="pieza"?`<small>Peso promedio usado: ${p.pesoPieza} g por pieza</small>`:""}
+   </div>
+   <div class="cart-controls">
+    <button onclick="cambiar(${i},-1)">−</button>
+    <button onclick="cambiar(${i},1)">+</button>
+    <strong>${dinero(precioLinea(item))}</strong>
+    <button onclick="quitar(${i})">×</button>
+   </div>
   </div>`;
  }).join("");
+
  const total=carrito.reduce((s,x)=>s+precioLinea(x),0);
+
  const ahorro=carrito.reduce((s,x)=>{
   const p=productos.find(y=>y.id===x.id);
-  return s+(p.antes-p.precio)*x.cantidad*factorUnidad(x.unidad);
+  return s+(p.antes-p.precio)*x.cantidad*factorUnidad(p,x.unidad);
  },0);
+
  const base=carrito.reduce((s,x)=>{
   const p=productos.find(y=>y.id===x.id);
-  return s+p.antes*x.cantidad*factorUnidad(x.unidad);
+  return s+p.antes*x.cantidad*factorUnidad(p,x.unidad);
  },0);
+
  document.getElementById("total").textContent="Total: "+dinero(total);
  document.getElementById("ahorro").textContent="Ahorro estimado: "+dinero(ahorro);
  document.getElementById("promedio").textContent="Descuento promedio: "+(base?Math.round(ahorro/base*100):0)+"%";
 }
+
 function cambiar(i,d){
- carrito[i].cantidad+=d;
- if(carrito[i].cantidad<=0)carrito.splice(i,1);
+ const item=carrito[i];
+
+ item.cantidad+=d;
+
+ if(item.cantidad<=0)carrito.splice(i,1);
+
  mostrarCarrito();
 }
-function quitar(i){carrito.splice(i,1);mostrarCarrito();}
+
+function quitar(i){
+ carrito.splice(i,1);
+ mostrarCarrito();
+}
 
 document.getElementById("buscar").addEventListener("input",mostrarProductos);
 document.getElementById("tienda").addEventListener("change",mostrarProductos);
 document.getElementById("orden").addEventListener("change",mostrarProductos);
+
 document.getElementById("categorias").addEventListener("click",e=>{
  const b=e.target.closest("button[data-cat]");
  if(!b)return;
+
  categoriaActual=b.dataset.cat;
- document.querySelectorAll("#categorias button").forEach(x=>x.classList.toggle("active",x===b));
+
+ document.querySelectorAll("#categorias button").forEach(x=>
+  x.classList.toggle("active",x===b)
+ );
+
  mostrarProductos();
 });
+
 document.getElementById("vaciar").addEventListener("click",()=>{
- if(confirm("¿Quieres vaciar el carrito?")){carrito=[];mostrarCarrito();}
+ if(confirm("¿Quieres vaciar el carrito?")){
+  carrito=[];
+  mostrarCarrito();
+ }
 });
+
 mostrarProductos();
 mostrarCarrito();
 </script>
