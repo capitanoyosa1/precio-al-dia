@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#191919">
 <meta name="description" content="Precios al Día: busca productos, compara precios y organiza tus compras.">
+<link rel="manifest" href="./manifest.json">
 <title>Precios al Día</title>
 
 <style>
@@ -118,9 +118,7 @@ input:focus,select:focus,button:focus-visible{
  outline:3px solid var(--gold);
  outline-offset:2px;
 }
-.hidden-file{
- display:none;
-}
+.hidden-file{display:none}
 .preview{
  display:none;
  margin-top:12px;
@@ -557,7 +555,7 @@ footer{
 </div>
 
 <div class="section-heading">
- <h2>Selección destacada</h2>
+ <h2>Productos en oferta al día</h2>
 </div>
 <p class="section-note">
  Productos de demostración · Mazatlán, Sinaloa
@@ -726,10 +724,12 @@ function agregar(id){
  }
  if(unidad==="g"&&cantidad%paso!==0){
   alert("Selecciona incrementos de 100 gramos.");
+  entrada.focus();
   return;
  }
  if(unidad==="kg"&&Math.abs(cantidad*10-Math.round(cantidad*10))>1e-8){
   alert("Selecciona incrementos de 0.1 kg.");
+  entrada.focus();
   return;
  }
 
@@ -889,5 +889,21 @@ document.getElementById("vaciar").addEventListener("click",()=>{
 mostrarProductos();
 mostrarCarrito();
 </script>
+
+<script>
+/* Registro del servicio para funcionamiento sin conexión */
+if ("serviceWorker" in navigator) {
+ window.addEventListener("load", () => {
+  navigator.serviceWorker.register("./service-worker.js")
+   .then(() => {
+    console.log("Servicio sin conexión registrado correctamente.");
+   })
+   .catch(error => {
+    console.error("Error al registrar el servicio:", error);
+   });
+ });
+}
+</script>
+
 </body>
 </html>
