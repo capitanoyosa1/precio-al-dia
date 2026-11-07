@@ -2,356 +2,263 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#146b45">
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#168447">
 <title>Precios al Día</title>
-
 <style>
+:root{--green:#168447;--dark:#116638;--light:#eaf7ef;--text:#202820;--muted:#68736b;--line:#e3e9e4}
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f3f6f3;
- color:#24352b
-}
-header{
- background:#146b45;
- color:white;
- padding:22px 14px;
- border-radius:0 0 20px 20px
-}
+body{margin:0;background:#f4f7f4;color:var(--text);font-family:Arial,sans-serif}
+header{background:var(--green);color:white;padding:17px 14px;text-align:center}
 header h1{margin:0;font-size:25px}
-header p{margin:7px 0 0;font-size:14px}
-main{padding:10px;max-width:850px;margin:auto}
-.card{
- background:white;
- padding:12px;
- border-radius:14px;
- margin-bottom:12px;
- box-shadow:0 2px 9px #0000000d
-}
-h2{font-size:18px;margin-top:0}
-label{display:block;font-weight:bold;margin:10px 0 7px}
-select,input{
- width:100%;
- padding:11px;
- border:1px solid #d5ded7;
- border-radius:9px;
- font-size:15px;
- background:white
-}
-button{
- background:#146b45;
- color:white;
- border:0;
- border-radius:8px;
- padding:9px 11px;
- font-size:13px;
- cursor:pointer
-}
-button:disabled{opacity:.5}
-#categorias{
- display:flex;
- gap:7px;
- overflow-x:auto;
- padding:5px 0 12px
-}
-#categorias button{
- white-space:nowrap;
- background:#e8f2eb;
- color:#146b45;
- padding:8px 10px
-}
-#categorias button.active{
- background:#146b45;
- color:white
-}
-#productos{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:6px;
- width:100%
-}
-.product{
- background:white;
- border:1px solid #e5eae5;
- border-radius:10px;
- overflow:hidden;
- min-width:0
-}
-.product img{
- width:100%;
- height:75px;
- object-fit:cover;
- background:#edf2ed;
- display:block
-}
-.product-info{padding:6px}
-.product h3{
- font-size:11px;
- line-height:1.25;
- margin:4px 0;
- overflow-wrap:anywhere
-}
-.store{
- font-size:9px;
- color:#78857c;
- line-height:1.3
-}
-.old-price{
- color:#999;
- text-decoration:line-through;
- font-size:10px
-}
-.price{
- color:#146b45;
- font-size:15px;
- font-weight:bold;
- margin:4px 0
-}
-.discount{
- display:inline-block;
- background:#e0f4e5;
- color:#146b45;
- border-radius:5px;
- padding:3px;
- font-size:10px;
- font-weight:bold
-}
-.add{
- width:100%;
- margin-top:7px;
- padding:7px 2px;
- font-size:10px;
- line-height:1.2
-}
-.cart-item{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:8px;
- padding:10px 0;
- border-bottom:1px solid #eee
-}
-.cart-item button{padding:7px 10px}
-.quantity{font-weight:bold;padding:0 5px}
-.total{
- font-size:20px;
- color:#146b45;
- font-weight:bold
-}
-.savings{
- color:#146b45;
- font-weight:bold
-}
-.empty{text-align:center;color:#78857c;padding:15px}
-footer{
- text-align:center;
- padding:20px;
- color:#78857c;
- font-size:12px
-}
-@media(min-width:600px){
- #productos{
-  grid-template-columns:repeat(4,minmax(0,1fr))
- }
- .product img{height:120px}
- .product h3{font-size:14px}
- .store{font-size:11px}
- .price{font-size:18px}
- .add{font-size:12px}
-}
+header p{margin:5px 0 0;font-size:13px}
+main{max-width:1100px;margin:auto;padding:12px}
+.location,.filters,.cart,.notice{background:white;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.location{display:flex;gap:8px;flex-wrap:wrap}
+input,select,button{font:inherit}
+input,select{border:1px solid #d5ded6;border-radius:8px;padding:10px;background:white;min-width:0}
+.location input{flex:1;min-width:130px}
+.search{width:100%;margin-bottom:10px}
+.filters{display:flex;gap:7px;flex-wrap:wrap}
+.filters select{flex:1;min-width:135px}
+.categories{display:flex;gap:7px;overflow-x:auto;padding:2px 0 10px}
+.categories button{white-space:nowrap;border:1px solid #d8e4da;background:white;color:#31513a;border-radius:20px;padding:8px 12px}
+.categories button.active{background:var(--green);color:white;border-color:var(--green)}
+h2{font-size:19px;margin:15px 2px 10px}
+.section-note{font-size:12px;color:var(--muted);margin:-4px 2px 12px}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.product{background:white;border:1px solid var(--line);border-radius:11px;overflow:hidden;min-width:0;display:flex;flex-direction:column}
+.photo{width:100%;aspect-ratio:1/1;background:#edf2ed;object-fit:cover}
+.product-body{padding:8px;display:flex;flex-direction:column;gap:5px;flex:1}
+.product h3{font-size:12px;line-height:1.25;margin:0;min-height:30px}
+.store{font-size:10px;color:var(--muted);line-height:1.3}
+.discount{font-size:11px;font-weight:bold;color:#08783a}
+.old{font-size:10px;color:#7b847d;text-decoration:line-through}
+.price{font-size:16px;font-weight:bold;color:var(--dark)}
+.demo-tag{font-size:9px;color:#76530a;background:#fff4d8;padding:3px 5px;border-radius:5px;width:max-content}
+.quantity{display:flex;gap:4px}
+.quantity input{width:55%;padding:7px 4px;font-size:12px}
+.quantity select{width:45%;padding:7px 2px;font-size:11px}
+.add{background:var(--green);color:white;border:0;border-radius:7px;padding:8px 4px;font-size:11px;font-weight:bold}
+.add:active{background:var(--dark)}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:25px}
+.cart h2{margin-top:0}
+.cart-row{border-bottom:1px solid var(--line);padding:9px 0;display:flex;justify-content:space-between;gap:8px;font-size:12px}
+.cart-row small{display:block;color:var(--muted);margin-top:3px}
+.cart-controls{display:flex;align-items:center;gap:5px}
+.cart-controls button{border:1px solid #d5ded6;background:#f7faf7;border-radius:6px;padding:4px 8px}
+.cart-total{font-size:17px;font-weight:bold;margin-top:12px}
+.cart-summary{font-size:13px;color:var(--muted);line-height:1.7;margin-top:5px}
+.clear{margin-top:10px;background:#fff;color:#a32929;border:1px solid #e7caca;border-radius:8px;padding:8px 12px}
+.notice{font-size:12px;color:#66552b;background:#fff9e9;border-color:#f0e3bd;line-height:1.5}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(min-width:650px){.products{grid-template-columns:repeat(4,minmax(0,1fr))}.product h3{font-size:14px}.product-body{padding:10px}.price{font-size:18px}}
 </style>
 </head>
-
 <body>
 <header>
-<h1>🛒 Precios al Día</h1>
-<p>¡Compara, encuentra ofertas y ahorra!</p>
+  <h1>🛒 Precios al Día</h1>
+  <p>Compara ofertas y organiza tus compras</p>
 </header>
 
 <main>
-<section class="card">
-<h2>📍 Tu ubicación</h2>
-<label for="estado">Estado</label>
-<select id="estado">
-<option value="">Selecciona tu estado</option>
-<option>Aguascalientes</option>
-<option>Baja California</option>
-<option>Chihuahua</option>
-<option>Ciudad de México</option>
-<option>Estado de México</option>
-<option>Guanajuato</option>
-<option>Jalisco</option>
-<option>Nuevo León</option>
-<option>Puebla</option>
-<option>Querétaro</option>
-<option>Quintana Roo</option>
-<option>Sinaloa</option>
-<option>Sonora</option>
-<option>Yucatán</option>
-</select>
+  <section class="location">
+    <input id="estado" value="Sinaloa" aria-label="Estado" placeholder="Estado">
+    <input id="ciudad" value="Mazatlán" aria-label="Ciudad" placeholder="Ciudad">
+  </section>
 
-<label for="ciudad">Ciudad o municipio</label>
-<input id="ciudad" placeholder="Escribe tu ciudad">
-</section>
+  <section class="notice">
+    <strong>Información importante:</strong> estos 15 productos y sus precios son datos de demostración para probar la aplicación. No representan ofertas verificadas ni precios actuales de los comercios.
+  </section>
 
-<section class="card">
-<h2>🏷️ Productos en oferta al día</h2>
-<input id="buscar"
-placeholder="🔎 Buscar arroz, leche, huevo..."
-oninput="mostrarProductos()">
+  <input class="search" id="buscar" type="search" placeholder="🔎 Buscar productos...">
 
-<label for="establecimiento">Establecimiento</label>
-<select id="establecimiento" onchange="mostrarProductos()">
-<option value="">Todos los establecimientos</option>
-<option value="Walmart">Walmart</option>
-<option value="Soriana">Soriana</option>
-<option value="Bodega Aurrera">Bodega Aurrera</option>
-<option value="Chedraui">Chedraui</option>
-</select>
+  <section class="filters">
+    <select id="tienda">
+      <option value="">Todos los establecimientos</option>
+      <option>Walmart</option>
+      <option>Soriana</option>
+      <option>Bodega Aurrera</option>
+      <option>Chedraui</option>
+      <option>Casa Ley</option>
+      <option>Sam's Club</option>
+      <option>OXXO</option>
+      <option>Waldo's</option>
+      <option>Merza</option>
+      <option>Kiosko</option>
+      <option>Costco</option>
+      <option>Súper Naturista</option>
+    </select>
+    <select id="orden">
+      <option value="descuento">Mayor descuento</option>
+      <option value="precio">Menor precio</option>
+      <option value="nombre">Nombre A-Z</option>
+    </select>
+  </section>
 
-<div id="categorias">
-<button class="active" onclick="categoria('Todos',this)">Todos</button>
-<button onclick="categoria('Granos',this)">Granos</button>
-<button onclick="categoria('Abarrotes',this)">Abarrotes</button>
-<button onclick="categoria('Lácteos',this)">Lácteos</button>
-<button onclick="categoria('Frutas',this)">Frutas</button>
-<button onclick="categoria('Verduras',this)">Verduras</button>
-</div>
+  <div class="categories" id="categorias">
+    <button class="active" data-cat="">Todos</button>
+    <button data-cat="Granos">Granos</button>
+    <button data-cat="Abarrotes">Abarrotes</button>
+    <button data-cat="Lácteos">Lácteos</button>
+    <button data-cat="Frutas">Frutas</button>
+    <button data-cat="Verduras">Verduras</button>
+    <button data-cat="Bebidas">Bebidas</button>
+    <button data-cat="Limpieza">Limpieza</button>
+  </div>
 
-<div id="productos"></div>
-</section>
+  <h2>🔥 Las 15 ofertas destacadas</h2>
+  <p class="section-note">Productos de ejemplo ordenados por porcentaje de descuento.</p>
+  <section class="products" id="productos"></section>
 
-<section class="card" id="carrito">
-<h2>🛒 Mi carrito</h2>
-<div id="lista-carrito" class="empty">Tu carrito está vacío.</div>
-<hr>
-<p class="total" id="total-carrito">Total: $0.00</p>
-<p class="savings" id="ahorro-carrito">Tu ahorro: $0.00</p>
-<p id="descuento-promedio">Descuento promedio: 0%</p>
-<button onclick="vaciarCarrito()">Vaciar carrito</button>
-</section>
-
-<footer>
-Precios al Día · México<br>
-Precios de demostración, sujetos a verificación.
-</footer>
+  <section class="cart">
+    <h2>🛒 Mi carrito</h2>
+    <div id="carrito">
+      <p class="section-note">Todavía no has agregado productos.</p>
+    </div>
+    <div class="cart-total" id="total">Total: $0.00</div>
+    <div class="cart-summary" id="ahorro">Ahorro estimado: $0.00</div>
+    <div class="cart-summary" id="promedio">Descuento promedio: 0%</div>
+    <button class="clear" id="vaciar">Vaciar carrito</button>
+  </section>
 </main>
+
+<footer>Precios al Día · Versión de demostración</footer>
 
 <script>
 const productos = [
-{id:1,nombre:"Arroz (1 kg)",categoria:"Granos",tienda:"Walmart",precio:26,anterior:32,emoji:"🍚",foto:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500"},
-{id:2,nombre:"Frijol (1 kg)",categoria:"Granos",tienda:"Soriana",precio:32,anterior:40,emoji:"🫘",foto:"https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=500"},
-{id:3,nombre:"Aceite (1 litro)",categoria:"Abarrotes",tienda:"Bodega Aurrera",precio:38,anterior:45,emoji:"🫒",foto:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500"},
-{id:4,nombre:"Azúcar (1 kg)",categoria:"Abarrotes",tienda:"Chedraui",precio:25,anterior:30,emoji:"🍬",foto:"https://images.unsplash.com/photo-1581441363689-1f3c3c414635?w=500"},
-{id:5,nombre:"Leche (1 litro)",categoria:"Lácteos",tienda:"Walmart",precio:24,anterior:29,emoji:"🥛",foto:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500"},
-{id:6,nombre:"Huevo (docena)",categoria:"Lácteos",tienda:"Soriana",precio:42,anterior:50,emoji:"🥚",foto:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500"},
-{id:7,nombre:"Plátano (1 kg)",categoria:"Frutas",tienda:"Bodega Aurrera",precio:20,anterior:26,emoji:"🍌",foto:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500"},
-{id:8,nombre:"Manzana (1 kg)",categoria:"Frutas",tienda:"Chedraui",precio:32,anterior:40,emoji:"🍎",foto:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500"},
-{id:9,nombre:"Jitomate (1 kg)",categoria:"Verduras",tienda:"Walmart",precio:24,anterior:32,emoji:"🍅",foto:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500"},
-{id:10,nombre:"Papa (1 kg)",categoria:"Verduras",tienda:"Soriana",precio:22,anterior:28,emoji:"🥔",foto:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500"}
+{id:1,n:"Arroz blanco",marca:"Básico",tienda:"Walmart",cat:"Granos",tam:"Paquete 1 kg",precio:28,antes:35,imagen:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400",tipo:"paquete",unidad:"paquete"},
+{id:2,n:"Frijol negro",marca:"Básico",tienda:"Soriana",cat:"Granos",tam:"Paquete 1 kg",precio:32,antes:40,imagen:"https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=400",tipo:"paquete",unidad:"paquete"},
+{id:3,n:"Leche entera",marca:"Lácteos",tienda:"Bodega Aurrera",cat:"Lácteos",tam:"Envase 1 litro",precio:23,antes:29,imagen:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400",tipo:"volumen",unidad:"L"},
+{id:4,n:"Huevo blanco",marca:"Fresco",tienda:"Casa Ley",cat:"Abarrotes",tam:"Paquete 18 piezas",precio:48,antes:60,imagen:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=400",tipo:"paquete",unidad:"paquete"},
+{id:5,n:"Plátano",marca:"Fruta fresca",tienda:"Chedraui",cat:"Frutas",tam:"Por kilogramo",precio:19,antes:27,imagen:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400",tipo:"peso",unidad:"kg"},
+{id:6,n:"Manzana roja",marca:"Fruta fresca",tienda:"Walmart",cat:"Frutas",tam:"Por kilogramo",precio:35,antes:49,imagen:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400",tipo:"peso",unidad:"kg"},
+{id:7,n:"Jitomate",marca:"Verdura fresca",tienda:"Soriana",cat:"Verduras",tam:"Por kilogramo",precio:22,antes:30,imagen:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=400",tipo:"peso",unidad:"kg"},
+{id:8,n:"Papa blanca",marca:"Verdura fresca",tienda:"Bodega Aurrera",cat:"Verduras",tam:"Por kilogramo",precio:18,antes:25,imagen:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400",tipo:"peso",unidad:"kg"},
+{id:9,n:"Aceite vegetal",marca:"Cocina",tienda:"Casa Ley",cat:"Abarrotes",tam:"Botella 1 litro",precio:34,antes:42,imagen:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400",tipo:"volumen",unidad:"L"},
+{id:10,n:"Agua natural",marca:"Bebida",tienda:"OXXO",cat:"Bebidas",tam:"Botella 1 litro",precio:12,antes:16,imagen:"https://images.unsplash.com/photo-1560023907-5f339617ea30?w=400",tipo:"volumen",unidad:"L"},
+{id:11,n:"Detergente",marca:"Limpieza",tienda:"Walmart",cat:"Limpieza",tam:"Bolsa 1 kg",precio:39,antes:50,imagen:"https://images.unsplash.com/photo-1585421514738-01798e348b17?w=400",tipo:"paquete",unidad:"paquete"},
+{id:12,n:"Naranja",marca:"Fruta fresca",tienda:"Merza",cat:"Frutas",tam:"Por kilogramo",precio:17,antes:22,imagen:"https://images.unsplash.com/photo-1547514701-42782101795e?w=400",tipo:"peso",unidad:"kg"},
+{id:13,n:"Zanahoria",marca:"Verdura fresca",tienda:"Soriana",cat:"Verduras",tam:"Por kilogramo",precio:14,antes:19,imagen:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=400",tipo:"peso",unidad:"kg"},
+{id:14,n:"Refresco",marca:"Bebida",tienda:"Chedraui",cat:"Bebidas",tam:"Botella 2 litros",precio:29,antes:36,imagen:"https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400",tipo:"volumen",unidad:"L"},
+{id:15,n:"Papel higiénico",marca:"Hogar",tienda:"Waldo's",cat:"Limpieza",tam:"Paquete 4 rollos",precio:25,antes:32,imagen:"https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=400",tipo:"paquete",unidad:"paquete"}
 ];
 
-let categoriaActual="Todos";
-let carrito={};
+let categoriaActual="";
+let carrito=[];
 
-function categoria(nombre,boton){
- categoriaActual=nombre;
- document.querySelectorAll("#categorias button")
- .forEach(b=>b.classList.remove("active"));
- boton.classList.add("active");
- mostrarProductos();
+const dinero=n=>"$"+n.toFixed(2);
+const descuento=p=>Math.round((1-p.precio/p.antes)*100);
+
+function opcionesUnidad(p){
+ if(p.tipo==="peso") return '<option value="kg">kg</option><option value="g">gramos</option>';
+ if(p.tipo==="volumen") return '<option value="L">litros</option><option value="ml">mililitros</option>';
+ if(p.tipo==="pieza") return '<option value="pieza">piezas</option>';
+ return '<option value="paquete">paquetes</option>';
 }
-
+function factorUnidad(u){
+ return ({kg:1,g:.001,L:1,ml:.001,pieza:1,paquete:1})[u]||1;
+}
+function unidadTexto(u){
+ return ({kg:"kg",g:"g",L:"L",ml:"ml",pieza:"piezas",paquete:"paquetes"})[u]||u;
+}
 function mostrarProductos(){
- const busqueda=document.getElementById("buscar").value.toLowerCase();
- const tienda=document.getElementById("establecimiento").value;
-
- const lista=productos.filter(p=>
- p.nombre.toLowerCase().includes(busqueda) &&
- (categoriaActual==="Todos" || p.categoria===categoriaActual) &&
- (!tienda || p.tienda===tienda)
- ).sort((a,b)=>a.precio-b.precio);
-
- document.getElementById("productos").innerHTML=lista.length?
- lista.map(p=>`
+ const buscar=document.getElementById("buscar").value.toLowerCase();
+ const tienda=document.getElementById("tienda").value;
+ const orden=document.getElementById("orden").value;
+ let lista=productos.filter(p=>
+  (p.n+" "+p.marca+" "+p.tienda+" "+p.cat).toLowerCase().includes(buscar)&&
+  (!tienda||p.tienda===tienda)&&
+  (!categoriaActual||p.cat===categoriaActual)
+ );
+ if(orden==="descuento")lista.sort((a,b)=>descuento(b)-descuento(a));
+ if(orden==="precio")lista.sort((a,b)=>a.precio-b.precio);
+ if(orden==="nombre")lista.sort((a,b)=>a.n.localeCompare(b.n));
+ const cont=document.getElementById("productos");
+ if(!lista.length){cont.innerHTML='<div class="empty">No encontramos productos con esos filtros.</div>';return;}
+ cont.innerHTML=lista.map(p=>`
  <article class="product">
- <img src="${p.foto}" alt="${p.nombre}" onerror="this.style.display='none'">
- <div class="product-info">
- <h3>${p.emoji} ${p.nombre}</h3>
- <div class="store">${p.tienda} · ${p.categoria}</div>
- <div class="old-price">$${p.anterior.toFixed(2)}</div>
- <div class="price">$${p.precio.toFixed(2)}</div>
- <span class="discount">-${Math.round((1-p.precio/p.anterior)*100)}%</span>
- <button class="add" onclick="agregar(${p.id})">+ Agregar</button>
- </div>
- </article>
- `).join(""):
- '<p>No encontramos productos.</p>';
+  <img class="photo" src="${p.imagen}" alt="${p.n}" loading="lazy" onerror="this.style.display='none'">
+  <div class="product-body">
+   <span class="demo-tag">DEMO</span>
+   <h3>${p.n}</h3>
+   <div class="store">${p.tam} · ${p.cat}</div>
+   <div class="store">🏪 ${p.tienda}</div>
+   <div class="discount">-${descuento(p)}% descuento</div>
+   <div class="old">${dinero(p.antes)}</div>
+   <div class="price">${dinero(p.precio)}</div>
+   <div class="quantity">
+    <input type="number" min="0.01" step="${p.tipo==="paquete"?"1":"0.01"}" value="1" id="cant-${p.id}" aria-label="Cantidad">
+    <select id="unidad-${p.id}" aria-label="Unidad">${opcionesUnidad(p)}</select>
+   </div>
+   <button class="add" onclick="agregar(${p.id})">Agregar al carrito</button>
+  </div>
+ </article>`).join("");
 }
-
 function agregar(id){
- carrito[id]=(carrito[id]||0)+1;
+ const p=productos.find(x=>x.id===id);
+ const cantidad=parseFloat(document.getElementById("cant-"+id).value);
+ const unidad=document.getElementById("unidad-"+id).value;
+ if(!cantidad||cantidad<=0){alert("Escribe una cantidad válida.");return;}
+ if(p.tipo==="paquete"&&!Number.isInteger(cantidad)){alert("Este producto se vende por paquetes completos.");return;}
+ const existente=carrito.find(x=>x.id===id&&x.unidad===unidad);
+ if(existente)existente.cantidad+=cantidad;
+ else carrito.push({id,unidad,cantidad});
  mostrarCarrito();
 }
-
-function cambiarCantidad(id,cambio){
- carrito[id]+=cambio;
- if(carrito[id]<=0) delete carrito[id];
- mostrarCarrito();
+function precioLinea(item){
+ const p=productos.find(x=>x.id===item.id);
+ return p.precio*item.cantidad*factorUnidad(item.unidad);
 }
-
 function mostrarCarrito(){
- const lista=document.getElementById("lista-carrito");
- const ids=Object.keys(carrito);
-
- if(!ids.length){
- lista.innerHTML="Tu carrito está vacío.";
- lista.className="empty";
- }else{
- lista.className="";
- lista.innerHTML=ids.map(id=>{
- const p=productos.find(x=>x.id===Number(id));
- const cantidad=carrito[id];
- return `
- <div class="cart-item">
- <div>
- <strong>${p.nombre}</strong><br>
- <small>${p.tienda}</small><br>
- $${(p.precio*cantidad).toFixed(2)}
- </div>
- <div>
- <button onclick="cambiarCantidad(${id},-1)">−</button>
- <span class="quantity">${cantidad}</span>
- <button onclick="cambiarCantidad(${id},1)">+</button>
- </div>
- </div>`;
- }).join("");
+ const cont=document.getElementById("carrito");
+ if(!carrito.length){
+  cont.innerHTML='<p class="section-note">Todavía no has agregado productos.</p>';
+  document.getElementById("total").textContent="Total: $0.00";
+  document.getElementById("ahorro").textContent="Ahorro estimado: $0.00";
+  document.getElementById("promedio").textContent="Descuento promedio: 0%";
+  return;
  }
-
- let total=0,ahorro=0;
- ids.forEach(id=>{
- const p=productos.find(x=>x.id===Number(id));
- const cantidad=carrito[id];
- total+=p.precio*cantidad;
- ahorro+=(p.anterior-p.precio)*cantidad;
- });
-
- const precioAnterior=total+ahorro;
- const promedio=precioAnterior>0?ahorro/precioAnterior*100:0;
-
- document.getElementById("total-carrito").textContent="Total: $"+total.toFixed(2);
- document.getElementById("ahorro-carrito").textContent="Tu ahorro: $"+ahorro.toFixed(2);
- document.getElementById("descuento-promedio").textContent="Descuento promedio: "+promedio.toFixed(1)+"%";
+ cont.innerHTML=carrito.map((item,i)=>{
+  const p=productos.find(x=>x.id===item.id);
+  return `<div class="cart-row">
+   <div><strong>${p.n}</strong><small>${item.cantidad} ${unidadTexto(item.unidad)} · ${p.tienda}</small></div>
+   <div class="cart-controls"><button onclick="cambiar(${i},-1)">−</button><button onclick="cambiar(${i},1)">+</button><strong>${dinero(precioLinea(item))}</strong><button onclick="quitar(${i})">×</button></div>
+  </div>`;
+ }).join("");
+ const total=carrito.reduce((s,x)=>s+precioLinea(x),0);
+ const ahorro=carrito.reduce((s,x)=>{
+  const p=productos.find(y=>y.id===x.id);
+  return s+(p.antes-p.precio)*x.cantidad*factorUnidad(x.unidad);
+ },0);
+ const base=carrito.reduce((s,x)=>{
+  const p=productos.find(y=>y.id===x.id);
+  return s+p.antes*x.cantidad*factorUnidad(x.unidad);
+ },0);
+ document.getElementById("total").textContent="Total: "+dinero(total);
+ document.getElementById("ahorro").textContent="Ahorro estimado: "+dinero(ahorro);
+ document.getElementById("promedio").textContent="Descuento promedio: "+(base?Math.round(ahorro/base*100):0)+"%";
 }
-
-function vaciarCarrito(){
- carrito={};
+function cambiar(i,d){
+ carrito[i].cantidad+=d;
+ if(carrito[i].cantidad<=0)carrito.splice(i,1);
  mostrarCarrito();
 }
+function quitar(i){carrito.splice(i,1);mostrarCarrito();}
 
+document.getElementById("buscar").addEventListener("input",mostrarProductos);
+document.getElementById("tienda").addEventListener("change",mostrarProductos);
+document.getElementById("orden").addEventListener("change",mostrarProductos);
+document.getElementById("categorias").addEventListener("click",e=>{
+ const b=e.target.closest("button[data-cat]");
+ if(!b)return;
+ categoriaActual=b.dataset.cat;
+ document.querySelectorAll("#categorias button").forEach(x=>x.classList.toggle("active",x===b));
+ mostrarProductos();
+});
+document.getElementById("vaciar").addEventListener("click",()=>{
+ if(confirm("¿Quieres vaciar el carrito?")){carrito=[];mostrarCarrito();}
+});
 mostrarProductos();
 mostrarCarrito();
 </script>
