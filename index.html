@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#146b45">
+<title>Precios al Día</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6f3;color:#24352b}
+header{background:#146b45;color:white;padding:25px 18px;border-radius:0 0 22px 22px}
+header h1{margin:0;font-size:27px}
+header p{margin:8px 0 0}
+main{padding:18px;max-width:650px;margin:auto}
+.card{background:white;padding:17px;border-radius:15px;margin-bottom:15px;box-shadow:0 2px 9px #0000000d}
+label{display:block;font-weight:bold;margin:10px 0 7px}
+select,input{width:100%;padding:13px;border:1px solid #d5ded7;border-radius:9px;font-size:16px;background:white}
+h2{font-size:19px}
+.product{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid #eee;gap:10px}
+.product:last-child{border:0}
+.price{font-weight:bold;color:#146b45;font-size:18px}
+small{color:#78857c}
+button{background:#146b45;color:white;border:0;border-radius:9px;padding:12px;font-size:15px;cursor:pointer}
+footer{text-align:center;padding:20px;color:#78857c;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<h1>🛒 Precios al Día</h1>
+<p>¡Compara y encuentra dónde ahorrar!</p>
+</header>
+<main>
+<section class="card">
+<h2>📍 Selecciona tu ubicación</h2>
+<label for="estado">Estado</label>
+<select id="estado" onchange="cambiarEstado()">
+<option value="">Selecciona un estado</option>
+<option>Aguascalientes</option>
+<option>Baja California</option>
+<option>Chihuahua</option>
+<option>Ciudad de México</option>
+<option>Estado de México</option>
+<option>Guanajuato</option>
+<option>Jalisco</option>
+<option>Nuevo León</option>
+<option>Puebla</option>
+<option>Querétaro</option>
+<option>Quintana Roo</option>
+<option>Sinaloa</option>
+<option>Sonora</option>
+<option>Yucatán</option>
+</select>
+<label for="ciudad">Ciudad o municipio</label>
+<input id="ciudad" placeholder="Escribe tu ciudad">
+</section>
+
+<section class="card">
+<h2>🔎 Buscar productos</h2>
+<input id="buscar" placeholder="Ej. arroz, huevo, leche..." oninput="filtrar()">
+</section>
+
+<section class="card">
+<h2>🏷️ Productos de la canasta básica</h2>
+<div id="productos"></div>
+</section>
+<footer>
+Precios al Día · México<br>
+Los precios de ejemplo no son ofertas verificadas.
+</footer>
+</main>
+<script>
+const datos=[
+["Arroz (1 kg)",30,"Granos"],
+["Frijol (1 kg)",38,"Granos"],
+["Azúcar (1 kg)",29,"Abarrotes"],
+["Aceite (1 litro)",42,"Abarrotes"],
+["Leche (1 litro)",27,"Lácteos"],
+["Huevo (docena)",48,"Lácteos"],
+["Tortilla (1 kg)",24,"Abarrotes"],
+["Jitomate (1 kg)",32,"Verduras"],
+["Papa (1 kg)",28,"Verduras"],
+["Plátano (1 kg)",25,"Frutas"]
+];
+function cambiarEstado(){
+const e=document.getElementById("estado").value;
+document.getElementById("ciudad").placeholder=e?"Escribe tu ciudad o municipio":"Primero selecciona un estado";
+}
+function filtrar(){
+const q=document.getElementById("buscar").value.toLowerCase();
+const lista=datos.filter(p=>p[0].toLowerCase().includes(q));
+document.getElementById("productos").innerHTML=lista.length?
+lista.map(p=>`<div class="product"><div><strong>${p[0]}</strong><br><small>${p[2]}</small></div><span class="price">$${p[1].toFixed(2)}</span></div>`).join(""):
+"<p>No encontramos ese producto.</p>";
+}
+filtrar();
+</script>
+</body>
+</html>
