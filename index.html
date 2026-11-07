@@ -7,60 +7,155 @@
 <meta name="theme-color" content="#146b45">
 <link rel="manifest" href="manifest.json">
 <title>Precios al Día</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f6f3;color:#24352b}
-header{background:#146b45;color:white;padding:25px 18px;border-radius:0 0 22px 22px}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f3f6f3;
+ color:#24352b
+}
+header{
+ background:#146b45;
+ color:white;
+ padding:24px 18px;
+ border-radius:0 0 22px 22px
+}
 header h1{margin:0;font-size:27px}
 header p{margin:8px 0 0}
-main{padding:18px;max-width:650px;margin:auto}
-.card{background:white;padding:17px;border-radius:15px;margin-bottom:15px;box-shadow:0 2px 9px #0000000d}
+main{padding:16px;max-width:750px;margin:auto}
+.card{
+ background:white;
+ padding:16px;
+ border-radius:16px;
+ margin-bottom:15px;
+ box-shadow:0 2px 9px #0000000d
+}
+h2{font-size:19px;margin-top:0}
 label{display:block;font-weight:bold;margin:10px 0 7px}
-select,input{width:100%;padding:13px;border:1px solid #d5ded7;border-radius:9px;font-size:16px;background:white}
-h2{font-size:19px}
+select,input{
+ width:100%;
+ padding:13px;
+ border:1px solid #d5ded7;
+ border-radius:9px;
+ font-size:16px;
+ background:white
+}
+button{
+ background:#146b45;
+ color:white;
+ border:0;
+ border-radius:9px;
+ padding:11px 14px;
+ font-size:14px;
+ cursor:pointer
+}
+button:disabled{opacity:.5}
+#categorias{
+ display:flex;
+ gap:8px;
+ overflow-x:auto;
+ padding:5px 0 12px
+}
+#categorias button{
+ white-space:nowrap;
+ background:#e8f2eb;
+ color:#146b45
+}
+#categorias button.active{
+ background:#146b45;
+ color:white
+}
 #productos{
-display:grid;
-grid-template-columns:repeat(2,minmax(0,1fr));
-gap:14px;
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px
 }
-
 .product{
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-align-items:flex-start;
-background:#fff;
-padding:16px;
-border:1px solid #e5eae5;
-border-radius:18px;
-box-shadow:0 4px 14px #0000000a;
-min-height:110px;
+ background:white;
+ border:1px solid #e5eae5;
+ border-radius:15px;
+ overflow:hidden;
+ min-width:0
 }
-
-.product:last-child{border:1px solid #e5eae5}
-
+.product img{
+ width:100%;
+ height:125px;
+ object-fit:cover;
+ background:#edf2ed
+}
+.product-info{padding:11px}
+.product h3{font-size:15px;margin:4px 0}
+.store{font-size:12px;color:#78857c}
+.old-price{
+ color:#999;
+ text-decoration:line-through;
+ font-size:12px
+}
 .price{
-font-weight:bold;
-color:#146b45;
-font-size:20px;
-margin-top:12px;
+ color:#146b45;
+ font-size:20px;
+ font-weight:bold;
+ margin:5px 0
 }
-small{color:#78857c}
-button{background:#146b45;color:white;border:0;border-radius:9px;padding:12px;font-size:15px;cursor:pointer}
-footer{text-align:center;padding:20px;color:#78857c;font-size:12px}
+.discount{
+ display:inline-block;
+ background:#e0f4e5;
+ color:#146b45;
+ border-radius:6px;
+ padding:5px;
+ font-size:12px;
+ font-weight:bold
+}
+.add{width:100%;margin-top:10px}
+.cart-item{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:8px;
+ padding:12px 0;
+ border-bottom:1px solid #eee
+}
+.cart-item button{padding:7px 10px}
+.quantity{font-weight:bold;padding:0 7px}
+.total{
+ font-size:21px;
+ color:#146b45;
+ font-weight:bold
+}
+.savings{
+ color:#146b45;
+ font-weight:bold
+}
+.empty{text-align:center;color:#78857c;padding:15px}
+footer{
+ text-align:center;
+ padding:20px;
+ color:#78857c;
+ font-size:12px
+}
+@media(max-width:360px){
+ #productos{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
+
 <header>
 <h1>🛒 Precios al Día</h1>
-<p>¡Compara y encuentra dónde ahorrar!</p>
+<p>¡Compara, encuentra ofertas y ahorra!</p>
 </header>
+
 <main>
+
 <section class="card">
-<h2>📍 Selecciona tu ubicación</h2>
+<h2>📍 Tu ubicación</h2>
+
 <label for="estado">Estado</label>
-<select id="estado" onchange="cambiarEstado()">
-<option value="">Selecciona un estado</option>
+<select id="estado">
+<option value="">Selecciona tu estado</option>
 <option>Aguascalientes</option>
 <option>Baja California</option>
 <option>Chihuahua</option>
@@ -76,54 +171,238 @@ footer{text-align:center;padding:20px;color:#78857c;font-size:12px}
 <option>Sonora</option>
 <option>Yucatán</option>
 </select>
+
 <label for="ciudad">Ciudad o municipio</label>
 <input id="ciudad" placeholder="Escribe tu ciudad">
 </section>
 
 <section class="card">
-<h2>🔎 Buscar productos</h2>
-<input id="buscar" placeholder="Ej. arroz, huevo, leche..." oninput="filtrar()">
-</section>
-
-<section class="card">
 <h2>🏷️ Productos en oferta al día</h2>
+
+<input id="buscar"
+placeholder="🔎 Buscar arroz, leche, huevo..."
+oninput="mostrarProductos()">
+
+<label for="establecimiento">Establecimiento</label>
+<select id="establecimiento" onchange="mostrarProductos()">
+<option value="">Todos los establecimientos</option>
+<option value="Walmart">Walmart</option>
+<option value="Soriana">Soriana</option>
+<option value="Bodega Aurrera">Bodega Aurrera</option>
+<option value="Chedraui">Chedraui</option>
+</select>
+
+<div id="categorias">
+<button class="active" onclick="categoria('Todos',this)">Todos</button>
+<button onclick="categoria('Granos',this)">Granos</button>
+<button onclick="categoria('Abarrotes',this)">Abarrotes</button>
+<button onclick="categoria('Lácteos',this)">Lácteos</button>
+<button onclick="categoria('Frutas',this)">Frutas</button>
+<button onclick="categoria('Verduras',this)">Verduras</button>
+</div>
+
 <div id="productos"></div>
 </section>
-  <div id="carrito" class="card">
+
+<section class="card" id="carrito">
 <h2>🛒 Mi carrito</h2>
-<div id="lista-carrito">Tu carrito está vacío.</div>
-<p id="total-carrito">Total: $0.00</p>
-  </div>
+<div id="lista-carrito" class="empty">
+Tu carrito está vacío.
+</div>
+
+<hr>
+<p class="total" id="total-carrito">Total: $0.00</p>
+<p class="savings" id="ahorro-carrito">Tu ahorro: $0.00</p>
+<p id="descuento-promedio">Descuento promedio: 0%</p>
+<button onclick="vaciarCarrito()">Vaciar carrito</button>
+</section>
+
 <footer>
 Precios al Día · México<br>
-Los precios de ejemplo no son ofertas verificadas.
+Precios de demostración, sujetos a verificación.
 </footer>
+
 </main>
+
 <script>
-const datos=[
-["Arroz (1 kg)",30,"Granos"],
-["Frijol (1 kg)",38,"Granos"],
-["Azúcar (1 kg)",29,"Abarrotes"],
-["Aceite (1 litro)",42,"Abarrotes"],
-["Leche (1 litro)",27,"Lácteos"],
-["Huevo (docena)",48,"Lácteos"],
-["Tortilla (1 kg)",24,"Abarrotes"],
-["Jitomate (1 kg)",32,"Verduras"],
-["Papa (1 kg)",28,"Verduras"],
-["Plátano (1 kg)",25,"Frutas"]
+const productos = [
+{
+id:1,nombre:"Arroz (1 kg)",categoria:"Granos",
+tienda:"Walmart",precio:26,anterior:32,
+emoji:"🍚",
+foto:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500"
+},
+{
+id:2,nombre:"Frijol (1 kg)",categoria:"Granos",
+tienda:"Soriana",precio:32,anterior:40,
+emoji:"🫘",
+foto:"https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=500"
+},
+{
+id:3,nombre:"Aceite (1 litro)",categoria:"Abarrotes",
+tienda:"Bodega Aurrera",precio:38,anterior:45,
+emoji:"🫒",
+foto:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500"
+},
+{
+id:4,nombre:"Azúcar (1 kg)",categoria:"Abarrotes",
+tienda:"Chedraui",precio:25,anterior:30,
+emoji:"🍬",
+foto:"https://images.unsplash.com/photo-1581441363689-1f3c3c414635?w=500"
+},
+{
+id:5,nombre:"Leche (1 litro)",categoria:"Lácteos",
+tienda:"Walmart",precio:24,anterior:29,
+emoji:"🥛",
+foto:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500"
+},
+{
+id:6,nombre:"Huevo (docena)",categoria:"Lácteos",
+tienda:"Soriana",precio:42,anterior:50,
+emoji:"🥚",
+foto:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500"
+},
+{
+id:7,nombre:"Plátano (1 kg)",categoria:"Frutas",
+tienda:"Bodega Aurrera",precio:20,anterior:26,
+emoji:"🍌",
+foto:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500"
+},
+{
+id:8,nombre:"Manzana (1 kg)",categoria:"Frutas",
+tienda:"Chedraui",precio:32,anterior:40,
+emoji:"🍎",
+foto:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500"
+},
+{
+id:9,nombre:"Jitomate (1 kg)",categoria:"Verduras",
+tienda:"Walmart",precio:24,anterior:32,
+emoji:"🍅",
+foto:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500"
+},
+{
+id:10,nombre:"Papa (1 kg)",categoria:"Verduras",
+tienda:"Soriana",precio:22,anterior:28,
+emoji:"🥔",
+foto:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500"
+}
 ];
-function cambiarEstado(){
-const e=document.getElementById("estado").value;
-document.getElementById("ciudad").placeholder=e?"Escribe tu ciudad o municipio":"Primero selecciona un estado";
+
+let categoriaActual="Todos";
+let carrito={};
+
+function categoria(nombre,boton){
+ categoriaActual=nombre;
+ document.querySelectorAll("#categorias button")
+ .forEach(b=>b.classList.remove("active"));
+ boton.classList.add("active");
+ mostrarProductos();
 }
-function filtrar(){
-const q=document.getElementById("buscar").value.toLowerCase();
-const lista=datos.filter(p=>p[0].toLowerCase().includes(q));
-document.getElementById("productos").innerHTML=lista.length?
-lista.map(p=>`<div class="product"><div><strong>${p[0]}</strong><br><small>${p[2]}</small></div><span class="price">$${p[1].toFixed(2)}</span></div>`).join(""):
-"<p>No encontramos ese producto.</p>";
+
+function mostrarProductos(){
+ const busqueda=document.getElementById("buscar")
+ .value.toLowerCase();
+ const tienda=document.getElementById("establecimiento").value;
+
+ const lista=productos.filter(p=>
+ p.nombre.toLowerCase().includes(busqueda) &&
+ (categoriaActual==="Todos" || p.categoria===categoriaActual) &&
+ (!tienda || p.tienda===tienda)
+ );
+
+ document.getElementById("productos").innerHTML=lista.length?
+ lista.map(p=>`
+ <article class="product">
+ <img src="${p.foto}" alt="${p.nombre}"
+ onerror="this.style.display='none'">
+ <div class="product-info">
+ <h3>${p.emoji} ${p.nombre}</h3>
+ <div class="store">${p.tienda} · ${p.categoria}</div>
+ <div class="old-price">$${p.anterior.toFixed(2)}</div>
+ <div class="price">$${p.precio.toFixed(2)}</div>
+ <span class="discount">
+ -${Math.round((1-p.precio/p.anterior)*100)}%
+ </span>
+ <button class="add" onclick="agregar(${p.id})">
+ + Agregar al carrito
+ </button>
+ </div>
+ </article>
+ `).join("") :
+ '<p>No encontramos productos.</p>';
 }
-filtrar();
+
+function agregar(id){
+ carrito[id]=(carrito[id]||0)+1;
+ mostrarCarrito();
+}
+
+function cambiarCantidad(id,cambio){
+ carrito[id]+=cambio;
+ if(carrito[id]<=0) delete carrito[id];
+ mostrarCarrito();
+}
+
+function mostrarCarrito(){
+ const lista=document.getElementById("lista-carrito");
+ const ids=Object.keys(carrito);
+
+ if(!ids.length){
+ lista.innerHTML="Tu carrito está vacío.";
+ lista.className="empty";
+ }else{
+ lista.className="";
+ lista.innerHTML=ids.map(id=>{
+ const p=productos.find(x=>x.id===Number(id));
+ const cantidad=carrito[id];
+ return `
+ <div class="cart-item">
+ <div>
+ <strong>${p.nombre}</strong><br>
+ <small>${p.tienda}</small><br>
+ $${(p.precio*cantidad).toFixed(2)}
+ </div>
+ <div>
+ <button onclick="cambiarCantidad(${id},-1)">−</button>
+ <span class="quantity">${cantidad}</span>
+ <button onclick="cambiarCantidad(${id},1)">+</button>
+ </div>
+ </div>`;
+ }).join("");
+ }
+
+ let total=0,ahorro=0,cantidadTotal=0;
+
+ ids.forEach(id=>{
+ const p=productos.find(x=>x.id===Number(id));
+ const cantidad=carrito[id];
+ total+=p.precio*cantidad;
+ ahorro+=(p.anterior-p.precio)*cantidad;
+ cantidadTotal+=cantidad;
+ });
+
+ const precioAnterior=total+ahorro;
+ const promedio=precioAnterior>0?
+ ahorro/precioAnterior*100:0;
+
+ document.getElementById("total-carrito").textContent=
+ "Total: $"+total.toFixed(2);
+
+ document.getElementById("ahorro-carrito").textContent=
+ "Tu ahorro: $"+ahorro.toFixed(2);
+
+ document.getElementById("descuento-promedio").textContent=
+ "Descuento promedio: "+promedio.toFixed(1)+"%";
+}
+
+function vaciarCarrito(){
+ carrito={};
+ mostrarCarrito();
+}
+
+mostrarProductos();
+mostrarCarrito();
 </script>
+
 </body>
 </html>
