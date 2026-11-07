@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -19,49 +18,50 @@ body{
 header{
  background:#146b45;
  color:white;
- padding:24px 18px;
- border-radius:0 0 22px 22px
+ padding:22px 14px;
+ border-radius:0 0 20px 20px
 }
-header h1{margin:0;font-size:27px}
-header p{margin:8px 0 0}
-main{padding:16px;max-width:750px;margin:auto}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;font-size:14px}
+main{padding:10px;max-width:850px;margin:auto}
 .card{
  background:white;
- padding:16px;
- border-radius:16px;
- margin-bottom:15px;
+ padding:12px;
+ border-radius:14px;
+ margin-bottom:12px;
  box-shadow:0 2px 9px #0000000d
 }
-h2{font-size:19px;margin-top:0}
+h2{font-size:18px;margin-top:0}
 label{display:block;font-weight:bold;margin:10px 0 7px}
 select,input{
  width:100%;
- padding:13px;
+ padding:11px;
  border:1px solid #d5ded7;
  border-radius:9px;
- font-size:16px;
+ font-size:15px;
  background:white
 }
 button{
  background:#146b45;
  color:white;
  border:0;
- border-radius:9px;
- padding:11px 14px;
- font-size:14px;
+ border-radius:8px;
+ padding:9px 11px;
+ font-size:13px;
  cursor:pointer
 }
 button:disabled{opacity:.5}
 #categorias{
  display:flex;
- gap:8px;
+ gap:7px;
  overflow-x:auto;
  padding:5px 0 12px
 }
 #categorias button{
  white-space:nowrap;
  background:#e8f2eb;
- color:#146b45
+ color:#146b45;
+ padding:8px 10px
 }
 #categorias button.active{
  background:#146b45;
@@ -69,58 +69,75 @@ button:disabled{opacity:.5}
 }
 #productos{
  display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:7px
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:6px;
+ width:100%
 }
 .product{
  background:white;
  border:1px solid #e5eae5;
- border-radius:15px;
+ border-radius:10px;
  overflow:hidden;
  min-width:0
 }
 .product img{
  width:100%;
- height:125px;
+ height:75px;
  object-fit:cover;
- background:#edf2ed
+ background:#edf2ed;
+ display:block
 }
-.product-info{padding:11px}
-.product h3{font-size:15px;margin:4px 0}
-.store{font-size:12px;color:#78857c}
+.product-info{padding:6px}
+.product h3{
+ font-size:11px;
+ line-height:1.25;
+ margin:4px 0;
+ overflow-wrap:anywhere
+}
+.store{
+ font-size:9px;
+ color:#78857c;
+ line-height:1.3
+}
 .old-price{
  color:#999;
  text-decoration:line-through;
- font-size:12px
+ font-size:10px
 }
 .price{
  color:#146b45;
- font-size:20px;
+ font-size:15px;
  font-weight:bold;
- margin:5px 0
+ margin:4px 0
 }
 .discount{
  display:inline-block;
  background:#e0f4e5;
  color:#146b45;
- border-radius:6px;
- padding:5px;
- font-size:12px;
+ border-radius:5px;
+ padding:3px;
+ font-size:10px;
  font-weight:bold
 }
-.add{width:100%;margin-top:10px}
+.add{
+ width:100%;
+ margin-top:7px;
+ padding:7px 2px;
+ font-size:10px;
+ line-height:1.2
+}
 .cart-item{
  display:flex;
  justify-content:space-between;
  align-items:center;
  gap:8px;
- padding:12px 0;
+ padding:10px 0;
  border-bottom:1px solid #eee
 }
 .cart-item button{padding:7px 10px}
-.quantity{font-weight:bold;padding:0 7px}
+.quantity{font-weight:bold;padding:0 5px}
 .total{
- font-size:21px;
+ font-size:20px;
  color:#146b45;
  font-weight:bold
 }
@@ -135,24 +152,28 @@ footer{
  color:#78857c;
  font-size:12px
 }
-@media(max-width:360px){
- #productos{grid-template-columns:1fr}
+@media(min-width:600px){
+ #productos{
+  grid-template-columns:repeat(4,minmax(0,1fr))
+ }
+ .product img{height:120px}
+ .product h3{font-size:14px}
+ .store{font-size:11px}
+ .price{font-size:18px}
+ .add{font-size:12px}
 }
 </style>
 </head>
 
 <body>
-
 <header>
 <h1>🛒 Precios al Día</h1>
 <p>¡Compara, encuentra ofertas y ahorra!</p>
 </header>
 
 <main>
-
 <section class="card">
 <h2>📍 Tu ubicación</h2>
-
 <label for="estado">Estado</label>
 <select id="estado">
 <option value="">Selecciona tu estado</option>
@@ -178,7 +199,6 @@ footer{
 
 <section class="card">
 <h2>🏷️ Productos en oferta al día</h2>
-
 <input id="buscar"
 placeholder="🔎 Buscar arroz, leche, huevo..."
 oninput="mostrarProductos()">
@@ -206,10 +226,7 @@ oninput="mostrarProductos()">
 
 <section class="card" id="carrito">
 <h2>🛒 Mi carrito</h2>
-<div id="lista-carrito" class="empty">
-Tu carrito está vacío.
-</div>
-
+<div id="lista-carrito" class="empty">Tu carrito está vacío.</div>
 <hr>
 <p class="total" id="total-carrito">Total: $0.00</p>
 <p class="savings" id="ahorro-carrito">Tu ahorro: $0.00</p>
@@ -221,71 +238,20 @@ Tu carrito está vacío.
 Precios al Día · México<br>
 Precios de demostración, sujetos a verificación.
 </footer>
-
 </main>
 
 <script>
 const productos = [
-{
-id:1,nombre:"Arroz (1 kg)",categoria:"Granos",
-tienda:"Walmart",precio:26,anterior:32,
-emoji:"🍚",
-foto:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500"
-},
-{
-id:2,nombre:"Frijol (1 kg)",categoria:"Granos",
-tienda:"Soriana",precio:32,anterior:40,
-emoji:"🫘",
-foto:"https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=500"
-},
-{
-id:3,nombre:"Aceite (1 litro)",categoria:"Abarrotes",
-tienda:"Bodega Aurrera",precio:38,anterior:45,
-emoji:"🫒",
-foto:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500"
-},
-{
-id:4,nombre:"Azúcar (1 kg)",categoria:"Abarrotes",
-tienda:"Chedraui",precio:25,anterior:30,
-emoji:"🍬",
-foto:"https://images.unsplash.com/photo-1581441363689-1f3c3c414635?w=500"
-},
-{
-id:5,nombre:"Leche (1 litro)",categoria:"Lácteos",
-tienda:"Walmart",precio:24,anterior:29,
-emoji:"🥛",
-foto:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500"
-},
-{
-id:6,nombre:"Huevo (docena)",categoria:"Lácteos",
-tienda:"Soriana",precio:42,anterior:50,
-emoji:"🥚",
-foto:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500"
-},
-{
-id:7,nombre:"Plátano (1 kg)",categoria:"Frutas",
-tienda:"Bodega Aurrera",precio:20,anterior:26,
-emoji:"🍌",
-foto:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500"
-},
-{
-id:8,nombre:"Manzana (1 kg)",categoria:"Frutas",
-tienda:"Chedraui",precio:32,anterior:40,
-emoji:"🍎",
-foto:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500"
-},
-{
-id:9,nombre:"Jitomate (1 kg)",categoria:"Verduras",
-tienda:"Walmart",precio:24,anterior:32,
-emoji:"🍅",
-foto:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500"
-},
-{
-id:10,nombre:"Papa (1 kg)",categoria:"Verduras",
-tienda:"Soriana",precio:22,anterior:28,
-emoji:"🥔",
-foto:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500"
-}
+{id:1,nombre:"Arroz (1 kg)",categoria:"Granos",tienda:"Walmart",precio:26,anterior:32,emoji:"🍚",foto:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500"},
+{id:2,nombre:"Frijol (1 kg)",categoria:"Granos",tienda:"Soriana",precio:32,anterior:40,emoji:"🫘",foto:"https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=500"},
+{id:3,nombre:"Aceite (1 litro)",categoria:"Abarrotes",tienda:"Bodega Aurrera",precio:38,anterior:45,emoji:"🫒",foto:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500"},
+{id:4,nombre:"Azúcar (1 kg)",categoria:"Abarrotes",tienda:"Chedraui",precio:25,anterior:30,emoji:"🍬",foto:"https://images.unsplash.com/photo-1581441363689-1f3c3c414635?w=500"},
+{id:5,nombre:"Leche (1 litro)",categoria:"Lácteos",tienda:"Walmart",precio:24,anterior:29,emoji:"🥛",foto:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500"},
+{id:6,nombre:"Huevo (docena)",categoria:"Lácteos",tienda:"Soriana",precio:42,anterior:50,emoji:"🥚",foto:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500"},
+{id:7,nombre:"Plátano (1 kg)",categoria:"Frutas",tienda:"Bodega Aurrera",precio:20,anterior:26,emoji:"🍌",foto:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500"},
+{id:8,nombre:"Manzana (1 kg)",categoria:"Frutas",tienda:"Chedraui",precio:32,anterior:40,emoji:"🍎",foto:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500"},
+{id:9,nombre:"Jitomate (1 kg)",categoria:"Verduras",tienda:"Walmart",precio:24,anterior:32,emoji:"🍅",foto:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500"},
+{id:10,nombre:"Papa (1 kg)",categoria:"Verduras",tienda:"Soriana",precio:22,anterior:28,emoji:"🥔",foto:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500"}
 ];
 
 let categoriaActual="Todos";
@@ -300,35 +266,29 @@ function categoria(nombre,boton){
 }
 
 function mostrarProductos(){
- const busqueda=document.getElementById("buscar")
- .value.toLowerCase();
+ const busqueda=document.getElementById("buscar").value.toLowerCase();
  const tienda=document.getElementById("establecimiento").value;
 
  const lista=productos.filter(p=>
  p.nombre.toLowerCase().includes(busqueda) &&
  (categoriaActual==="Todos" || p.categoria===categoriaActual) &&
  (!tienda || p.tienda===tienda)
- );
+ ).sort((a,b)=>a.precio-b.precio);
 
  document.getElementById("productos").innerHTML=lista.length?
  lista.map(p=>`
  <article class="product">
- <img src="${p.foto}" alt="${p.nombre}"
- onerror="this.style.display='none'">
+ <img src="${p.foto}" alt="${p.nombre}" onerror="this.style.display='none'">
  <div class="product-info">
  <h3>${p.emoji} ${p.nombre}</h3>
  <div class="store">${p.tienda} · ${p.categoria}</div>
  <div class="old-price">$${p.anterior.toFixed(2)}</div>
  <div class="price">$${p.precio.toFixed(2)}</div>
- <span class="discount">
- -${Math.round((1-p.precio/p.anterior)*100)}%
- </span>
- <button class="add" onclick="agregar(${p.id})">
- + Agregar al carrito
- </button>
+ <span class="discount">-${Math.round((1-p.precio/p.anterior)*100)}%</span>
+ <button class="add" onclick="agregar(${p.id})">+ Agregar</button>
  </div>
  </article>
- `).join("") :
+ `).join(""):
  '<p>No encontramos productos.</p>';
 }
 
@@ -371,28 +331,20 @@ function mostrarCarrito(){
  }).join("");
  }
 
- let total=0,ahorro=0,cantidadTotal=0;
-
+ let total=0,ahorro=0;
  ids.forEach(id=>{
  const p=productos.find(x=>x.id===Number(id));
  const cantidad=carrito[id];
  total+=p.precio*cantidad;
  ahorro+=(p.anterior-p.precio)*cantidad;
- cantidadTotal+=cantidad;
  });
 
  const precioAnterior=total+ahorro;
- const promedio=precioAnterior>0?
- ahorro/precioAnterior*100:0;
+ const promedio=precioAnterior>0?ahorro/precioAnterior*100:0;
 
- document.getElementById("total-carrito").textContent=
- "Total: $"+total.toFixed(2);
-
- document.getElementById("ahorro-carrito").textContent=
- "Tu ahorro: $"+ahorro.toFixed(2);
-
- document.getElementById("descuento-promedio").textContent=
- "Descuento promedio: "+promedio.toFixed(1)+"%";
+ document.getElementById("total-carrito").textContent="Total: $"+total.toFixed(2);
+ document.getElementById("ahorro-carrito").textContent="Tu ahorro: $"+ahorro.toFixed(2);
+ document.getElementById("descuento-promedio").textContent="Descuento promedio: "+promedio.toFixed(1)+"%";
 }
 
 function vaciarCarrito(){
@@ -403,6 +355,5 @@ function vaciarCarrito(){
 mostrarProductos();
 mostrarCarrito();
 </script>
-
 </body>
 </html>
