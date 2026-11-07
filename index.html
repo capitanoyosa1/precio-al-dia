@@ -1,319 +1,909 @@
-
 <!DOCTYPE html>
-<html lang="es-MX">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#146b45">
-<meta name="description" content="Precios al Día: compara productos y ofertas de establecimientos.">
+<meta name="theme-color" content="#191919">
+<meta name="description" content="Precios al Día: busca productos, compara precios y organiza tus compras.">
 <link rel="manifest" href="./manifest.json">
 <title>Precios al Día</title>
+
 <style>
-:root{--verde:#146b45;--oscuro:#10452e;--fondo:#f3f7f4;--blanco:#fff;--texto:#20352a;--gris:#68786f;--borde:#dfe9e2;--naranja:#ed8a24}
+:root{
+ --ink:#191919;
+ --gold:#b99a62;
+ --gold-light:#e8d7b5;
+ --cream:#f7f5f0;
+ --text:#252525;
+ --muted:#77736c;
+ --line:#e6e1d8;
+ --background:#f3f1ec;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--fondo);color:var(--texto);font-family:Arial,system-ui,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{background:linear-gradient(135deg,var(--oscuro),var(--verde));color:white;padding:22px 15px}
-.contenedor{max-width:1100px;margin:auto;padding:0 14px}
-.marca{display:flex;align-items:center;gap:12px}
-.logo{font-size:32px;background:#ffffff22;border-radius:13px;padding:8px}
-h1{font-size:25px;margin:0}
-.eslogan{font-size:13px;margin:5px 0;color:#e1f1e6}
-.zona{font-size:13px;margin-top:15px}
-main{max-width:1100px;margin:auto;padding:15px 14px 110px}
-.busqueda{display:flex;gap:8px;background:white;border:1px solid var(--borde);padding:8px;border-radius:14px}
-.busqueda input{flex:1;min-width:0;border:0;outline:0;padding:8px}
-.boton{background:var(--verde);color:white;border:0;border-radius:10px;padding:10px 14px;font-weight:bold}
-h2{font-size:19px;margin:22px 0 5px}
-.sub{font-size:12px;color:var(--gris);margin-bottom:12px}
-.aviso{background:#fff5df;color:#76511e;border:1px solid #f1dfb9;padding:12px;border-radius:12px;font-size:12px;margin:15px 0}
-.categorias{display:flex;gap:8px;overflow-x:auto;padding:5px 0 12px}
-.chip{white-space:nowrap;background:white;border:1px solid var(--borde);border-radius:25px;padding:9px 14px;color:var(--texto)}
-.chip.activo{background:var(--verde);color:white;border-color:var(--verde)}
-.filtros{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
-.filtros select{width:100%;padding:10px;border:1px solid var(--borde);border-radius:10px;background:white}
-.productos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.tarjeta{background:white;border:1px solid var(--borde);border-radius:14px;overflow:hidden;min-width:0;box-shadow:0 3px 12px #173d2510}
-.foto{height:105px;background:#e8f2eb;display:grid;place-items:center;font-size:43px;position:relative}
-.etiqueta{position:absolute;top:7px;left:7px;background:white;color:var(--verde);font-size:10px;padding:5px 7px;border-radius:20px;font-weight:bold}
-.detalle{padding:10px}
-.nombre{font-size:14px;font-weight:bold;min-height:34px}
-.dato{font-size:11px;color:var(--gris);margin-top:5px}
-.precio{font-size:19px;color:var(--verde);font-weight:bold}
-.anterior{text-decoration:line-through;color:#89968f;font-size:11px;margin-left:5px}
-.descuento{font-size:11px;color:#a65b12;font-weight:bold}
-.agregar{display:flex;gap:5px;margin-top:10px}
-.cantidad{width:48px;border:1px solid var(--borde);border-radius:8px;text-align:center}
-.agregar button{flex:1;border:0;border-radius:8px;background:#e8f4eb;color:var(--verde);font-weight:bold;padding:8px;font-size:12px}
-.vacio{grid-column:1/-1;text-align:center;background:white;border:1px dashed var(--borde);border-radius:12px;padding:25px;color:var(--gris)}
-.tiendas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.tienda{background:white;border:1px solid var(--borde);border-radius:12px;padding:12px;font-size:13px}
-.tienda small{display:block;color:var(--gris);margin-top:4px}
-.tienda a{display:inline-block;color:var(--verde);font-weight:bold;text-decoration:none;margin-top:9px}
-.barra-carrito{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--borde);padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -4px 15px #00000012}
-.interior-carrito{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.resumen strong{display:block;font-size:13px}
-.resumen small{font-size:11px;color:var(--gris)}
-dialog{border:0;border-radius:16px;width:min(92%,520px);padding:0;box-shadow:0 15px 50px #0004}
-dialog::backdrop{background:#0008}
-.cabecera-modal{padding:15px;border-bottom:1px solid var(--borde);display:flex;justify-content:space-between}
-.cuerpo-modal{padding:15px;max-height:60vh;overflow:auto}
-.linea{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--borde);font-size:13px}
-.linea button{border:0;background:#ffeded;color:#a33;padding:6px;border-radius:7px}
-.totales{padding-top:12px;font-size:14px}
-.totales div{display:flex;justify-content:space-between;margin:8px 0}
-.pie{text-align:center;font-size:11px;color:var(--gris);margin:22px 0}
-@media(min-width:650px){.productos{grid-template-columns:repeat(3,minmax(0,1fr))}.tiendas{grid-template-columns:repeat(3,minmax(0,1fr))}.foto{height:140px}}
-@media(min-width:900px){.productos{grid-template-columns:repeat(4,minmax(0,1fr))}}
+body{
+ margin:0;
+ background:var(--background);
+ color:var(--text);
+ font-family:Arial,sans-serif;
+ font-size:16px;
+ line-height:1.45;
+}
+header{
+ background:var(--ink);
+ color:white;
+ padding:21px 14px 18px;
+ text-align:center;
+ border-bottom:3px solid var(--gold);
+}
+.brand{
+ font-size:12px;
+ letter-spacing:4px;
+ color:var(--gold-light);
+ text-transform:uppercase;
+ font-weight:bold;
+}
+header h1{
+ margin:5px 0 2px;
+ font-family:Georgia,serif;
+ font-size:29px;
+ font-weight:normal;
+}
+header p{
+ margin:5px 0 0;
+ color:#d4d0c8;
+ font-size:13px;
+}
+main{
+ max-width:1200px;
+ margin:auto;
+ padding:12px;
+}
+.location{
+ display:flex;
+ gap:8px;
+ margin-bottom:12px;
+}
+input,select,button{font:inherit}
+.location input{
+ flex:1;
+ min-width:0;
+ background:white;
+ border:1px solid var(--line);
+ border-radius:8px;
+ padding:10px;
+ font-size:14px;
+}
+.search-area{
+ background:white;
+ padding:12px;
+ border:1px solid var(--line);
+ border-radius:10px;
+ margin-bottom:12px;
+}
+.search-title{
+ font-weight:bold;
+ color:var(--ink);
+ margin-bottom:9px;
+}
+.search{
+ width:100%;
+ min-height:46px;
+ padding:11px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ background:white;
+ font-size:14px;
+}
+.search-actions{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:9px;
+}
+.search-button{
+ min-height:46px;
+ border:1px solid var(--gold);
+ border-radius:8px;
+ background:var(--ink);
+ color:white;
+ font-size:12px;
+ font-weight:bold;
+ padding:8px 5px;
+}
+.search-button.secondary{
+ background:#eee9df;
+ color:var(--ink);
+}
+input:focus,select:focus,button:focus-visible{
+ outline:3px solid var(--gold);
+ outline-offset:2px;
+}
+.hidden-file{display:none}
+.preview{
+ display:none;
+ margin-top:12px;
+ padding:10px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ background:#f8f6f1;
+}
+.preview img{
+ display:block;
+ width:100%;
+ max-height:240px;
+ object-fit:contain;
+ border-radius:6px;
+}
+.preview-actions{
+ display:flex;
+ gap:8px;
+ margin-top:9px;
+}
+.preview-actions button{
+ flex:1;
+ min-height:40px;
+ border-radius:7px;
+ border:1px solid var(--gold);
+ background:var(--ink);
+ color:white;
+ font-size:12px;
+ padding:7px;
+}
+.preview-actions .remove{
+ background:white;
+ color:var(--ink);
+}
+.image-status{
+ margin-top:9px;
+ font-size:12px;
+ color:#665b46;
+ line-height:1.5;
+}
+.notice{
+ margin-bottom:13px;
+ background:#eeeae1;
+ border:1px solid #ddd5c6;
+ border-radius:8px;
+ padding:9px 12px;
+ color:#625b4e;
+ font-size:12px;
+}
+.notice summary{
+ cursor:pointer;
+ font-weight:bold;
+ color:#514633;
+}
+.notice p{margin:9px 0 2px;line-height:1.55}
+.filters{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-bottom:12px;
+}
+.filters select{
+ width:100%;
+ min-width:0;
+ min-height:42px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ padding:8px;
+ background:white;
+ font-size:13px;
+}
+.categories{
+ display:flex;
+ gap:7px;
+ overflow-x:auto;
+ padding:2px 0 12px;
+}
+.categories button{
+ flex:0 0 auto;
+ border:1px solid #d7d0c3;
+ background:white;
+ color:#4b463d;
+ border-radius:20px;
+ padding:8px 13px;
+ font-size:12px;
+ font-weight:bold;
+}
+.categories button.active{
+ background:var(--ink);
+ color:white;
+ border-color:var(--ink);
+}
+.section-heading{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin:8px 0 3px;
+}
+h2{
+ font-family:Georgia,serif;
+ font-size:21px;
+ font-weight:normal;
+ margin:0;
+ color:var(--ink);
+}
+.section-note{
+ font-size:12px;
+ color:var(--muted);
+ margin:3px 0 12px;
+}
+.products{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:8px;
+}
+.product{
+ min-width:0;
+ display:flex;
+ flex-direction:column;
+ overflow:hidden;
+ background:white;
+ border:1px solid var(--line);
+ border-radius:9px;
+ box-shadow:0 2px 7px rgba(30,25,15,.045);
+}
+.photo-wrap{
+ position:relative;
+ width:100%;
+ aspect-ratio:1/1;
+ background:#f0eee9;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow:hidden;
+}
+.photo{
+ width:100%;
+ height:100%;
+ object-fit:contain;
+ padding:5px;
+}
+.photo-fallback{
+ display:none;
+ text-align:center;
+ padding:5px;
+ color:#777;
+ font-size:11px;
+}
+.photo-label{
+ position:absolute;
+ top:5px;
+ left:5px;
+ background:rgba(255,255,255,.92);
+ color:#635c50;
+ border-radius:4px;
+ padding:3px 5px;
+ font-size:8px;
+ font-weight:bold;
+}
+.store-watermark{
+ position:absolute;
+ bottom:5px;
+ right:5px;
+ background:rgba(25,25,25,.85);
+ color:white;
+ border-radius:4px;
+ padding:3px 5px;
+ font-size:8px;
+}
+.product-body{
+ padding:8px 7px 9px;
+ display:flex;
+ flex-direction:column;
+ gap:5px;
+ flex:1;
+}
+.demo-tag{
+ display:inline-block;
+ width:max-content;
+ max-width:100%;
+ padding:3px 5px;
+ border-radius:3px;
+ background:#eee8dc;
+ color:#725b31;
+ font-size:8px;
+ font-weight:bold;
+}
+.product h3{
+ margin:0;
+ color:var(--ink);
+ font-size:13px;
+ line-height:1.25;
+ overflow-wrap:anywhere;
+}
+.product-detail,.store{
+ color:#68645d;
+ font-size:10px;
+ line-height:1.35;
+ overflow-wrap:anywhere;
+}
+.discount{
+ color:#82642d;
+ font-size:11px;
+ font-weight:bold;
+}
+.old{
+ color:#888;
+ font-size:10px;
+ text-decoration:line-through;
+}
+.price{
+ color:var(--ink);
+ font-size:19px;
+ line-height:1.1;
+ font-weight:bold;
+}
+.piece-note{
+ color:#74664d;
+ font-size:9px;
+}
+.quantity{
+ display:flex;
+ flex-direction:column;
+ gap:5px;
+ margin-top:auto;
+}
+.quantity input,.quantity select{
+ width:100%;
+ min-width:0;
+ min-height:36px;
+ border:1px solid var(--line);
+ border-radius:6px;
+ padding:5px;
+ background:white;
+ font-size:11px;
+}
+.add{
+ width:100%;
+ min-height:39px;
+ padding:6px 3px;
+ border:0;
+ border-radius:6px;
+ background:var(--ink);
+ color:white;
+ font-size:10px;
+ font-weight:bold;
+}
+.empty{
+ grid-column:1/-1;
+ text-align:center;
+ padding:25px 10px;
+ color:var(--muted);
+ background:white;
+ border-radius:8px;
+}
+.cart{
+ margin-top:20px;
+ padding:15px;
+ background:var(--ink);
+ color:white;
+ border-radius:10px;
+}
+.cart h2{color:white;margin:0 0 10px}
+.cart .section-note{color:#ccc}
+.cart-row{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ padding:11px 0;
+ border-bottom:1px solid #454545;
+ font-size:13px;
+}
+.cart-row strong{font-size:14px}
+.cart-row small{
+ display:block;
+ margin-top:3px;
+ color:#c7c2b8;
+ font-size:11px;
+}
+.cart-controls{
+ display:flex;
+ align-items:center;
+ flex-wrap:wrap;
+ gap:5px;
+}
+.cart-controls button{
+ width:35px;
+ height:35px;
+ border:1px solid #777;
+ border-radius:6px;
+ background:#333;
+ color:white;
+ font-size:20px;
+}
+.cart-total{
+ margin-top:14px;
+ font-size:23px;
+ font-weight:bold;
+ color:var(--gold-light);
+}
+.cart-summary{
+ margin-top:5px;
+ color:#ddd6ca;
+ font-size:13px;
+}
+.clear{
+ margin-top:13px;
+ min-height:40px;
+ padding:8px 13px;
+ border:1px solid #b9a47e;
+ border-radius:6px;
+ background:transparent;
+ color:#f0dfbd;
+ font-size:12px;
+ font-weight:bold;
+}
+footer{
+ padding:22px 12px;
+ text-align:center;
+ color:#817b70;
+ font-size:11px;
+}
+@media(max-width:350px){
+ main{padding:8px}
+ .products{gap:5px}
+ .product-body{padding:6px 5px}
+ .product h3{font-size:12px}
+ .price{font-size:17px}
+ .add{font-size:9px}
+}
 </style>
 </head>
-<body>
 
+<body>
 <header>
-<div class="contenedor">
-<div class="marca">
-<div class="logo">🛒</div>
-<div>
-<h1>Precios al Día</h1>
-<p class="eslogan">Compara, encuentra y ahorra</p>
-</div>
-</div>
-<div class="zona">Zona de consulta: <strong>Mazatlán, Sinaloa</strong></div>
-</div>
+ <div class="brand">Tu guía de compras</div>
+ <h1>Precios al Día</h1>
+ <p>COMPARA · AHORRA · ELIGE MEJOR</p>
 </header>
 
 <main>
-<div class="busqueda">
-<input id="buscar" type="search" placeholder="Buscar producto, marca o tienda...">
-<button class="boton" id="limpiar">Limpiar</button>
+
+<section class="location">
+ <input id="estado" value="Sinaloa" aria-label="Estado">
+ <input id="ciudad" value="Mazatlán" aria-label="Ciudad">
+</section>
+
+<section class="search-area">
+ <div class="search-title">Buscar productos</div>
+
+ <input class="search" id="buscar" type="search"
+ placeholder="⌕ Escribe producto, marca o modelo..."
+ aria-label="Buscar productos">
+
+ <div class="search-actions">
+  <button type="button" class="search-button"
+   id="abrirCamara">📷 Tomar fotografía</button>
+
+  <button type="button" class="search-button secondary"
+   id="abrirGaleria">🖼 Elegir imagen</button>
+ </div>
+
+ <input class="hidden-file" id="fotoCamara"
+  type="file" accept="image/*" capture="environment">
+
+ <input class="hidden-file" id="fotoGaleria"
+  type="file" accept="image/*">
+
+ <div class="preview" id="vistaPrevia">
+  <img id="imagenSeleccionada" alt="Vista previa del producto">
+  <div class="image-status" id="estadoImagen">
+   Fotografía seleccionada.
+  </div>
+  <div class="preview-actions">
+   <button type="button" id="analizarImagen">
+    Preparar búsqueda visual
+   </button>
+   <button type="button" class="remove" id="quitarImagen">
+    Quitar imagen
+   </button>
+  </div>
+ </div>
+</section>
+
+<details class="notice">
+ <summary>Información sobre productos y precios</summary>
+ <p>Los 15 productos iniciales y sus precios son datos de demostración. No representan ofertas verificadas ni precios actuales de comercios.</p>
+ <p>Las fotografías de los productos de demostración son ilustrativas y no garantizan corresponder a la marca o presentación exacta.</p>
+ <p>La fotografía seleccionada se muestra en pantalla. El reconocimiento automático requiere conectar un servicio seguro de identificación de imágenes en Cloudflare.</p>
+ <p>Los pesos por pieza son promedios orientativos. El peso real puede variar.</p>
+</details>
+
+<section class="filters">
+ <select id="tienda" aria-label="Filtrar por establecimiento">
+  <option value="">Todos los establecimientos</option>
+  <option>Walmart</option>
+  <option>Soriana</option>
+  <option>Bodega Aurrera</option>
+  <option>Chedraui</option>
+  <option>Casa Ley</option>
+  <option>Sam's Club</option>
+  <option>OXXO</option>
+  <option>Waldo's</option>
+  <option>Merza</option>
+  <option>Kiosko</option>
+  <option>Costco</option>
+  <option>Súper Naturista</option>
+ </select>
+
+ <select id="orden" aria-label="Ordenar productos">
+  <option value="descuento">Mayor descuento</option>
+  <option value="precio">Menor precio</option>
+  <option value="nombre">Nombre A-Z</option>
+ </select>
+</section>
+
+<div class="categories" id="categorias">
+ <button type="button" class="active" data-cat="">Todos</button>
+ <button type="button" data-cat="Granos">Granos</button>
+ <button type="button" data-cat="Abarrotes">Abarrotes</button>
+ <button type="button" data-cat="Lácteos">Lácteos</button>
+ <button type="button" data-cat="Frutas">Frutas</button>
+ <button type="button" data-cat="Verduras">Verduras</button>
+ <button type="button" data-cat="Bebidas">Bebidas</button>
+ <button type="button" data-cat="Limpieza">Limpieza</button>
+ <button type="button" data-cat="Higiene">Higiene</button>
+ <button type="button" data-cat="Belleza">Belleza</button>
+ <button type="button" data-cat="Hogar">Hogar</button>
+ <button type="button" data-cat="Mascotas">Mascotas</button>
+ <button type="button" data-cat="Electrónica">Electrónica</button>
+ <button type="button" data-cat="Ropa">Ropa</button>
+ <button type="button" data-cat="Otros">Otros</button>
 </div>
 
-<h2>Productos en oferta al día</h2>
-<div class="sub" id="contador">Productos de demostración</div>
-
-<div class="aviso">
-Los productos y precios de ejemplo sirven para probar la aplicación. No son ofertas vigentes verificadas. Los precios reales deberán incorporarse desde fuentes de cada establecimiento.
+<div class="section-heading">
+ <h2>Productos en oferta al día</h2>
 </div>
+<p class="section-note">
+ Productos de demostración · Mazatlán, Sinaloa
+</p>
 
-<div class="categorias" id="categorias"></div>
+<section class="products" id="productos" aria-live="polite"></section>
 
-<div class="filtros">
-<select id="filtroTienda">
-<option value="">Todos los establecimientos</option>
-</select>
-<select id="orden">
-<option value="relevancia">Orden recomendado</option>
-<option value="precio">Menor precio</option>
-<option value="descuento">Mayor descuento</option>
-<option value="nombre">Nombre A-Z</option>
-</select>
-</div>
-
-<div class="productos" id="productos"></div>
-
-<h2>Establecimientos</h2>
-<div class="sub">Directorio inicial de comercios con presencia en internet</div>
-<div class="tiendas" id="tiendas"></div>
-
-<p class="pie">Consulta siempre el precio y la disponibilidad directamente con el establecimiento.</p>
+<section class="cart">
+ <h2>Mi carrito</h2>
+ <div id="carrito" aria-live="polite">
+  <p class="section-note">Todavía no has agregado productos.</p>
+ </div>
+ <div class="cart-total" id="total">Total: $0.00</div>
+ <div class="cart-summary" id="ahorro">Ahorro estimado: $0.00</div>
+ <div class="cart-summary" id="promedio">Descuento promedio: 0%</div>
+ <button type="button" class="clear" id="vaciar">Vaciar carrito</button>
+</section>
 </main>
 
-<div class="barra-carrito">
-<div class="interior-carrito">
-<div class="resumen">
-<strong id="resumen">Tu carrito: 0 productos · $0.00</strong>
-<small id="ahorro">Ahorro estimado: $0.00</small>
-</div>
-<button class="boton" id="verCarrito">Ver carrito</button>
-</div>
-</div>
-
-<dialog id="modal">
-<div class="cabecera-modal">
-<strong>Mi carrito</strong>
-<button class="boton" id="cerrar">Cerrar</button>
-</div>
-<div class="cuerpo-modal">
-<div id="lineas"></div>
-<div class="totales" id="totales"></div>
-</div>
-</dialog>
+<footer>PRECIOS AL DÍA · COMPARA Y AHORRA</footer>
 
 <script>
 "use strict";
 
-const establecimientos=[
-{nombre:"Casa Ley",tipo:"Supermercado",url:"https://www.casaley.com.mx/"},
-{nombre:"Walmart",tipo:"Supermercado",url:"https://www.walmart.com.mx/"},
-{nombre:"Bodega Aurrera",tipo:"Supermercado",url:"https://www.bodegaaurrera.com.mx/"},
-{nombre:"Soriana",tipo:"Supermercado",url:"https://www.soriana.com/"},
-{nombre:"Sam's Club",tipo:"Club de precio",url:"https://www.sams.com.mx/"},
-{nombre:"Chedraui",tipo:"Supermercado",url:"https://www.chedraui.com.mx/"},
-{nombre:"Waldo's",tipo:"Tienda de descuento",url:"https://www.waldos.com.mx/"},
-{nombre:"OXXO",tipo:"Conveniencia",url:"https://www.oxxo.com/"},
-{nombre:"Kiosko",tipo:"Conveniencia",url:"https://www.kiosko.com.mx/"},
-{nombre:"Merza",tipo:"Supermercado",url:"https://www.merza.com.mx/"},
-{nombre:"Coppel",tipo:"Departamental",url:"https://www.coppel.com/"},
-{nombre:"Farmacias YZA",tipo:"Farmacia",url:"https://www.yza.mx/"},
-{nombre:"Andrea",tipo:"Calzado y ropa",url:"https://www.andrea.com/"},
-{nombre:"Office Depot",tipo:"Papelería y oficina",url:"https://www.officedepot.com.mx/"},
-{nombre:"Steren",tipo:"Electrónica",url:"https://www.steren.com.mx/"}
+const productos = [
+{id:1,n:"Arroz blanco",marca:"No especificada",contenido:"Paquete de 1 kg",tienda:"Walmart",cat:"Granos",precio:28,antes:35,imagen:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500",tipo:"paquete",unidad:"paquete"},
+{id:2,n:"Frijol negro",marca:"No especificada",contenido:"Paquete de 1 kg",tienda:"Soriana",cat:"Granos",precio:32,antes:40,imagen:"https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=500",tipo:"paquete",unidad:"paquete"},
+{id:3,n:"Leche entera",marca:"No especificada",contenido:"Envase de 1 litro",tienda:"Bodega Aurrera",cat:"Lácteos",precio:23,antes:29,imagen:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500",tipo:"paquete",unidad:"paquete"},
+{id:4,n:"Huevo blanco",marca:"No especificada",contenido:"Paquete de 18 piezas",tienda:"Casa Ley",cat:"Abarrotes",precio:48,antes:60,imagen:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500",tipo:"paquete",unidad:"paquete"},
+{id:5,n:"Plátano",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Chedraui",cat:"Frutas",precio:19,antes:27,imagen:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500",tipo:"peso",unidad:"kg",pesoPieza:120},
+{id:6,n:"Manzana roja",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Walmart",cat:"Frutas",precio:35,antes:49,imagen:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500",tipo:"peso",unidad:"kg",pesoPieza:180},
+{id:7,n:"Jitomate",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Soriana",cat:"Verduras",precio:22,antes:30,imagen:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500",tipo:"peso",unidad:"kg",pesoPieza:150},
+{id:8,n:"Papa blanca",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Bodega Aurrera",cat:"Verduras",precio:18,antes:25,imagen:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500",tipo:"peso",unidad:"kg",pesoPieza:180},
+{id:9,n:"Aceite vegetal",marca:"No especificada",contenido:"Botella de 1 litro",tienda:"Casa Ley",cat:"Abarrotes",precio:34,antes:42,imagen:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500",tipo:"paquete",unidad:"paquete"},
+{id:10,n:"Agua natural",marca:"No especificada",contenido:"Botella de 1 litro",tienda:"OXXO",cat:"Bebidas",precio:12,antes:16,imagen:"https://images.unsplash.com/photo-1560023907-5f339617ea30?w=500",tipo:"paquete",unidad:"paquete"},
+{id:11,n:"Detergente",marca:"No especificada",contenido:"Bolsa de 1 kg",tienda:"Walmart",cat:"Limpieza",precio:39,antes:50,imagen:"https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500",tipo:"paquete",unidad:"paquete"},
+{id:12,n:"Naranja",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Merza",cat:"Frutas",precio:17,antes:22,imagen:"https://images.unsplash.com/photo-1547514701-42782101795e?w=500",tipo:"peso",unidad:"kg",pesoPieza:200},
+{id:13,n:"Zanahoria",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Soriana",cat:"Verduras",precio:14,antes:19,imagen:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=500",tipo:"peso",unidad:"kg",pesoPieza:100},
+{id:14,n:"Refresco",marca:"No especificada",contenido:"Botella de 2 litros",tienda:"Chedraui",cat:"Bebidas",precio:29,antes:36,imagen:"https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500",tipo:"paquete",unidad:"paquete"},
+{id:15,n:"Papel higiénico",marca:"No especificada",contenido:"Paquete de 4 rollos",tienda:"Waldo's",cat:"Limpieza",precio:25,antes:32,imagen:"https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=500",tipo:"paquete",unidad:"paquete"}
 ];
 
-const productos=[
-{id:1,nombre:"Arroz 1 kg",categoria:"Despensa",tienda:"Casa Ley",precio:28.90,anterior:34.90,emoji:"🍚"},
-{id:2,nombre:"Aceite vegetal 1 L",categoria:"Despensa",tienda:"Walmart",precio:39.90,anterior:46.90,emoji:"🫗"},
-{id:3,nombre:"Leche 1 L",categoria:"Lácteos",tienda:"Soriana",precio:25.50,anterior:29.90,emoji:"🥛"},
-{id:4,nombre:"Huevo 18 piezas",categoria:"Lácteos",tienda:"Bodega Aurrera",precio:52,anterior:59,emoji:"🥚"},
-{id:5,nombre:"Detergente 1 kg",categoria:"Limpieza",tienda:"Walmart",precio:34.90,anterior:42,emoji:"🧺"},
-{id:6,nombre:"Papel higiénico 4 rollos",categoria:"Higiene",tienda:"Casa Ley",precio:31.90,anterior:38.90,emoji:"🧻"},
-{id:7,nombre:"Agua 1.5 L",categoria:"Bebidas",tienda:"OXXO",precio:16,anterior:19,emoji:"💧"},
-{id:8,nombre:"Croquetas 1 kg",categoria:"Mascotas",tienda:"Coppel",precio:49,anterior:55,emoji:"🐾"}
-];
-
-const categorias=["Todos","Despensa","Lácteos","Bebidas","Limpieza","Higiene","Hogar","Mascotas","Electrónica","Ropa"];
-let categoria="Todos";
+let categoriaActual="";
 let carrito=[];
-const $=id=>document.getElementById(id);
-const moneda=n=>n.toLocaleString("es-MX",{style:"currency",currency:"MXN"});
-const porcentaje=p=>p.anterior>p.precio?Math.round((1-p.precio/p.anterior)*100):0;
+let archivoImagen=null;
+let urlImagen=null;
 
-function dibujarCategorias(){
-$("categorias").innerHTML=categorias.map(c=>
-`<button class="chip ${c===categoria?"activo":""}" data-cat="${c}">${c}</button>`
-).join("");
+const dinero=n=>"$"+n.toFixed(2);
+const descuento=p=>Math.round((1-p.precio/p.antes)*100);
+
+function opcionesUnidad(p){
+ if(p.tipo==="peso"){
+  return '<option value="kg">Kilogramos (kg)</option><option value="g">Gramos (g)</option><option value="pieza">Piezas</option>';
+ }
+ return '<option value="paquete">Paquetes completos</option>';
 }
 
-function iniciar(){
-dibujarCategorias();
-
-$("categorias").addEventListener("click",e=>{
-const b=e.target.closest("[data-cat]");
-if(!b)return;
-categoria=b.dataset.cat;
-dibujarCategorias();
-dibujarProductos();
-});
-
-$("filtroTienda").innerHTML+=establecimientos.map(t=>
-`<option>${t.nombre}</option>`).join("");
-
-$("tiendas").innerHTML=establecimientos.map(t=>
-`<div class="tienda"><strong>${t.nombre}</strong><small>${t.tipo}</small><a href="${t.url}" target="_blank" rel="noopener">Visitar sitio web ↗</a></div>`
-).join("");
-
-$("buscar").addEventListener("input",dibujarProductos);
-$("filtroTienda").addEventListener("change",dibujarProductos);
-$("orden").addEventListener("change",dibujarProductos);
-
-$("limpiar").addEventListener("click",()=>{
-$("buscar").value="";
-$("filtroTienda").value="";
-categoria="Todos";
-dibujarCategorias();
-dibujarProductos();
-});
-
-$("verCarrito").addEventListener("click",()=>{
-$("modal").showModal();
-dibujarCarrito();
-});
-
-$("cerrar").addEventListener("click",()=>$("modal").close());
-
-dibujarProductos();
-dibujarCarrito();
+function factorUnidad(p,u){
+ if(u==="kg")return 1;
+ if(u==="g")return .001;
+ if(u==="pieza")return (p.pesoPieza||0)/1000;
+ return 1;
 }
 
-function dibujarProductos(){
-const busqueda=$("buscar").value.toLowerCase().trim();
-const tienda=$("filtroTienda").value;
-let lista=productos.filter(p=>
-(categoria==="Todos"||p.categoria===categoria)&&
-(!tienda||p.tienda===tienda)&&
-(`${p.nombre} ${p.tienda} ${p.categoria}`.toLowerCase().includes(busqueda))
-);
+function unidadTexto(u){
+ return ({kg:"kg",g:"g",pieza:"piezas",paquete:"paquetes"})[u]||u;
+}
 
-const orden=$("orden").value;
-if(orden==="precio")lista.sort((a,b)=>a.precio-b.precio);
-if(orden==="descuento")lista.sort((a,b)=>porcentaje(b)-porcentaje(a));
-if(orden==="nombre")lista.sort((a,b)=>a.nombre.localeCompare(b.nombre));
+function pasoUnidad(u){
+ if(u==="kg")return .1;
+ if(u==="g")return 100;
+ return 1;
+}
 
-$("contador").textContent=lista.length+" artículos de demostración";
+function configurarCantidad(id,reiniciar=false){
+ const entrada=document.getElementById("cant-"+id);
+ const selector=document.getElementById("unidad-"+id);
+ if(!entrada||!selector)return;
+ const paso=pasoUnidad(selector.value);
+ entrada.min=paso;
+ entrada.step=paso;
+ if(reiniciar)entrada.value=paso;
+}
 
-$("productos").innerHTML=lista.length?lista.map(p=>`
-<article class="tarjeta">
-<div class="foto">${p.emoji}<span class="etiqueta">EJEMPLO</span></div>
-<div class="detalle">
-<div class="nombre">${p.nombre}</div>
-<div class="dato">${p.categoria}</div>
-<div style="margin-top:8px">
-<span class="precio">${moneda(p.precio)}</span>
-<span class="anterior">${moneda(p.anterior)}</span>
-</div>
-<div class="descuento">${porcentaje(p)}% de descuento de ejemplo</div>
-<div class="dato">Establecimiento: ${p.tienda}</div>
-<div class="agregar">
-<input class="cantidad" type="number" min="1" max="99" value="1" id="cantidad-${p.id}">
-<button data-agregar="${p.id}">Agregar</button>
-</div>
-</div>
-</article>`).join(""):'<div class="vacio">No encontramos productos. Prueba otra búsqueda.</div>';
+function mostrarProductos(){
+ const buscar=document.getElementById("buscar").value.trim().toLowerCase();
+ const tienda=document.getElementById("tienda").value;
+ const orden=document.getElementById("orden").value;
 
-$("productos").querySelectorAll("[data-agregar]").forEach(b=>{
-b.addEventListener("click",()=>agregar(Number(b.dataset.agregar)));
-});
+ let lista=productos.filter(p=>
+  (p.n+" "+p.marca+" "+p.contenido+" "+p.tienda+" "+p.cat).toLowerCase().includes(buscar)&&
+  (!tienda||p.tienda===tienda)&&
+  (!categoriaActual||p.cat===categoriaActual)
+ );
+
+ if(orden==="descuento")lista.sort((a,b)=>descuento(b)-descuento(a));
+ if(orden==="precio")lista.sort((a,b)=>a.precio-b.precio);
+ if(orden==="nombre")lista.sort((a,b)=>a.n.localeCompare(b.n,"es"));
+
+ const cont=document.getElementById("productos");
+
+ if(!lista.length){
+  cont.innerHTML='<div class="empty">No encontramos productos con esos filtros.</div>';
+  return;
+ }
+
+ cont.innerHTML=lista.map(p=>`
+ <article class="product">
+  <div class="photo-wrap">
+   <img class="photo" src="${p.imagen}" alt="Imagen ilustrativa de ${p.n}"
+    loading="lazy"
+    onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+   <div class="photo-fallback">📦<br>Imagen no disponible<br>${p.n}</div>
+   <div class="photo-label">ILUSTRATIVA</div>
+   <div class="store-watermark">${p.tienda}</div>
+  </div>
+  <div class="product-body">
+   <span class="demo-tag">PRODUCTO DEMO</span>
+   <h3>${p.n}</h3>
+   <div class="product-detail">${p.marca}</div>
+   <div class="product-detail">${p.contenido}</div>
+   <div class="store">${p.tienda}</div>
+   <div class="discount">${descuento(p)}% de descuento demo</div>
+   <div class="old">Antes: ${dinero(p.antes)}</div>
+   <div class="price">${dinero(p.precio)}</div>
+   ${p.pesoPieza?`<div class="piece-note">Aprox. ${p.pesoPieza} g por pieza. El peso real puede variar.</div>`:""}
+   <div class="quantity">
+    <input type="number" min="1" step="1" value="1" id="cant-${p.id}" aria-label="Cantidad de ${p.n}">
+    <select id="unidad-${p.id}" aria-label="Unidad de ${p.n}">
+     ${opcionesUnidad(p)}
+    </select>
+   </div>
+   <button type="button" class="add" onclick="agregar(${p.id})">+ Agregar</button>
+  </div>
+ </article>
+ `).join("");
+
+ lista.forEach(p=>{
+  configurarCantidad(p.id);
+  document.getElementById("unidad-"+p.id).addEventListener("change",()=>{
+   configurarCantidad(p.id,true);
+  });
+ });
 }
 
 function agregar(id){
-const p=productos.find(x=>x.id===id);
-const cantidad=Math.max(1,Math.min(99,Number($("cantidad-"+id).value)||1));
-const existente=carrito.find(x=>x.id===id);
-if(existente)existente.cantidad+=cantidad;
-else carrito.push({...p,cantidad});
-dibujarCarrito();
+ const p=productos.find(x=>x.id===id);
+ const entrada=document.getElementById("cant-"+id);
+ const cantidad=parseFloat(entrada.value);
+ const unidad=document.getElementById("unidad-"+id).value;
+ const paso=pasoUnidad(unidad);
+
+ if(!Number.isFinite(cantidad)||cantidad<=0){
+  alert("Escribe una cantidad válida.");
+  entrada.focus();
+  return;
+ }
+ if((p.tipo==="paquete"||unidad==="pieza")&&!Number.isInteger(cantidad)){
+  alert("Los paquetes y las piezas se seleccionan en cantidades completas.");
+  entrada.focus();
+  return;
+ }
+ if(unidad==="pieza"&&!p.pesoPieza){
+  alert("No hay un peso promedio configurado.");
+  return;
+ }
+ if(unidad==="g"&&cantidad%paso!==0){
+  alert("Selecciona incrementos de 100 gramos.");
+  entrada.focus();
+  return;
+ }
+ if(unidad==="kg"&&Math.abs(cantidad*10-Math.round(cantidad*10))>1e-8){
+  alert("Selecciona incrementos de 0.1 kg.");
+  entrada.focus();
+  return;
+ }
+
+ const existente=carrito.find(x=>x.id===id&&x.unidad===unidad);
+ if(existente)existente.cantidad+=cantidad;
+ else carrito.push({id,unidad,cantidad});
+ mostrarCarrito();
 }
 
-function dibujarCarrito(){
-const unidades=carrito.reduce((s,p)=>s+p.cantidad,0);
-const total=carrito.reduce((s,p)=>s+p.precio*p.cantidad,0);
-const ahorro=carrito.reduce((s,p)=>s+Math.max(0,p.anterior-p.precio)*p.cantidad,0);
-
-$("resumen").textContent=`Tu carrito: ${unidades} productos · ${moneda(total)}`;
-$("ahorro").textContent=`Ahorro estimado de ejemplo: ${moneda(ahorro)}`;
-
-if(!$("modal").open)return;
-
-$("lineas").innerHTML=carrito.length?carrito.map(p=>`
-<div class="linea">
-<div><strong>${p.nombre}</strong><br>${p.cantidad} × ${moneda(p.precio)}<br>${p.tienda}</div>
-<div><strong>${moneda(p.precio*p.cantidad)}</strong><br><button data-quitar="${p.id}">Quitar</button></div>
-</div>`).join(""):'<div class="vacio">Tu carrito está vacío.</div>';
-
-const promedio=unidades?carrito.reduce((s,p)=>s+porcentaje(p)*p.cantidad,0)/unidades:0;
-$("totales").innerHTML=`
-<div><span>Total</span><strong>${moneda(total)}</strong></div>
-<div><span>Ahorro estimado*</span><strong>${moneda(ahorro)}</strong></div>
-<div><span>Descuento promedio*</span><strong>${promedio.toFixed(1)}%</strong></div>
-<small>*Cálculos con datos de demostración.</small>`;
-
-$("lineas").querySelectorAll("[data-quitar]").forEach(b=>{
-b.addEventListener("click",()=>{
-carrito=carrito.filter(p=>p.id!==Number(b.dataset.quitar));
-dibujarCarrito();
-});
-});
+function precioLinea(item){
+ const p=productos.find(x=>x.id===item.id);
+ return p.precio*item.cantidad*factorUnidad(p,item.unidad);
 }
 
-iniciar();
+function mostrarCarrito(){
+ const cont=document.getElementById("carrito");
 
-if("serviceWorker" in navigator){
-window.addEventListener("load",()=>{
-navigator.serviceWorker.register("./service-worker.js")
-.catch(error=>console.error("Error al registrar el servicio:",error));
+ if(!carrito.length){
+  cont.innerHTML='<p class="section-note">Todavía no has agregado productos.</p>';
+  document.getElementById("total").textContent="Total: $0.00";
+  document.getElementById("ahorro").textContent="Ahorro estimado: $0.00";
+  document.getElementById("promedio").textContent="Descuento promedio: 0%";
+  return;
+ }
+
+ cont.innerHTML=carrito.map((item,i)=>{
+  const p=productos.find(x=>x.id===item.id);
+  return `<div class="cart-row">
+   <div><strong>${p.n}</strong>
+   <small>${item.cantidad} ${unidadTexto(item.unidad)} · ${p.tienda}</small>
+   ${item.unidad==="pieza"?`<small>Peso promedio: ${p.pesoPieza} g por pieza.</small>`:""}
+   </div>
+   <div class="cart-controls">
+    <button type="button" onclick="cambiar(${i},-1)">−</button>
+    <button type="button" onclick="cambiar(${i},1)">+</button>
+    <strong>${dinero(precioLinea(item))}</strong>
+    <button type="button" onclick="quitar(${i})">×</button>
+   </div>
+  </div>`;
+ }).join("");
+
+ const total=carrito.reduce((s,x)=>s+precioLinea(x),0);
+ const ahorro=carrito.reduce((s,x)=>{
+  const p=productos.find(y=>y.id===x.id);
+  return s+(p.antes-p.precio)*x.cantidad*factorUnidad(p,x.unidad);
+ },0);
+ const base=total+ahorro;
+
+ document.getElementById("total").textContent="Total: "+dinero(total);
+ document.getElementById("ahorro").textContent="Ahorro estimado: "+dinero(ahorro);
+ document.getElementById("promedio").textContent=
+  "Descuento promedio: "+(base?Math.round(ahorro/base*100):0)+"%";
+}
+
+function cambiar(i,d){
+ const item=carrito[i];
+ const nueva=Number((item.cantidad+d*pasoUnidad(item.unidad)).toFixed(3));
+ if(nueva<=0)carrito.splice(i,1);
+ else item.cantidad=nueva;
+ mostrarCarrito();
+}
+
+function quitar(i){
+ carrito.splice(i,1);
+ mostrarCarrito();
+}
+
+/* Cámara y selección de imágenes */
+const fotoCamara=document.getElementById("fotoCamara");
+const fotoGaleria=document.getElementById("fotoGaleria");
+const vistaPrevia=document.getElementById("vistaPrevia");
+const imagenSeleccionada=document.getElementById("imagenSeleccionada");
+const estadoImagen=document.getElementById("estadoImagen");
+
+document.getElementById("abrirCamara").addEventListener("click",()=>{
+ fotoCamara.click();
 });
+
+document.getElementById("abrirGaleria").addEventListener("click",()=>{
+ fotoGaleria.click();
+});
+
+function seleccionarImagen(archivo){
+ if(!archivo)return;
+
+ if(!archivo.type.startsWith("image/")){
+  alert("Selecciona un archivo de imagen.");
+  return;
+ }
+
+ if(archivo.size>10*1024*1024){
+  alert("La imagen debe pesar menos de 10 MB.");
+  return;
+ }
+
+ if(urlImagen)URL.revokeObjectURL(urlImagen);
+
+ archivoImagen=archivo;
+ urlImagen=URL.createObjectURL(archivo);
+ imagenSeleccionada.src=urlImagen;
+ vistaPrevia.style.display="block";
+
+ estadoImagen.textContent=
+  "Fotografía seleccionada correctamente. La identificación automática todavía necesita conexión con el servicio de reconocimiento.";
+}
+
+fotoCamara.addEventListener("change",e=>{
+ seleccionarImagen(e.target.files[0]);
+ e.target.value="";
+});
+
+fotoGaleria.addEventListener("change",e=>{
+ seleccionarImagen(e.target.files[0]);
+ e.target.value="";
+});
+
+document.getElementById("quitarImagen").addEventListener("click",()=>{
+ archivoImagen=null;
+ imagenSeleccionada.removeAttribute("src");
+ vistaPrevia.style.display="none";
+ if(urlImagen)URL.revokeObjectURL(urlImagen);
+ urlImagen=null;
+});
+
+document.getElementById("analizarImagen").addEventListener("click",()=>{
+ if(!archivoImagen){
+  alert("Primero toma una fotografía o elige una imagen.");
+  return;
+ }
+
+ estadoImagen.textContent=
+  "La imagen está lista, pero todavía falta conectar el servicio seguro de reconocimiento visual en Cloudflare. No se ha identificado ningún producto ni consultado precios.";
+});
+
+/* Filtros y carrito */
+document.getElementById("buscar").addEventListener("input",mostrarProductos);
+document.getElementById("tienda").addEventListener("change",mostrarProductos);
+document.getElementById("orden").addEventListener("change",mostrarProductos);
+
+document.getElementById("categorias").addEventListener("click",e=>{
+ const b=e.target.closest("button[data-cat]");
+ if(!b)return;
+ categoriaActual=b.dataset.cat;
+ document.querySelectorAll("#categorias button").forEach(x=>
+  x.classList.toggle("active",x===b)
+ );
+ mostrarProductos();
+});
+
+document.getElementById("vaciar").addEventListener("click",()=>{
+ if(confirm("¿Quieres vaciar el carrito?")){
+  carrito=[];
+  mostrarCarrito();
+ }
+});
+
+mostrarProductos();
+mostrarCarrito();
+</script>
+
+<script>
+/* Registro del servicio para funcionamiento sin conexión */
+if ("serviceWorker" in navigator) {
+ window.addEventListener("load", () => {
+  navigator.serviceWorker.register("./service-worker.js")
+   .then(() => {
+    console.log("Servicio sin conexión registrado correctamente.");
+   })
+   .catch(error => {
+    console.error("Error al registrar el servicio:", error);
+   });
+ });
 }
 </script>
+
 </body>
 </html>
