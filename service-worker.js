@@ -1,4 +1,5 @@
-const CACHE_NAME = "precios-al-dia-v1";
+
+const CACHE_NAME = "precios-al-dia-v2";
 
 const ARCHIVOS = [
   "./",
@@ -9,11 +10,6 @@ const ARCHIVOS = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache =>
-      cache.addAll(ARCHIVOS)
-    )
-  );
   self.skipWaiting();
 });
 
@@ -21,21 +17,25 @@ self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
-        keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
+        keys.map(key => caches.delete(key))
       )
-    )
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
   event.respondWith(
-    fetch(event.request).catch(() =>
-      caches.match(event.request)
-    )
+    fetch(event.request).catch(async () => {
+      const respuesta = await caches.match(event.request);
+      return respuesta || new Response(
+        "Sin conexión a Internet",
+        {
+          status: 503,
+          headers: {"Content-Type": "text/plain; charset=utf-8"}
+        }
+      );
+    })
   );
 });
