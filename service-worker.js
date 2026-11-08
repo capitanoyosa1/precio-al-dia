@@ -1,5 +1,4 @@
-
-const CACHE_NAME = "precios-al-dia-v3";
+const CACHE_NAME = "precios-al-dia-v4";
 
 const ARCHIVOS = [
   "./",
@@ -9,7 +8,6 @@ const ARCHIVOS = [
   "./icon-512.png"
 ];
 
-// Instalación y almacenamiento de archivos
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -18,7 +16,6 @@ self.addEventListener("install", event => {
   );
 });
 
-// Activación y limpieza de versiones anteriores
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys()
@@ -33,31 +30,41 @@ self.addEventListener("activate", event => {
   );
 });
 
-// Funcionamiento sin conexión
 self.addEventListener("fetch", event => {
-  if (event.request.method !== "GET") return;
+  const request = event.request;
 
-  const url = new URL(event.request.url);
+  if (request.method !== "GET") return;
+
+  const url = new URL(request.url);
 
   if (url.origin !== self.location.origin) return;
 
+  // La API siempre consulta el servidor y nunca usa datos guardados.
+  if (url.pathname.startsWith("/api/")) return;
+
   event.respondWith(
-    fetch(event.request)
+    fetch(request)
       .then(response => {
         if (response.ok) {
           const copia = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put(event.request, copia));
+
+          event.waitUntil(
+            caches.open(CACHE_NAME)
+              .then(cache => cache.put(request, copia))
+          );
         }
+
         return response;
       })
       .catch(async () => {
-        const respuesta = await caches.match(event.request);
+        const guardada = await caches.match(request);
 
-        if (respuesta) return respuesta;
+        if (guardada) return guardada;
 
-        if (event.request.mode === "navigate") {
-          return caches.match("./index.html");
+        if (request.mode === "navigate") {
+          const inicio = await caches.match("./index.html");
+
+          if (inicio) return inicio;
         }
 
         return new Response("Sin conexión a Internet", {
