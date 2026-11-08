@@ -520,9 +520,6 @@ function cargarMunicipios() {
 
   selector.disabled = lista.length === 0;
 
-  if (estado === "Sinaloa" && lista.includes("Mazatlán")) {
-    selector.value = "Mazatlán";
-  }
 
   if (lista.length === 0) {
     inicial.textContent = "Catálogo no disponible para este estado";
