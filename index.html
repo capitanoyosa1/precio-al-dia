@@ -296,21 +296,12 @@ footer {text-align:center;padding:25px 10px;font-size:12px;color:#777}
       <option>Otros</option>
     </select>
 
-    <select id="tienda">
-      <option value="Todas">Todos los establecimientos</option>
-      <option>Walmart</option>
-      <option>Soriana</option>
-      <option>Bodega Aurrera</option>
-      <option>Chedraui</option>
-      <option>Casa Ley</option>
-      <option>Sam's Club</option>
-      <option>OXXO</option>
-      <option>Waldo's</option>
-      <option>Merza</option>
-      <option>Kiosko</option>
-      <option>Costco</option>
-      <option>Súper Naturista</option>
-    </select>
+<select id="tienda" disabled>
+  <option value="Todas">
+    No hay establecimientos verificados en esta ubicación
+  </option>
+</select>
+   
 
     <select id="orden">
       <option value="descuento">Mayor descuento</option>
@@ -541,8 +532,7 @@ function cargarMunicipios() {
 }
 
 function esUbicacionDemo() {
-  return $("estado").value !== "" &&
-         $("municipio").value !== "";
+  return false;
 }
 
 function actualizarUbicacion() {
