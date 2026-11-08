@@ -2,908 +2,844 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#191919">
-<meta name="description" content="Precios al Día: busca productos, compara precios y organiza tus compras.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#171717">
+<meta name="description" content="Encuentra y compara productos en oferta al día.">
 <link rel="manifest" href="./manifest.json">
 <title>Precios al Día</title>
 
 <style>
-:root{
- --ink:#191919;
- --gold:#b99a62;
- --gold-light:#e8d7b5;
- --cream:#f7f5f0;
- --text:#252525;
- --muted:#77736c;
- --line:#e6e1d8;
- --background:#f3f1ec;
+:root {
+  --fondo:#f5f2e9;
+  --oscuro:#171717;
+  --dorado:#d5ad55;
+  --verde:#176b45;
+  --blanco:#fff;
+  --gris:#777;
+  --borde:#e5dfd2;
 }
-*{box-sizing:border-box}
-body{
- margin:0;
- background:var(--background);
- color:var(--text);
- font-family:Arial,sans-serif;
- font-size:16px;
- line-height:1.45;
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--fondo);
+  color:var(--oscuro);
+  font-family:Arial,Helvetica,sans-serif;
 }
-header{
- background:var(--ink);
- color:white;
- padding:21px 14px 18px;
- text-align:center;
- border-bottom:3px solid var(--gold);
+header {
+  background:var(--oscuro);
+  color:white;
+  padding:20px 15px;
+  text-align:center;
+  border-bottom:4px solid var(--dorado);
 }
-.brand{
- font-size:12px;
- letter-spacing:4px;
- color:var(--gold-light);
- text-transform:uppercase;
- font-weight:bold;
+header h1 {margin:0;font-size:27px}
+header p {color:#e5cf9b;margin:7px 0 0;font-size:13px}
+main {max-width:1100px;margin:auto;padding:14px}
+.panel {
+  background:white;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:14px;
+  box-shadow:0 2px 8px #0000000c;
 }
-header h1{
- margin:5px 0 2px;
- font-family:Georgia,serif;
- font-size:29px;
- font-weight:normal;
+h2 {font-size:19px;margin:0 0 12px}
+label {
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin:9px 0 5px;
 }
-header p{
- margin:5px 0 0;
- color:#d4d0c8;
- font-size:13px;
+input,select,button {font:inherit}
+input,select {
+  width:100%;
+  padding:12px;
+  border:1px solid var(--borde);
+  border-radius:9px;
+  background:white;
+  min-width:0;
 }
-main{
- max-width:1200px;
- margin:auto;
- padding:12px;
+button {
+  border:0;
+  border-radius:9px;
+  padding:11px 13px;
+  cursor:pointer;
+  font-weight:bold;
 }
-.location{
- display:flex;
- gap:8px;
- margin-bottom:12px;
+button:disabled {opacity:.5;cursor:not-allowed}
+.boton {background:var(--oscuro);color:white}
+.boton-dorado {background:var(--dorado);color:#171717}
+.boton-verde {background:var(--verde);color:white}
+.fila {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
-input,select,button{font:inherit}
-.location input{
- flex:1;
- min-width:0;
- background:white;
- border:1px solid var(--line);
- border-radius:8px;
- padding:10px;
- font-size:14px;
+.ubicacion-titulo {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 }
-.search-area{
- background:white;
- padding:12px;
- border:1px solid var(--line);
- border-radius:10px;
- margin-bottom:12px;
+.estado-carga {font-size:12px;color:var(--gris);margin-top:8px}
+.aviso {
+  background:#fff5dc;
+  border:1px solid #ead49c;
+  color:#624b16;
+  padding:12px;
+  border-radius:10px;
+  font-size:13px;
+  line-height:1.5;
+  margin-bottom:14px;
 }
-.search-title{
- font-weight:bold;
- color:var(--ink);
- margin-bottom:9px;
+.aviso-verde {
+  background:#e9f5ed;
+  border-color:#b8d9c1;
+  color:#205b35;
 }
-.search{
- width:100%;
- min-height:46px;
- padding:11px;
- border:1px solid var(--line);
- border-radius:8px;
- background:white;
- font-size:14px;
+.aviso-rojo {
+  background:#fff0ed;
+  border-color:#e9c3bb;
+  color:#843a2d;
 }
-.search-actions{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
- margin-top:9px;
+.controles {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
-.search-button{
- min-height:46px;
- border:1px solid var(--gold);
- border-radius:8px;
- background:var(--ink);
- color:white;
- font-size:12px;
- font-weight:bold;
- padding:8px 5px;
+.controles .completo {grid-column:1/-1}
+.botones-foto {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
 }
-.search-button.secondary{
- background:#eee9df;
- color:var(--ink);
+.botones-foto button {flex:1;min-width:120px}
+#vistaPrevia {
+  display:none;
+  width:100%;
+  max-height:220px;
+  object-fit:contain;
+  border-radius:10px;
+  margin-top:10px;
+  background:#eee;
 }
-input:focus,select:focus,button:focus-visible{
- outline:3px solid var(--gold);
- outline-offset:2px;
+#productos {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:11px;
 }
-.hidden-file{display:none}
-.preview{
- display:none;
- margin-top:12px;
- padding:10px;
- border:1px solid var(--line);
- border-radius:8px;
- background:#f8f6f1;
+.producto {
+  background:white;
+  border:1px solid var(--borde);
+  border-radius:13px;
+  overflow:hidden;
+  min-width:0;
+  position:relative;
 }
-.preview img{
- display:block;
- width:100%;
- max-height:240px;
- object-fit:contain;
- border-radius:6px;
+.producto img {
+  width:100%;
+  height:115px;
+  object-fit:cover;
+  background:#eee;
 }
-.preview-actions{
- display:flex;
- gap:8px;
- margin-top:9px;
+.producto-contenido {padding:10px}
+.producto h3 {
+  font-size:14px;
+  margin:0 0 7px;
+  min-height:32px;
 }
-.preview-actions button{
- flex:1;
- min-height:40px;
- border-radius:7px;
- border:1px solid var(--gold);
- background:var(--ink);
- color:white;
- font-size:12px;
- padding:7px;
+.precio {
+  font-size:19px;
+  font-weight:bold;
+  color:var(--verde);
 }
-.preview-actions .remove{
- background:white;
- color:var(--ink);
+.precio-anterior {
+  font-size:11px;
+  color:var(--gris);
+  text-decoration:line-through;
 }
-.image-status{
- margin-top:9px;
- font-size:12px;
- color:#665b46;
- line-height:1.5;
+.tienda {font-size:11px;color:#555;margin:6px 0}
+.etiqueta {
+  display:inline-block;
+  background:#fff0ca;
+  color:#76530d;
+  border-radius:5px;
+  padding:4px 6px;
+  font-size:10px;
+  font-weight:bold;
+  margin:4px 0;
 }
-.notice{
- margin-bottom:13px;
- background:#eeeae1;
- border:1px solid #ddd5c6;
- border-radius:8px;
- padding:9px 12px;
- color:#625b4e;
- font-size:12px;
+.cantidad {display:flex;gap:5px;margin:8px 0}
+.cantidad input {width:65%;padding:8px}
+.cantidad select {width:35%;padding:8px 4px}
+.producto button {width:100%;font-size:12px;padding:10px 5px}
+.sin-resultados {
+  grid-column:1/-1;
+  background:white;
+  border-radius:12px;
+  padding:25px 15px;
+  text-align:center;
+  color:#666;
+  line-height:1.5;
 }
-.notice summary{
- cursor:pointer;
- font-weight:bold;
- color:#514633;
+.carrito {
+  background:#202020;
+  color:white;
+  border-radius:14px;
+  padding:15px;
+  margin-top:16px;
 }
-.notice p{margin:9px 0 2px;line-height:1.55}
-.filters{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:8px;
- margin-bottom:12px;
+.carrito h2 {color:var(--dorado)}
+.item-carrito {
+  border-bottom:1px solid #444;
+  padding:10px 0;
+  font-size:13px;
 }
-.filters select{
- width:100%;
- min-width:0;
- min-height:42px;
- border:1px solid var(--line);
- border-radius:8px;
- padding:8px;
- background:white;
- font-size:13px;
+.item-carrito button {padding:5px 8px;margin:5px 3px 0 0}
+.total {
+  font-size:22px;
+  color:var(--dorado);
+  font-weight:bold;
+  margin-top:12px;
 }
-.categories{
- display:flex;
- gap:7px;
- overflow-x:auto;
- padding:2px 0 12px;
+.resumen {font-size:13px;color:#ddd;line-height:1.7}
+footer {text-align:center;padding:25px 10px;font-size:12px;color:#777}
+@media(max-width:600px) {
+  #productos {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .producto img {height:105px}
+  .producto-contenido {padding:8px}
+  .fila {grid-template-columns:1fr}
 }
-.categories button{
- flex:0 0 auto;
- border:1px solid #d7d0c3;
- background:white;
- color:#4b463d;
- border-radius:20px;
- padding:8px 13px;
- font-size:12px;
- font-weight:bold;
-}
-.categories button.active{
- background:var(--ink);
- color:white;
- border-color:var(--ink);
-}
-.section-heading{
- display:flex;
- align-items:center;
- justify-content:space-between;
- margin:8px 0 3px;
-}
-h2{
- font-family:Georgia,serif;
- font-size:21px;
- font-weight:normal;
- margin:0;
- color:var(--ink);
-}
-.section-note{
- font-size:12px;
- color:var(--muted);
- margin:3px 0 12px;
-}
-.products{
- display:grid;
- grid-template-columns:repeat(3,minmax(0,1fr));
- gap:8px;
-}
-.product{
- min-width:0;
- display:flex;
- flex-direction:column;
- overflow:hidden;
- background:white;
- border:1px solid var(--line);
- border-radius:9px;
- box-shadow:0 2px 7px rgba(30,25,15,.045);
-}
-.photo-wrap{
- position:relative;
- width:100%;
- aspect-ratio:1/1;
- background:#f0eee9;
- display:flex;
- align-items:center;
- justify-content:center;
- overflow:hidden;
-}
-.photo{
- width:100%;
- height:100%;
- object-fit:contain;
- padding:5px;
-}
-.photo-fallback{
- display:none;
- text-align:center;
- padding:5px;
- color:#777;
- font-size:11px;
-}
-.photo-label{
- position:absolute;
- top:5px;
- left:5px;
- background:rgba(255,255,255,.92);
- color:#635c50;
- border-radius:4px;
- padding:3px 5px;
- font-size:8px;
- font-weight:bold;
-}
-.store-watermark{
- position:absolute;
- bottom:5px;
- right:5px;
- background:rgba(25,25,25,.85);
- color:white;
- border-radius:4px;
- padding:3px 5px;
- font-size:8px;
-}
-.product-body{
- padding:8px 7px 9px;
- display:flex;
- flex-direction:column;
- gap:5px;
- flex:1;
-}
-.demo-tag{
- display:inline-block;
- width:max-content;
- max-width:100%;
- padding:3px 5px;
- border-radius:3px;
- background:#eee8dc;
- color:#725b31;
- font-size:8px;
- font-weight:bold;
-}
-.product h3{
- margin:0;
- color:var(--ink);
- font-size:13px;
- line-height:1.25;
- overflow-wrap:anywhere;
-}
-.product-detail,.store{
- color:#68645d;
- font-size:10px;
- line-height:1.35;
- overflow-wrap:anywhere;
-}
-.discount{
- color:#82642d;
- font-size:11px;
- font-weight:bold;
-}
-.old{
- color:#888;
- font-size:10px;
- text-decoration:line-through;
-}
-.price{
- color:var(--ink);
- font-size:19px;
- line-height:1.1;
- font-weight:bold;
-}
-.piece-note{
- color:#74664d;
- font-size:9px;
-}
-.quantity{
- display:flex;
- flex-direction:column;
- gap:5px;
- margin-top:auto;
-}
-.quantity input,.quantity select{
- width:100%;
- min-width:0;
- min-height:36px;
- border:1px solid var(--line);
- border-radius:6px;
- padding:5px;
- background:white;
- font-size:11px;
-}
-.add{
- width:100%;
- min-height:39px;
- padding:6px 3px;
- border:0;
- border-radius:6px;
- background:var(--ink);
- color:white;
- font-size:10px;
- font-weight:bold;
-}
-.empty{
- grid-column:1/-1;
- text-align:center;
- padding:25px 10px;
- color:var(--muted);
- background:white;
- border-radius:8px;
-}
-.cart{
- margin-top:20px;
- padding:15px;
- background:var(--ink);
- color:white;
- border-radius:10px;
-}
-.cart h2{color:white;margin:0 0 10px}
-.cart .section-note{color:#ccc}
-.cart-row{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
- padding:11px 0;
- border-bottom:1px solid #454545;
- font-size:13px;
-}
-.cart-row strong{font-size:14px}
-.cart-row small{
- display:block;
- margin-top:3px;
- color:#c7c2b8;
- font-size:11px;
-}
-.cart-controls{
- display:flex;
- align-items:center;
- flex-wrap:wrap;
- gap:5px;
-}
-.cart-controls button{
- width:35px;
- height:35px;
- border:1px solid #777;
- border-radius:6px;
- background:#333;
- color:white;
- font-size:20px;
-}
-.cart-total{
- margin-top:14px;
- font-size:23px;
- font-weight:bold;
- color:var(--gold-light);
-}
-.cart-summary{
- margin-top:5px;
- color:#ddd6ca;
- font-size:13px;
-}
-.clear{
- margin-top:13px;
- min-height:40px;
- padding:8px 13px;
- border:1px solid #b9a47e;
- border-radius:6px;
- background:transparent;
- color:#f0dfbd;
- font-size:12px;
- font-weight:bold;
-}
-footer{
- padding:22px 12px;
- text-align:center;
- color:#817b70;
- font-size:11px;
-}
-@media(max-width:350px){
- main{padding:8px}
- .products{gap:5px}
- .product-body{padding:6px 5px}
- .product h3{font-size:12px}
- .price{font-size:17px}
- .add{font-size:9px}
+@media(max-width:360px) {
+  #productos {grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
 <header>
- <div class="brand">Tu guía de compras</div>
- <h1>Precios al Día</h1>
- <p>COMPARA · AHORRA · ELIGE MEJOR</p>
+  <h1>🛒 Precios al Día</h1>
+  <p>Compara, encuentra y ahorra</p>
 </header>
 
 <main>
 
-<section class="location">
- <input id="estado" value="Sinaloa" aria-label="Estado">
- <input id="ciudad" value="Mazatlán" aria-label="Ciudad">
-</section>
-
-<section class="search-area">
- <div class="search-title">Buscar productos</div>
-
- <input class="search" id="buscar" type="search"
- placeholder="⌕ Escribe producto, marca o modelo..."
- aria-label="Buscar productos">
-
- <div class="search-actions">
-  <button type="button" class="search-button"
-   id="abrirCamara">📷 Tomar fotografía</button>
-
-  <button type="button" class="search-button secondary"
-   id="abrirGaleria">🖼 Elegir imagen</button>
- </div>
-
- <input class="hidden-file" id="fotoCamara"
-  type="file" accept="image/*" capture="environment">
-
- <input class="hidden-file" id="fotoGaleria"
-  type="file" accept="image/*">
-
- <div class="preview" id="vistaPrevia">
-  <img id="imagenSeleccionada" alt="Vista previa del producto">
-  <div class="image-status" id="estadoImagen">
-   Fotografía seleccionada.
+<section class="panel">
+  <div class="ubicacion-titulo">
+    <h2>📍 Estado y municipios</h2>
   </div>
-  <div class="preview-actions">
-   <button type="button" id="analizarImagen">
-    Preparar búsqueda visual
-   </button>
-   <button type="button" class="remove" id="quitarImagen">
-    Quitar imagen
-   </button>
+
+  <label for="estado">Selecciona tu estado</label>
+  <select id="estado">
+    <option value="">Selecciona un estado</option>
+  </select>
+
+  <label for="municipio">Selecciona tu municipio</label>
+  <select id="municipio" disabled>
+    <option value="">Primero selecciona un estado</option>
+  </select>
+
+  <div id="estadoCarga" class="estado-carga">
+    Cargando catálogo de municipios...
   </div>
- </div>
 </section>
 
-<details class="notice">
- <summary>Información sobre productos y precios</summary>
- <p>Los 15 productos iniciales y sus precios son datos de demostración. No representan ofertas verificadas ni precios actuales de comercios.</p>
- <p>Las fotografías de los productos de demostración son ilustrativas y no garantizan corresponder a la marca o presentación exacta.</p>
- <p>La fotografía seleccionada se muestra en pantalla. El reconocimiento automático requiere conectar un servicio seguro de identificación de imágenes en Cloudflare.</p>
- <p>Los pesos por pieza son promedios orientativos. El peso real puede variar.</p>
-</details>
-
-<section class="filters">
- <select id="tienda" aria-label="Filtrar por establecimiento">
-  <option value="">Todos los establecimientos</option>
-  <option>Walmart</option>
-  <option>Soriana</option>
-  <option>Bodega Aurrera</option>
-  <option>Chedraui</option>
-  <option>Casa Ley</option>
-  <option>Sam's Club</option>
-  <option>OXXO</option>
-  <option>Waldo's</option>
-  <option>Merza</option>
-  <option>Kiosko</option>
-  <option>Costco</option>
-  <option>Súper Naturista</option>
- </select>
-
- <select id="orden" aria-label="Ordenar productos">
-  <option value="descuento">Mayor descuento</option>
-  <option value="precio">Menor precio</option>
-  <option value="nombre">Nombre A-Z</option>
- </select>
-</section>
-
-<div class="categories" id="categorias">
- <button type="button" class="active" data-cat="">Todos</button>
- <button type="button" data-cat="Granos">Granos</button>
- <button type="button" data-cat="Abarrotes">Abarrotes</button>
- <button type="button" data-cat="Lácteos">Lácteos</button>
- <button type="button" data-cat="Frutas">Frutas</button>
- <button type="button" data-cat="Verduras">Verduras</button>
- <button type="button" data-cat="Bebidas">Bebidas</button>
- <button type="button" data-cat="Limpieza">Limpieza</button>
- <button type="button" data-cat="Higiene">Higiene</button>
- <button type="button" data-cat="Belleza">Belleza</button>
- <button type="button" data-cat="Hogar">Hogar</button>
- <button type="button" data-cat="Mascotas">Mascotas</button>
- <button type="button" data-cat="Electrónica">Electrónica</button>
- <button type="button" data-cat="Ropa">Ropa</button>
- <button type="button" data-cat="Otros">Otros</button>
+<div id="avisoDatos" class="aviso">
+  Los precios y productos que aparecen como demostración no son ofertas verificadas.
+  Estamos preparando la conexión con fuentes reales de establecimientos.
 </div>
 
-<div class="section-heading">
- <h2>Productos en oferta al día</h2>
-</div>
-<p class="section-note">
- Productos de demostración · Mazatlán, Sinaloa
-</p>
+<section class="panel">
+  <h2>🔎 Buscar productos</h2>
+  <input id="busqueda" type="search"
+    placeholder="Escribe el nombre de un producto...">
 
-<section class="products" id="productos" aria-live="polite"></section>
+  <div class="botones-foto">
+    <button class="boton" id="botonCamara">📷 Tomar fotografía</button>
+    <button class="boton" id="botonGaleria">🖼️ Elegir imagen</button>
+  </div>
 
-<section class="cart">
- <h2>Mi carrito</h2>
- <div id="carrito" aria-live="polite">
-  <p class="section-note">Todavía no has agregado productos.</p>
- </div>
- <div class="cart-total" id="total">Total: $0.00</div>
- <div class="cart-summary" id="ahorro">Ahorro estimado: $0.00</div>
- <div class="cart-summary" id="promedio">Descuento promedio: 0%</div>
- <button type="button" class="clear" id="vaciar">Vaciar carrito</button>
+  <input id="camara" type="file" accept="image/*" capture="environment" hidden>
+  <input id="galeria" type="file" accept="image/*" hidden>
+
+  <img id="vistaPrevia" alt="Vista previa de imagen">
+
+  <button class="boton-dorado" id="limpiarFoto"
+    style="display:none;width:100%;margin-top:8px">
+    Quitar fotografía
+  </button>
+
+  <p style="font-size:12px;color:#777">
+    La fotografía permite preparar una futura búsqueda visual.
+    El reconocimiento automático de productos todavía requiere integración.
+  </p>
 </section>
+
+<section class="panel">
+  <h2>🗂️ Categorías</h2>
+  <div class="controles">
+    <select id="categoria" class="completo">
+      <option value="Todos">Todas las categorías</option>
+      <option>Granos</option>
+      <option>Abarrotes</option>
+      <option>Lácteos</option>
+      <option>Frutas</option>
+      <option>Verduras</option>
+      <option>Bebidas</option>
+      <option>Limpieza</option>
+      <option>Higiene</option>
+      <option>Belleza</option>
+      <option>Hogar</option>
+      <option>Mascotas</option>
+      <option>Electrónica</option>
+      <option>Ropa</option>
+      <option>Otros</option>
+    </select>
+
+    <select id="tienda">
+      <option value="Todas">Todos los establecimientos</option>
+      <option>Walmart</option>
+      <option>Soriana</option>
+      <option>Bodega Aurrera</option>
+      <option>Chedraui</option>
+      <option>Casa Ley</option>
+      <option>Sam's Club</option>
+      <option>OXXO</option>
+      <option>Waldo's</option>
+      <option>Merza</option>
+      <option>Kiosko</option>
+      <option>Costco</option>
+      <option>Súper Naturista</option>
+    </select>
+
+    <select id="orden">
+      <option value="descuento">Mayor descuento</option>
+      <option value="precio">Menor precio</option>
+      <option value="nombre">Nombre A-Z</option>
+    </select>
+  </div>
+</section>
+
+<section>
+  <h2>🔥 Productos en oferta al día</h2>
+  <p id="subtitulo" style="font-size:13px;color:#777">
+    Selecciona tu ubicación.
+  </p>
+  <div id="productos"></div>
+</section>
+
+<section class="carrito">
+  <h2>🛍️ Mi carrito</h2>
+  <div id="listaCarrito">Tu carrito está vacío.</div>
+  <div class="total" id="total">$0.00</div>
+  <div class="resumen" id="resumen">
+    Agrega productos para calcular tu compra.
+  </div>
+  <button class="boton-dorado" id="vaciarCarrito"
+    style="width:100%;margin-top:12px">
+    Vaciar carrito
+  </button>
+</section>
+
 </main>
 
-<footer>PRECIOS AL DÍA · COMPARA Y AHORRA</footer>
-
+<footer>
+  Precios al Día · Comparar para ahorrar
+</footer>
 <script>
-"use strict";
-
-const productos = [
-{id:1,n:"Arroz blanco",marca:"No especificada",contenido:"Paquete de 1 kg",tienda:"Walmart",cat:"Granos",precio:28,antes:35,imagen:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500",tipo:"paquete",unidad:"paquete"},
-{id:2,n:"Frijol negro",marca:"No especificada",contenido:"Paquete de 1 kg",tienda:"Soriana",cat:"Granos",precio:32,antes:40,imagen:"https://images.unsplash.com/photo-1551462147-ff29053bfc14?w=500",tipo:"paquete",unidad:"paquete"},
-{id:3,n:"Leche entera",marca:"No especificada",contenido:"Envase de 1 litro",tienda:"Bodega Aurrera",cat:"Lácteos",precio:23,antes:29,imagen:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500",tipo:"paquete",unidad:"paquete"},
-{id:4,n:"Huevo blanco",marca:"No especificada",contenido:"Paquete de 18 piezas",tienda:"Casa Ley",cat:"Abarrotes",precio:48,antes:60,imagen:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500",tipo:"paquete",unidad:"paquete"},
-{id:5,n:"Plátano",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Chedraui",cat:"Frutas",precio:19,antes:27,imagen:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500",tipo:"peso",unidad:"kg",pesoPieza:120},
-{id:6,n:"Manzana roja",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Walmart",cat:"Frutas",precio:35,antes:49,imagen:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500",tipo:"peso",unidad:"kg",pesoPieza:180},
-{id:7,n:"Jitomate",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Soriana",cat:"Verduras",precio:22,antes:30,imagen:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500",tipo:"peso",unidad:"kg",pesoPieza:150},
-{id:8,n:"Papa blanca",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Bodega Aurrera",cat:"Verduras",precio:18,antes:25,imagen:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500",tipo:"peso",unidad:"kg",pesoPieza:180},
-{id:9,n:"Aceite vegetal",marca:"No especificada",contenido:"Botella de 1 litro",tienda:"Casa Ley",cat:"Abarrotes",precio:34,antes:42,imagen:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500",tipo:"paquete",unidad:"paquete"},
-{id:10,n:"Agua natural",marca:"No especificada",contenido:"Botella de 1 litro",tienda:"OXXO",cat:"Bebidas",precio:12,antes:16,imagen:"https://images.unsplash.com/photo-1560023907-5f339617ea30?w=500",tipo:"paquete",unidad:"paquete"},
-{id:11,n:"Detergente",marca:"No especificada",contenido:"Bolsa de 1 kg",tienda:"Walmart",cat:"Limpieza",precio:39,antes:50,imagen:"https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500",tipo:"paquete",unidad:"paquete"},
-{id:12,n:"Naranja",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Merza",cat:"Frutas",precio:17,antes:22,imagen:"https://images.unsplash.com/photo-1547514701-42782101795e?w=500",tipo:"peso",unidad:"kg",pesoPieza:200},
-{id:13,n:"Zanahoria",marca:"Producto fresco",contenido:"Venta por kilogramo",tienda:"Soriana",cat:"Verduras",precio:14,antes:19,imagen:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=500",tipo:"peso",unidad:"kg",pesoPieza:100},
-{id:14,n:"Refresco",marca:"No especificada",contenido:"Botella de 2 litros",tienda:"Chedraui",cat:"Bebidas",precio:29,antes:36,imagen:"https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=500",tipo:"paquete",unidad:"paquete"},
-{id:15,n:"Papel higiénico",marca:"No especificada",contenido:"Paquete de 4 rollos",tienda:"Waldo's",cat:"Limpieza",precio:25,antes:32,imagen:"https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=500",tipo:"paquete",unidad:"paquete"}
+const estados = [
+  "Aguascalientes","Baja California","Baja California Sur",
+  "Campeche","Chiapas","Chihuahua","Ciudad de México",
+  "Coahuila de Zaragoza","Colima","Durango","Guanajuato",
+  "Guerrero","Hidalgo","Jalisco","México","Michoacán de Ocampo",
+  "Morelos","Nayarit","Nuevo León","Oaxaca","Puebla",
+  "Querétaro","Quintana Roo","San Luis Potosí","Sinaloa",
+  "Sonora","Tabasco","Tamaulipas","Tlaxcala",
+  "Veracruz de Ignacio de la Llave","Yucatán","Zacatecas"
 ];
 
-let categoriaActual="";
-let carrito=[];
-let archivoImagen=null;
-let urlImagen=null;
+const municipiosSinaloa = [
+  "Ahome","Angostura","Badiraguato","Concordia","Cosalá",
+  "Culiacán","Choix","Elota","Escuinapa","El Fuerte",
+  "Guasave","Mazatlán","Mocorito","Navolato","Rosario",
+  "Salvador Alvarado","San Ignacio","Sinaloa"
+];
 
-const dinero=n=>"$"+n.toFixed(2);
-const descuento=p=>Math.round((1-p.precio/p.antes)*100);
+const datosMunicipiosURL =
+  "https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json";
 
-function opcionesUnidad(p){
- if(p.tipo==="peso"){
-  return '<option value="kg">Kilogramos (kg)</option><option value="g">Gramos (g)</option><option value="pieza">Piezas</option>';
- }
- return '<option value="paquete">Paquetes completos</option>';
-}
+const productosDemo = [
+  {id:1,nombre:"Arroz",categoria:"Granos",tienda:"Walmart",precio:24.90,anterior:29.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500",descuento:17},
+  {id:2,nombre:"Frijol",categoria:"Granos",tienda:"Soriana",precio:32.90,anterior:39.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1515543904379-3d757afe72e4?w=500",descuento:18},
+  {id:3,nombre:"Leche",categoria:"Lácteos",tienda:"Casa Ley",precio:25.00,anterior:29.00,unidad:"litro",imagen:"https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500",descuento:14},
+  {id:4,nombre:"Huevo",categoria:"Abarrotes",tienda:"Walmart",precio:48.00,anterior:55.00,unidad:"kg",imagen:"https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=500",descuento:13},
+  {id:5,nombre:"Plátano",categoria:"Frutas",tienda:"Bodega Aurrera",precio:19.90,anterior:24.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500",descuento:20},
+  {id:6,nombre:"Manzana",categoria:"Frutas",tienda:"Soriana",precio:35.90,anterior:42.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=500",descuento:16},
+  {id:7,nombre:"Jitomate",categoria:"Verduras",tienda:"Casa Ley",precio:22.90,anterior:29.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=500",descuento:23},
+  {id:8,nombre:"Papa",categoria:"Verduras",tienda:"Walmart",precio:25.00,anterior:30.00,unidad:"kg",imagen:"https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500",descuento:17},
+  {id:9,nombre:"Aceite",categoria:"Abarrotes",tienda:"Soriana",precio:38.90,anterior:45.90,unidad:"litro",imagen:"https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500",descuento:15},
+  {id:10,nombre:"Agua",categoria:"Bebidas",tienda:"OXXO",precio:12.00,anterior:15.00,unidad:"pieza",imagen:"https://images.unsplash.com/photo-1523362628745-0c100150b504?w=500",descuento:20},
+  {id:11,nombre:"Detergente",categoria:"Limpieza",tienda:"Walmart",precio:42.90,anterior:52.90,unidad:"pieza",imagen:"https://images.unsplash.com/photo-1585421514738-01798e348b17?w=500",descuento:19},
+  {id:12,nombre:"Naranja",categoria:"Frutas",tienda:"Casa Ley",precio:18.90,anterior:24.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1547514701-42782101795e?w=500",descuento:24},
+  {id:13,nombre:"Zanahoria",categoria:"Verduras",tienda:"Soriana",precio:15.90,anterior:19.90,unidad:"kg",imagen:"https://images.unsplash.com/photo-1445282768818-728615cc910a?w=500",descuento:20},
+  {id:14,nombre:"Refresco",categoria:"Bebidas",tienda:"OXXO",precio:19.00,anterior:23.00,unidad:"pieza",imagen:"https://images.unsplash.com/photo-1554866585-cd94860890b7?w=500",descuento:17},
+  {id:15,nombre:"Papel higiénico",categoria:"Higiene",tienda:"Walmart",precio:39.90,anterior:49.90,unidad:"paquete",imagen:"https://images.unsplash.com/photo-1584556812952-905ffd0c611a?w=500",descuento:20}
+];
 
-function factorUnidad(p,u){
- if(u==="kg")return 1;
- if(u==="g")return .001;
- if(u==="pieza")return (p.pesoPieza||0)/1000;
- return 1;
-}
+let catalogoMunicipios = null;
+let carrito = [];
+let fotoSeleccionada = null;
 
-function unidadTexto(u){
- return ({kg:"kg",g:"g",pieza:"piezas",paquete:"paquetes"})[u]||u;
-}
+const $ = id => document.getElementById(id);
 
-function pasoUnidad(u){
- if(u==="kg")return .1;
- if(u==="g")return 100;
- return 1;
-}
-
-function configurarCantidad(id,reiniciar=false){
- const entrada=document.getElementById("cant-"+id);
- const selector=document.getElementById("unidad-"+id);
- if(!entrada||!selector)return;
- const paso=pasoUnidad(selector.value);
- entrada.min=paso;
- entrada.step=paso;
- if(reiniciar)entrada.value=paso;
-}
-
-function mostrarProductos(){
- const buscar=document.getElementById("buscar").value.trim().toLowerCase();
- const tienda=document.getElementById("tienda").value;
- const orden=document.getElementById("orden").value;
-
- let lista=productos.filter(p=>
-  (p.n+" "+p.marca+" "+p.contenido+" "+p.tienda+" "+p.cat).toLowerCase().includes(buscar)&&
-  (!tienda||p.tienda===tienda)&&
-  (!categoriaActual||p.cat===categoriaActual)
- );
-
- if(orden==="descuento")lista.sort((a,b)=>descuento(b)-descuento(a));
- if(orden==="precio")lista.sort((a,b)=>a.precio-b.precio);
- if(orden==="nombre")lista.sort((a,b)=>a.n.localeCompare(b.n,"es"));
-
- const cont=document.getElementById("productos");
-
- if(!lista.length){
-  cont.innerHTML='<div class="empty">No encontramos productos con esos filtros.</div>';
-  return;
- }
-
- cont.innerHTML=lista.map(p=>`
- <article class="product">
-  <div class="photo-wrap">
-   <img class="photo" src="${p.imagen}" alt="Imagen ilustrativa de ${p.n}"
-    loading="lazy"
-    onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
-   <div class="photo-fallback">📦<br>Imagen no disponible<br>${p.n}</div>
-   <div class="photo-label">ILUSTRATIVA</div>
-   <div class="store-watermark">${p.tienda}</div>
-  </div>
-  <div class="product-body">
-   <span class="demo-tag">PRODUCTO DEMO</span>
-   <h3>${p.n}</h3>
-   <div class="product-detail">${p.marca}</div>
-   <div class="product-detail">${p.contenido}</div>
-   <div class="store">${p.tienda}</div>
-   <div class="discount">${descuento(p)}% de descuento demo</div>
-   <div class="old">Antes: ${dinero(p.antes)}</div>
-   <div class="price">${dinero(p.precio)}</div>
-   ${p.pesoPieza?`<div class="piece-note">Aprox. ${p.pesoPieza} g por pieza. El peso real puede variar.</div>`:""}
-   <div class="quantity">
-    <input type="number" min="1" step="1" value="1" id="cant-${p.id}" aria-label="Cantidad de ${p.n}">
-    <select id="unidad-${p.id}" aria-label="Unidad de ${p.n}">
-     ${opcionesUnidad(p)}
-    </select>
-   </div>
-   <button type="button" class="add" onclick="agregar(${p.id})">+ Agregar</button>
-  </div>
- </article>
- `).join("");
-
- lista.forEach(p=>{
-  configurarCantidad(p.id);
-  document.getElementById("unidad-"+p.id).addEventListener("change",()=>{
-   configurarCantidad(p.id,true);
+const formato = numero =>
+  numero.toLocaleString("es-MX", {
+    style:"currency",
+    currency:"MXN"
   });
- });
+
+function normalizarTexto(texto) {
+  return String(texto)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .toLowerCase()
+    .trim();
 }
 
-function agregar(id){
- const p=productos.find(x=>x.id===id);
- const entrada=document.getElementById("cant-"+id);
- const cantidad=parseFloat(entrada.value);
- const unidad=document.getElementById("unidad-"+id).value;
- const paso=pasoUnidad(unidad);
+function obtenerNombreCatalogo(estado) {
+  const equivalencias = {
+    "Coahuila de Zaragoza":"Coahuila",
+    "México":"Estado de México",
+    "Michoacán de Ocampo":"Michoacán",
+    "Veracruz de Ignacio de la Llave":"Veracruz"
+  };
 
- if(!Number.isFinite(cantidad)||cantidad<=0){
-  alert("Escribe una cantidad válida.");
-  entrada.focus();
-  return;
- }
- if((p.tipo==="paquete"||unidad==="pieza")&&!Number.isInteger(cantidad)){
-  alert("Los paquetes y las piezas se seleccionan en cantidades completas.");
-  entrada.focus();
-  return;
- }
- if(unidad==="pieza"&&!p.pesoPieza){
-  alert("No hay un peso promedio configurado.");
-  return;
- }
- if(unidad==="g"&&cantidad%paso!==0){
-  alert("Selecciona incrementos de 100 gramos.");
-  entrada.focus();
-  return;
- }
- if(unidad==="kg"&&Math.abs(cantidad*10-Math.round(cantidad*10))>1e-8){
-  alert("Selecciona incrementos de 0.1 kg.");
-  entrada.focus();
-  return;
- }
-
- const existente=carrito.find(x=>x.id===id&&x.unidad===unidad);
- if(existente)existente.cantidad+=cantidad;
- else carrito.push({id,unidad,cantidad});
- mostrarCarrito();
+  return equivalencias[estado] || estado;
 }
 
-function precioLinea(item){
- const p=productos.find(x=>x.id===item.id);
- return p.precio*item.cantidad*factorUnidad(p,item.unidad);
+function llenarEstados() {
+  estados.forEach(nombre => {
+    const opcion = document.createElement("option");
+    opcion.value = nombre;
+    opcion.textContent = nombre;
+    $("estado").appendChild(opcion);
+  });
+
+  $("estado").value = "Sinaloa";
 }
 
-function mostrarCarrito(){
- const cont=document.getElementById("carrito");
+function normalizarListaMunicipios(datos) {
+  if (!Array.isArray(datos)) return [];
 
- if(!carrito.length){
-  cont.innerHTML='<p class="section-note">Todavía no has agregado productos.</p>';
-  document.getElementById("total").textContent="Total: $0.00";
-  document.getElementById("ahorro").textContent="Ahorro estimado: $0.00";
-  document.getElementById("promedio").textContent="Descuento promedio: 0%";
-  return;
- }
+  return datos.map(item => {
+    if (typeof item === "string") return item;
 
- cont.innerHTML=carrito.map((item,i)=>{
-  const p=productos.find(x=>x.id===item.id);
-  return `<div class="cart-row">
-   <div><strong>${p.n}</strong>
-   <small>${item.cantidad} ${unidadTexto(item.unidad)} · ${p.tienda}</small>
-   ${item.unidad==="pieza"?`<small>Peso promedio: ${p.pesoPieza} g por pieza.</small>`:""}
-   </div>
-   <div class="cart-controls">
-    <button type="button" onclick="cambiar(${i},-1)">−</button>
-    <button type="button" onclick="cambiar(${i},1)">+</button>
-    <strong>${dinero(precioLinea(item))}</strong>
-    <button type="button" onclick="quitar(${i})">×</button>
-   </div>
-  </div>`;
- }).join("");
+    if (item && typeof item === "object") {
+      return item.nombre || item.municipio ||
+             item.name || item.Municipio || "";
+    }
 
- const total=carrito.reduce((s,x)=>s+precioLinea(x),0);
- const ahorro=carrito.reduce((s,x)=>{
-  const p=productos.find(y=>y.id===x.id);
-  return s+(p.antes-p.precio)*x.cantidad*factorUnidad(p,x.unidad);
- },0);
- const base=total+ahorro;
-
- document.getElementById("total").textContent="Total: "+dinero(total);
- document.getElementById("ahorro").textContent="Ahorro estimado: "+dinero(ahorro);
- document.getElementById("promedio").textContent=
-  "Descuento promedio: "+(base?Math.round(ahorro/base*100):0)+"%";
+    return "";
+  }).filter(Boolean);
 }
 
-function cambiar(i,d){
- const item=carrito[i];
- const nueva=Number((item.cantidad+d*pasoUnidad(item.unidad)).toFixed(3));
- if(nueva<=0)carrito.splice(i,1);
- else item.cantidad=nueva;
- mostrarCarrito();
+function obtenerListaDelCatalogo(estado) {
+  if (!catalogoMunicipios) return [];
+
+  const nombre = obtenerNombreCatalogo(estado);
+  const clave = Object.keys(catalogoMunicipios).find(
+    key => normalizarTexto(key) === normalizarTexto(nombre)
+  );
+
+  if (clave) {
+    return normalizarListaMunicipios(catalogoMunicipios[clave]);
+  }
+
+  if (Array.isArray(catalogoMunicipios.estados)) {
+    const encontrado = catalogoMunicipios.estados.find(item =>
+      item && normalizarTexto(
+        item.nombre || item.estado || item.name || ""
+      ) === normalizarTexto(nombre)
+    );
+
+    if (encontrado) {
+      return normalizarListaMunicipios(encontrado.municipios);
+    }
+  }
+
+  return [];
 }
 
-function quitar(i){
- carrito.splice(i,1);
- mostrarCarrito();
+async function cargarCatalogoMunicipios() {
+  $("estadoCarga").textContent =
+    "Conectando con el catálogo nacional de municipios...";
+
+  try {
+    const respuesta = await fetch(datosMunicipiosURL);
+
+    if (!respuesta.ok) {
+      throw new Error("No se pudo consultar el catálogo");
+    }
+
+    const datos = await respuesta.json();
+
+    if (!datos || typeof datos !== "object") {
+      throw new Error("Formato incorrecto");
+    }
+
+    catalogoMunicipios = datos;
+    $("estadoCarga").textContent =
+      "Catálogo nacional descargado. Verificando municipios...";
+  } catch (error) {
+    catalogoMunicipios = null;
+    $("estadoCarga").textContent =
+      "No se pudo descargar el catálogo nacional. Se dispone de respaldo para Sinaloa.";
+  }
+
+  cargarMunicipios();
 }
 
-/* Cámara y selección de imágenes */
-const fotoCamara=document.getElementById("fotoCamara");
-const fotoGaleria=document.getElementById("fotoGaleria");
-const vistaPrevia=document.getElementById("vistaPrevia");
-const imagenSeleccionada=document.getElementById("imagenSeleccionada");
-const estadoImagen=document.getElementById("estadoImagen");
+function cargarMunicipios() {
+  const estado = $("estado").value;
+  const selector = $("municipio");
 
-document.getElementById("abrirCamara").addEventListener("click",()=>{
- fotoCamara.click();
-});
+  selector.innerHTML = "";
 
-document.getElementById("abrirGaleria").addEventListener("click",()=>{
- fotoGaleria.click();
-});
+  const inicial = document.createElement("option");
+  inicial.value = "";
+  inicial.textContent = "Selecciona un municipio";
+  selector.appendChild(inicial);
 
-function seleccionarImagen(archivo){
- if(!archivo)return;
+  let lista = obtenerListaDelCatalogo(estado);
 
- if(!archivo.type.startsWith("image/")){
-  alert("Selecciona un archivo de imagen.");
-  return;
- }
+  if (lista.length === 0 && estado === "Sinaloa") {
+    lista = [...municipiosSinaloa];
+  }
 
- if(archivo.size>10*1024*1024){
-  alert("La imagen debe pesar menos de 10 MB.");
-  return;
- }
+  lista = [...new Set(lista)].sort((a,b) =>
+    a.localeCompare(b,"es")
+  );
 
- if(urlImagen)URL.revokeObjectURL(urlImagen);
+  lista.forEach(nombre => {
+    const opcion = document.createElement("option");
+    opcion.value = nombre;
+    opcion.textContent = nombre;
+    selector.appendChild(opcion);
+  });
 
- archivoImagen=archivo;
- urlImagen=URL.createObjectURL(archivo);
- imagenSeleccionada.src=urlImagen;
- vistaPrevia.style.display="block";
+  selector.disabled = lista.length === 0;
 
- estadoImagen.textContent=
-  "Fotografía seleccionada correctamente. La identificación automática todavía necesita conexión con el servicio de reconocimiento.";
+  if (estado === "Sinaloa" && lista.includes("Mazatlán")) {
+    selector.value = "Mazatlán";
+  }
+
+  if (lista.length === 0) {
+    inicial.textContent = "Catálogo no disponible para este estado";
+  }
+
+  actualizarUbicacion();
 }
 
-fotoCamara.addEventListener("change",e=>{
- seleccionarImagen(e.target.files[0]);
- e.target.value="";
-});
+function esUbicacionDemo() {
+  return $("estado").value === "Sinaloa" &&
+         $("municipio").value === "Mazatlán";
+}
 
-fotoGaleria.addEventListener("change",e=>{
- seleccionarImagen(e.target.files[0]);
- e.target.value="";
-});
+function actualizarUbicacion() {
+  const estado = $("estado").value;
+  const municipio = $("municipio").value;
 
-document.getElementById("quitarImagen").addEventListener("click",()=>{
- archivoImagen=null;
- imagenSeleccionada.removeAttribute("src");
- vistaPrevia.style.display="none";
- if(urlImagen)URL.revokeObjectURL(urlImagen);
- urlImagen=null;
-});
+  $("subtitulo").textContent = municipio
+    ? municipio + ", " + estado
+    : "Selecciona un municipio para consultar la zona.";
 
-document.getElementById("analizarImagen").addEventListener("click",()=>{
- if(!archivoImagen){
-  alert("Primero toma una fotografía o elige una imagen.");
-  return;
- }
+  if (esUbicacionDemo()) {
+    $("avisoDatos").className = "aviso";
+    $("avisoDatos").textContent =
+      "⚠️ Estás viendo productos de demostración. Sus precios, descuentos, fotografías y establecimientos son ilustrativos; no son ofertas verificadas ni precios actuales de tiendas.";
+  } else {
+    $("avisoDatos").className = "aviso aviso-verde";
+    $("avisoDatos").textContent =
+      "Todavía no tenemos ofertas verificadas para esta ubicación. No mostraremos precios inventados. Estamos preparando la conexión con fuentes de establecimientos.";
+  }
 
- estadoImagen.textContent=
-  "La imagen está lista, pero todavía falta conectar el servicio seguro de reconocimiento visual en Cloudflare. No se ha identificado ningún producto ni consultado precios.";
-});
+  mostrarProductos();
+}
+function mostrarProductos() {
+  const contenedor = $("productos");
+  contenedor.innerHTML = "";
 
-/* Filtros y carrito */
-document.getElementById("buscar").addEventListener("input",mostrarProductos);
-document.getElementById("tienda").addEventListener("change",mostrarProductos);
-document.getElementById("orden").addEventListener("change",mostrarProductos);
+  if (!esUbicacionDemo()) {
+    contenedor.innerHTML = `
+      <div class="sin-resultados">
+        <h3>📍 Estamos preparando esta ubicación</h3>
+        <p>
+          Todavía no hay ofertas verificadas disponibles para este municipio.
+          Cuando conectemos fuentes reales de comercios, aparecerán aquí.
+        </p>
+      </div>`;
+    return;
+  }
 
-document.getElementById("categorias").addEventListener("click",e=>{
- const b=e.target.closest("button[data-cat]");
- if(!b)return;
- categoriaActual=b.dataset.cat;
- document.querySelectorAll("#categorias button").forEach(x=>
-  x.classList.toggle("active",x===b)
- );
- mostrarProductos();
-});
+  const texto = $("busqueda").value.toLowerCase().trim();
+  const categoria = $("categoria").value;
+  const tienda = $("tienda").value;
+  const orden = $("orden").value;
 
-document.getElementById("vaciar").addEventListener("click",()=>{
- if(confirm("¿Quieres vaciar el carrito?")){
-  carrito=[];
+  let lista = productosDemo.filter(producto => {
+    return producto.nombre.toLowerCase().includes(texto) &&
+      (categoria === "Todos" || producto.categoria === categoria) &&
+      (tienda === "Todas" || producto.tienda === tienda);
+  });
+
+  if (orden === "descuento") {
+    lista.sort((a,b) => b.descuento - a.descuento);
+  } else if (orden === "precio") {
+    lista.sort((a,b) => a.precio - b.precio);
+  } else {
+    lista.sort((a,b) => a.nombre.localeCompare(b.nombre));
+  }
+
+  if (lista.length === 0) {
+    contenedor.innerHTML = `
+      <div class="sin-resultados">
+        No encontramos productos con esos filtros.
+        Prueba con otra búsqueda o categoría.
+      </div>`;
+    return;
+  }
+
+  lista.forEach(producto => {
+    const tarjeta = document.createElement("article");
+    tarjeta.className = "producto";
+
+    tarjeta.innerHTML = `
+      <img src="${producto.imagen}" alt="${producto.nombre}"
+        loading="lazy"
+        onerror="this.src='https://placehold.co/400x250?text=Producto'">
+
+      <div class="producto-contenido">
+        <span class="etiqueta">DEMOSTRACIÓN · ${producto.descuento}%</span>
+        <h3>${producto.nombre}</h3>
+        <div class="precio">${formato(producto.precio)}</div>
+        <div class="precio-anterior">
+          Antes: ${formato(producto.anterior)}
+        </div>
+        <div class="tienda">
+          ${producto.tienda} · ${producto.categoria}
+        </div>
+
+        <div class="cantidad">
+          <input type="number" min="0.1" step="0.1"
+            value="1" id="cantidad-${producto.id}">
+          <select id="unidad-${producto.id}">
+            <option value="${producto.unidad}">
+              ${producto.unidad}
+            </option>
+            <option value="pieza">pieza</option>
+            <option value="kg">kg</option>
+            <option value="litro">litro</option>
+            <option value="paquete">paquete</option>
+          </select>
+        </div>
+
+        <button class="boton-verde"
+          onclick="agregar(${producto.id})">
+          Agregar al carrito
+        </button>
+      </div>`;
+
+    contenedor.appendChild(tarjeta);
+  });
+}
+
+function agregar(id) {
+  const producto = productosDemo.find(p => p.id === id);
+  const cantidad = Number($("cantidad-" + id).value);
+  const unidad = $("unidad-" + id).value;
+
+  if (!Number.isFinite(cantidad) || cantidad <= 0) {
+    alert("Introduce una cantidad válida.");
+    return;
+  }
+
+  const existente = carrito.find(item =>
+    item.id === id && item.unidad === unidad
+  );
+
+  if (existente) {
+    existente.cantidad += cantidad;
+  } else {
+    carrito.push({
+      id:producto.id,
+      nombre:producto.nombre,
+      tienda:producto.tienda,
+      precio:producto.precio,
+      anterior:producto.anterior,
+      cantidad: cantidad,
+      unidad: unidad
+    });
+  }
+
   mostrarCarrito();
- }
+}
+
+function mostrarCarrito() {
+  const contenedor = $("listaCarrito");
+  contenedor.innerHTML = "";
+
+  if (carrito.length === 0) {
+    contenedor.textContent = "Tu carrito está vacío.";
+    $("total").textContent = formato(0);
+    $("resumen").textContent =
+      "Agrega productos para calcular tu compra.";
+    return;
+  }
+
+  let total = 0;
+  let ahorro = 0;
+
+  carrito.forEach((item,index) => {
+    const subtotal = item.precio * item.cantidad;
+    const ahorroItem =
+      Math.max(0,item.anterior-item.precio) * item.cantidad;
+
+    total += subtotal;
+    ahorro += ahorroItem;
+
+    const fila = document.createElement("div");
+    fila.className = "item-carrito";
+
+    fila.innerHTML = `
+      <strong>${item.nombre}</strong><br>
+      ${item.tienda}<br>
+      ${item.cantidad} ${item.unidad} × ${formato(item.precio)}
+      <br>
+      Subtotal: ${formato(subtotal)}
+      <br>
+      <button class="boton-dorado"
+        onclick="cambiarCantidad(${index},-1)">−</button>
+      <button class="boton-dorado"
+        onclick="cambiarCantidad(${index},1)">+</button>
+      <button class="boton"
+        onclick="quitar(${index})">Eliminar</button>
+    `;
+
+    contenedor.appendChild(fila);
+  });
+
+  const porcentajeAhorro = total + ahorro > 0
+    ? ahorro / (total + ahorro) * 100
+    : 0;
+
+  $("total").textContent = formato(total);
+
+  $("resumen").innerHTML = `
+    Ahorro estimado de demostración: ${formato(ahorro)}<br>
+    Descuento promedio ponderado: ${porcentajeAhorro.toFixed(1)}%<br>
+    <small>
+      Cálculos ilustrativos basados en precios de demostración.
+    </small>`;
+}
+
+function cambiarCantidad(index,cambio) {
+  if (!carrito[index]) return;
+
+  carrito[index].cantidad += cambio;
+
+  if (carrito[index].cantidad <= 0) {
+    carrito.splice(index,1);
+  }
+
+  mostrarCarrito();
+}
+
+function quitar(index) {
+  carrito.splice(index,1);
+  mostrarCarrito();
+}
+
+function limpiarCarrito() {
+  if (carrito.length === 0) return;
+
+  if (confirm("¿Deseas vaciar el carrito?")) {
+    carrito = [];
+    mostrarCarrito();
+  }
+}
+
+function prepararFoto(archivo) {
+  if (!archivo) return;
+
+  if (!archivo.type.startsWith("image/")) {
+    alert("Selecciona un archivo de imagen.");
+    return;
+  }
+
+  if (fotoSeleccionada) {
+    URL.revokeObjectURL(fotoSeleccionada);
+  }
+
+  fotoSeleccionada = URL.createObjectURL(archivo);
+
+  $("vistaPrevia").src = fotoSeleccionada;
+  $("vistaPrevia").style.display = "block";
+  $("limpiarFoto").style.display = "block";
+
+  alert(
+    "Fotografía cargada. El reconocimiento automático todavía no está conectado."
+  );
+}
+
+function quitarFoto() {
+  if (fotoSeleccionada) {
+    URL.revokeObjectURL(fotoSeleccionada);
+  }
+
+  fotoSeleccionada = null;
+  $("vistaPrevia").removeAttribute("src");
+  $("vistaPrevia").style.display = "none";
+  $("limpiarFoto").style.display = "none";
+  $("camara").value = "";
+  $("galeria").value = "";
+}
+
+$("estado").addEventListener("change",cargarMunicipios);
+$("municipio").addEventListener("change",actualizarUbicacion);
+$("busqueda").addEventListener("input",mostrarProductos);
+$("categoria").addEventListener("change",mostrarProductos);
+$("tienda").addEventListener("change",mostrarProductos);
+$("orden").addEventListener("change",mostrarProductos);
+
+$("botonCamara").addEventListener("click",() => {
+  $("camara").click();
 });
 
-mostrarProductos();
-mostrarCarrito();
-</script>
+$("botonGaleria").addEventListener("click",() => {
+  $("galeria").click();
+});
 
-<script>
-/* Registro del servicio para funcionamiento sin conexión */
+$("camara").addEventListener("change",event => {
+  prepararFoto(event.target.files[0]);
+});
+
+$("galeria").addEventListener("change",event => {
+  prepararFoto(event.target.files[0]);
+});
+
+$("limpiarFoto").addEventListener("click",quitarFoto);
+$("vaciarCarrito").addEventListener("click",limpiarCarrito);
+
+llenarEstados();
+cargarCatalogoMunicipios();
+mostrarCarrito();
+
 if ("serviceWorker" in navigator) {
- window.addEventListener("load", () => {
-  navigator.serviceWorker.register("./service-worker.js")
-   .then(() => {
-    console.log("Servicio sin conexión registrado correctamente.");
-   })
-   .catch(error => {
-    console.error("Error al registrar el servicio:", error);
-   });
- });
+  window.addEventListener("load",() => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .catch(error => console.log("Service Worker:",error));
+  });
 }
 </script>
-
 </body>
 </html>
