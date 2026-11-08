@@ -1,776 +1,739 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#171717">
-<meta name="description" content="Precios al Día: consulta, registra y compara ofertas y precios en México.">
-<link rel="manifest" href="./manifest.json">
-<title>Precios al Día</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101810">
+  <meta name="description" content="Compara precios y encuentra ofertas verificables en México.">
+  <title>Precios al Día</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon-192.png">
+  <style>
+    :root {
+      --fondo: #101810;
+      --panel: #19251b;
+      --panel2: #223126;
+      --verde: #a8d66d;
+      --dorado: #e6c46a;
+      --texto: #f5f5ed;
+      --suave: #aeb9aa;
+      --borde: #344536;
+      --rojo: #ff8989;
+    }
 
-<style>
-:root{
---fondo:#f5f2e9;--oscuro:#171717;--dorado:#d5ad55;
---verde:#176b45;--blanco:#fff;--gris:#777;
---borde:#e5dfd2;--rojo:#a33b30;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--fondo);color:var(--oscuro);font-family:Arial,Helvetica,sans-serif}
-header{background:var(--oscuro);color:white;text-align:center;padding:20px 12px;border-bottom:4px solid var(--dorado)}
-header h1{margin:0;font-size:27px}
-header p{color:#e5cf9b;font-size:13px;margin:7px 0 0}
-main{max-width:1150px;margin:auto;padding:14px}
-.panel{background:white;padding:15px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000c}
-h2{font-size:19px;margin:0 0 12px}
-h3{font-size:16px}
-label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}
-input,select,textarea,button{font:inherit}
-input,select,textarea{
-width:100%;padding:12px;border:1px solid var(--borde);
-border-radius:9px;background:white;min-width:0
-}
-textarea{resize:vertical;min-height:75px}
-button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:bold}
-button:disabled{opacity:.5;cursor:not-allowed}
-.boton{background:var(--oscuro);color:white}
-.dorado{background:var(--dorado);color:#171717}
-.verde{background:var(--verde);color:white}
-.rojo{background:#f7e8e5;color:var(--rojo)}
-.secundario{background:#eee;color:#333}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.completo{grid-column:1/-1}
-.aviso{background:#fff5dc;border:1px solid #ead49c;color:#624b16;padding:12px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:14px}
-.aviso-verde{background:#e9f5ed;border-color:#b8d9c1;color:#205b35}
-.nota{font-size:12px;color:#666;line-height:1.5}
-.pestanas{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.pestana{background:#eee;color:#333}
-.pestana.activa{background:var(--oscuro);color:white}
-.seccion{display:none}
-.seccion.activa{display:block}
-.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.barra h2{margin:0}
-.productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
-.producto{background:white;border:1px solid var(--borde);border-radius:13px;overflow:hidden;min-width:0}
-.producto img{width:100%;height:155px;object-fit:contain;background:#f4f1e9}
-.producto-cuerpo{padding:12px}
-.producto h3{margin:4px 0 8px;min-height:36px}
-.precio{font-size:23px;font-weight:bold;color:var(--verde)}
-.precio-anterior{font-size:13px;color:#888;text-decoration:line-through}
-.descuento{display:inline-block;background:#e9f5ed;color:#176b45;padding:5px 8px;border-radius:7px;font-size:12px;font-weight:bold}
-.etiqueta{font-size:11px;color:#666;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}
-.producto-acciones{display:flex;gap:7px;margin-top:10px}
-.producto-acciones button{flex:1;font-size:12px}
-.vacio{padding:25px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6}
-.carrito{background:#202020;color:white;border-radius:14px;padding:15px;margin-top:16px}
-.carrito h2{color:var(--dorado)}
-.item-carrito{border-bottom:1px solid #444;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
-.cantidad{display:flex;align-items:center;gap:8px}
-.cantidad button{padding:6px 10px;background:#444;color:white}
-.total{font-size:24px;color:var(--dorado);font-weight:bold;margin-top:12px}
-.resumen{font-size:13px;color:#ddd;line-height:1.8;margin-top:8px}
-.enlace{display:inline-block;text-decoration:none;background:var(--verde);color:white;padding:12px 15px;border-radius:9px;font-weight:bold;margin:5px 5px 5px 0}
-footer{text-align:center;padding:25px 10px;font-size:12px;color:#777}
-hr{border:0;border-top:1px solid var(--borde);margin:16px 0}
-.oculto{display:none!important}
-@media(max-width:600px){
-.grid{grid-template-columns:1fr}
-.completo{grid-column:auto}
-.productos{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.producto img{height:125px}
-.producto-cuerpo{padding:9px}
-.producto h3{font-size:14px}
-.precio{font-size:19px}
-.producto-acciones{flex-direction:column}
-}
-</style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--fondo);
+      color: var(--texto);
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 22px 16px;
+      background: linear-gradient(135deg, #1b3020, #101810);
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .contenedor {
+      width: min(1100px, 100%);
+      margin: auto;
+      padding: 0 15px;
+    }
+
+    .marca {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      background: var(--verde);
+      color: #142016;
+      border-radius: 14px;
+      font-size: 25px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--verde);
+      font-size: 25px;
+    }
+
+    .subtitulo {
+      margin: 5px 0 0;
+      color: var(--suave);
+      font-size: 13px;
+    }
+
+    .estado {
+      margin: 18px 0 0;
+      padding: 12px;
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      color: var(--suave);
+      font-size: 13px;
+    }
+
+    .estado strong { color: var(--verde); }
+
+    main { padding: 22px 0 45px; }
+
+    .titulo-seccion {
+      color: var(--dorado);
+      font-size: 20px;
+      margin: 0 0 14px;
+    }
+
+    .busqueda {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: var(--panel);
+      color: var(--texto);
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--verde);
+    }
+
+    .filtros {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      background: var(--verde);
+      color: #142016;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .boton-secundario {
+      background: var(--panel2);
+      color: var(--texto);
+      border: 1px solid var(--borde);
+    }
+
+    .resumen {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0;
+      color: var(--suave);
+      font-size: 13px;
+    }
+
+    .productos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .producto {
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 155px;
+      object-fit: contain;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .sin-foto {
+      height: 155px;
+      display: grid;
+      place-items: center;
+      background: var(--panel2);
+      font-size: 48px;
+    }
+
+    .producto-info { padding: 13px; }
+
+    .producto h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .tienda {
+      color: var(--verde);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .precio {
+      color: var(--dorado);
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .precio-anterior {
+      color: var(--suave);
+      font-size: 12px;
+      text-decoration: line-through;
+      margin-left: 6px;
+    }
+
+    .detalle {
+      margin-top: 9px;
+      color: var(--suave);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .producto button {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .vacio {
+      padding: 30px 18px;
+      text-align: center;
+      background: var(--panel);
+      border: 1px dashed var(--borde);
+      border-radius: 14px;
+      color: var(--suave);
+      line-height: 1.6;
+      grid-column: 1 / -1;
+    }
+
+    .vacio .simbolo {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .seccion {
+      margin-top: 30px;
+      padding-top: 22px;
+      border-top: 1px solid var(--borde);
+    }
+
+    .carrito {
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .carrito-fila {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--borde);
+      font-size: 14px;
+    }
+
+    .cantidad {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cantidad button {
+      padding: 5px 10px;
+      background: var(--panel2);
+      color: var(--texto);
+    }
+
+    .totales {
+      margin-top: 15px;
+      line-height: 2;
+    }
+
+    .total {
+      color: var(--dorado);
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    .profeco-enlaces {
+      display: grid;
+      gap: 10px;
+    }
+
+    a {
+      color: var(--verde);
+      overflow-wrap: anywhere;
+    }
+
+    .enlace {
+      display: block;
+      padding: 14px;
+      background: var(--panel);
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      text-decoration: none;
+    }
+
+    footer {
+      padding: 25px 15px;
+      text-align: center;
+      color: var(--suave);
+      font-size: 12px;
+      border-top: 1px solid var(--borde);
+    }
+
+    @media (min-width: 650px) {
+      .busqueda {
+        grid-template-columns: 1fr auto;
+      }
+      .filtros {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<header>
-<h1>🛒 Precios al Día</h1>
-<p>Encuentra ofertas, compara precios y descubre cuánto puedes ahorrar</p>
-</header>
-
-<main>
-
-<section class="panel">
-<h2>📍 Tu ubicación</h2>
-<div class="grid">
-<div>
-<label for="estado">Estado</label>
-<select id="estado"><option value="">Selecciona tu estado</option></select>
-</div>
-<div>
-<label for="municipio">Municipio</label>
-<select id="municipio" disabled>
-<option value="">Selecciona un estado primero</option>
-</select>
-</div>
-</div>
-<p id="estadoCarga" class="nota">Cargando catálogo de municipios...</p>
-</section>
-
-<div class="aviso aviso-verde">
-<strong>Información transparente:</strong> Los precios registrados por usuarios se identifican como reportados y no como ofertas verificadas. Las promociones verificadas requieren confirmación de una fuente comercial.
-</div>
-
-<section class="panel">
-<h2>🔎 Buscar productos</h2>
-<input id="busqueda" type="search" placeholder="Ej. leche, arroz, aceite...">
-<div class="grid">
-<div>
-<label for="categoria">Categoría</label>
-<select id="categoria">
-<option value="Todos">Todas las categorías</option>
-<option>Granos</option>
-<option>Abarrotes</option>
-<option>Lácteos</option>
-<option>Frutas</option>
-<option>Verduras</option>
-<option>Bebidas</option>
-<option>Limpieza</option>
-<option>Higiene</option>
-<option>Belleza</option>
-<option>Hogar</option>
-<option>Mascotas</option>
-<option>Electrónica</option>
-<option>Ropa</option>
-<option>Otros</option>
-</select>
-</div>
-<div>
-<label for="filtroTienda">Establecimiento</label>
-<select id="filtroTienda">
-<option value="Todos">Todos los establecimientos</option>
-</select>
-</div>
-</div>
-</section>
-
-<section class="panel">
-<div class="barra">
-<h2>📊 Productos y precios</h2>
-<button class="boton-dorado" id="mostrarRegistro">＋ Registrar oferta</button>
-</div>
-
-<div class="pestanas">
-<button class="pestana activa" id="tabOfertas">🔥 Ofertas registradas</button>
-<button class="pestana" id="tabProfeco">🏛️ PROFECO</button>
-</div>
-
-<div id="seccionOfertas" class="seccion activa">
-<p class="nota">Productos registrados con sus precios, establecimientos y fuentes de consulta.</p>
-<div id="listaProductos" class="productos"></div>
-<div id="sinProductos" class="vacio">
-<h3>¡Comencemos a comparar!</h3>
-<p>Todavía no hay productos registrados.</p>
-<p>Cuando registres una oferta con su fuente, aparecerá aquí.</p>
-</div>
-</div>
-
-<div id="seccionProfeco" class="seccion">
-<h3>Precios de referencia oficiales</h3>
-<p>Consulta directamente los datos publicados por PROFECO. Estos precios no necesariamente representan promociones vigentes.</p>
-<a class="enlace" href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar precios PROFECO ↗</a>
-<a class="enlace" href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Datos abiertos ↗</a>
-<p class="nota">La importación automática de datos oficiales todavía no está conectada.</p>
-</div>
-</section>
-
-<section class="panel oculto" id="panelRegistro">
-<h2>➕ Registrar producto u oferta</h2>
-<div class="aviso">
-Registra únicamente precios que hayas consultado. Añade una fuente para que otras personas puedan comprobar la información.
-</div>
-
-<form id="formProducto">
-<label for="nombre">Nombre del producto *</label>
-<input id="nombre" required maxlength="100" placeholder="Ej. Aceite vegetal 1 litro">
-
-<div class="grid">
-<div>
-<label for="nuevaCategoria">Categoría *</label>
-<select id="nuevaCategoria" required>
-<option value="">Selecciona</option>
-<option>Granos</option>
-<option>Abarrotes</option>
-<option>Lácteos</option>
-<option>Frutas</option>
-<option>Verduras</option>
-<option>Bebidas</option>
-<option>Limpieza</option>
-<option>Higiene</option>
-<option>Belleza</option>
-<option>Hogar</option>
-<option>Mascotas</option>
-<option>Electrónica</option>
-<option>Ropa</option>
-<option>Otros</option>
-</select>
-</div>
-<div>
-<label for="tienda">Establecimiento *</label>
-<input id="tienda" required maxlength="80" placeholder="Nombre de la tienda">
-</div>
-</div>
-
-<div class="grid">
-<div>
-<label for="precio">Precio actual en pesos *</label>
-<input id="precio" type="number" min="0.01" max="10000000" step="0.01" required placeholder="Ej. 25.90">
-</div>
-<div>
-<label for="precioAnterior">Precio anterior en pesos</label>
-<input id="precioAnterior" type="number" min="0" max="10000000" step="0.01" placeholder="Ej. 32.90">
-</div>
-</div>
-
-<label for="vigencia">Fecha de vigencia o consulta</label>
-<input id="vigencia" type="date">
-
-<label for="imagen">Dirección de fotografía del producto (URL)</label>
-<input id="imagen" type="url" placeholder="https://...">
-
-<label for="fuente">Enlace de la fuente del precio *</label>
-<input id="fuente" type="url" required placeholder="https://...">
-
-<label for="observaciones">Detalles adicionales</label>
-<textarea id="observaciones" maxlength="500" placeholder="Presentación, tamaño, condiciones de la oferta..."></textarea>
-
-<p class="nota">* Campos obligatorios. La aplicación registra la información, pero no verifica automáticamente el contenido de los enlaces.</p>
-
-<div class="grid">
-<button type="submit" class="boton-verde">Guardar producto</button>
-<button type="button" class="secundario" id="cancelarRegistro">Cancelar</button>
-</div>
-</form>
-</section>
-
-<section class="carrito">
-<h2>🛍️ Mi carrito</h2>
-<div id="listaCarrito">Tu carrito está vacío.</div>
-<div class="total" id="total">$0.00</div>
-<div class="resumen" id="resumen">
-Agrega productos para calcular el total y el ahorro estimado.
-</div>
-<button class="boton-dorado" id="vaciarCarrito" style="width:100%;margin-top:12px">Vaciar carrito</button>
-</section>
-
-</main>
-
-<footer>
-Precios al Día · Comparar para ahorrar
-<br>Los precios dependen de la fecha, ubicación y disponibilidad de cada establecimiento.
-</footer>
-
-<script>
-"use strict";
-
-const $ = id => document.getElementById(id);
-
-const estados = [
-"Aguascalientes","Baja California","Baja California Sur",
-"Campeche","Chiapas","Chihuahua","Ciudad de México",
-"Coahuila de Zaragoza","Colima","Durango","Guanajuato",
-"Guerrero","Hidalgo","Jalisco","México","Michoacán de Ocampo",
-"Morelos","Nayarit","Nuevo León","Oaxaca","Puebla","Querétaro",
-"Quintana Roo","San Luis Potosí","Sinaloa","Sonora","Tabasco",
-"Tamaulipas","Tlaxcala","Veracruz de Ignacio de la Llave",
-"Yucatán","Zacatecas"
-];
-
-const URL_MUNICIPIOS =
-"https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json";
-
-const CLAVE_PRODUCTOS = "precios_al_dia_productos_v1";
-const CLAVE_CARRITO = "precios_al_dia_carrito_v1";
-
-let productos = cargarDatos(CLAVE_PRODUCTOS, []);
-let carrito = cargarDatos(CLAVE_CARRITO, {});
-let catalogoMunicipios = null;
-
-function cargarDatos(clave, defecto) {
- try {
-  const dato = JSON.parse(localStorage.getItem(clave));
-  return dato ?? defecto;
- } catch(e) {
-  return defecto;
- }
-}
-
-function guardarDatos() {
- try {
-  localStorage.setItem(CLAVE_PRODUCTOS, JSON.stringify(productos));
-  localStorage.setItem(CLAVE_CARRITO, JSON.stringify(carrito));
- } catch(e) {
-  alert("No se pudieron guardar los datos. Comprueba el espacio disponible en el navegador.");
- }
-}
-
-function dinero(valor) {
- return Number(valor).toLocaleString("es-MX", {
-  style:"currency",currency:"MXN"
- });
-}
-
-function normalizar(texto) {
- return String(texto || "")
- .normalize("NFD")
- .replace(/[\u0300-\u036f]/g,"")
- .toLowerCase().trim();
-}
-
-function llenarEstados() {
- estados.forEach(nombre => {
-  const opcion = document.createElement("option");
-  opcion.value = nombre;
-  opcion.textContent = nombre;
-  $("estado").appendChild(opcion);
- });
-}
-
-function nombreCatalogo(estado) {
- const equivalencias = {
-  "Coahuila de Zaragoza":"Coahuila",
-  "México":"Estado de México",
-  "Michoacán de Ocampo":"Michoacán",
-  "Veracruz de Ignacio de la Llave":"Veracruz"
- };
- return equivalencias[estado] || estado;
-}
-
-function normalizarMunicipios(datos) {
- if (!Array.isArray(datos)) return [];
- return datos.map(item =>
-  typeof item === "string" ? item :
-  item && typeof item === "object" ?
-  (item.nombre || item.municipio || item.name || item.Municipio || "") : ""
- ).filter(Boolean);
-}
-
-function obtenerMunicipios(estado) {
- if (!catalogoMunicipios) return [];
-
- const nombre = nombreCatalogo(estado);
- const clave = Object.keys(catalogoMunicipios)
- .find(k => normalizar(k) === normalizar(nombre));
-
- if (clave) return normalizarMunicipios(catalogoMunicipios[clave]);
-
- if (Array.isArray(catalogoMunicipios.estados)) {
-  const encontrado = catalogoMunicipios.estados.find(item =>
-   item && normalizar(item.nombre || item.estado || item.name) === normalizar(nombre)
-  );
-  if (encontrado) return normalizarMunicipios(encontrado.municipios);
- }
- return [];
-}
-
-async function cargarCatalogo() {
- $("estadoCarga").textContent = "Consultando catálogo nacional...";
- try {
-  const respuesta = await fetch(URL_MUNICIPIOS);
-  if (!respuesta.ok) throw new Error("Error de descarga");
-  catalogoMunicipios = await respuesta.json();
-  $("estadoCarga").textContent = "Catálogo de municipios disponible.";
- } catch(e) {
-  catalogoMunicipios = null;
-  $("estadoCarga").textContent =
-  "No se pudo descargar el catálogo. Intenta nuevamente con Internet.";
- }
- cargarMunicipios();
-}
-
-function cargarMunicipios() {
- const estado = $("estado").value;
- const selector = $("municipio");
- selector.innerHTML = "";
-
- const inicial = document.createElement("option");
- inicial.value = "";
- inicial.textContent = "Selecciona un municipio";
- selector.appendChild(inicial);
-
- let lista = obtenerMunicipios(estado);
- lista = [...new Set(lista)].sort((a,b)=>a.localeCompare(b,"es"));
-
- lista.forEach(nombre => {
-  const opcion = document.createElement("option");
-  opcion.value = nombre;
-  opcion.textContent = nombre;
-  selector.appendChild(opcion);
- });
-
- selector.disabled = !lista.length;
-
- if (estado && !lista.length) {
-  inicial.textContent = "Catálogo no disponible";
- }
-
- actualizarProductos();
-}
-
-function actualizarProductos() {
- const busqueda = normalizar($("busqueda").value);
- const categoria = $("categoria").value;
- const tienda = $("filtroTienda").value;
-
- const encontrados = productos.filter(p => {
-  const coincideTexto =
-   normalizar(p.nombre).includes(busqueda) ||
-   normalizar(p.tienda).includes(busqueda);
-
-  const coincideCategoria =
-   categoria === "Todos" || p.categoria === categoria;
-
-  const coincideTienda =
-   tienda === "Todos" || p.tienda === tienda;
-
-  return coincideTexto && coincideCategoria && coincideTienda;
- });
-
- mostrarProductos(encontrados);
- actualizarTiendas();
-}
-
-function actualizarTiendas() {
- const selector = $("filtroTienda");
- const actual = selector.value;
- const tiendas = [...new Set(productos.map(p=>p.tienda))]
- .sort((a,b)=>a.localeCompare(b,"es"));
-
- selector.innerHTML = '<option value="Todos">Todos los establecimientos</option>';
-
- tiendas.forEach(tienda => {
-  const opcion = document.createElement("option");
-  opcion.value = tienda;
-  opcion.textContent = tienda;
-  selector.appendChild(opcion);
- });
-
- selector.value = tiendas.includes(actual) ? actual : "Todos";
-}
-
-function crearEtiqueta(texto) {
- const span = document.createElement("span");
- span.className = "etiqueta";
- span.textContent = texto;
- return span;
-}
-
-function mostrarProductos(lista) {
- const contenedor = $("listaProductos");
- contenedor.innerHTML = "";
-
- $("sinProductos").style.display = lista.length ? "none" : "block";
-
- lista.forEach(p => {
-  const tarjeta = document.createElement("article");
-  tarjeta.className = "producto";
-
-  if (p.imagen) {
-   const img = document.createElement("img");
-   img.src = p.imagen;
-   img.alt = p.nombre;
-   img.loading = "lazy";
-   img.onerror = () => {
-    img.remove();
-   };
-   tarjeta.appendChild(img);
-  }
-
-  const cuerpo = document.createElement("div");
-  cuerpo.className = "producto-cuerpo";
-
-  const titulo = document.createElement("h3");
-  titulo.textContent = p.nombre;
-  cuerpo.appendChild(titulo);
-
-  const precio = document.createElement("div");
-  precio.className = "precio";
-  precio.textContent = dinero(p.precio);
-  cuerpo.appendChild(precio);
-
-  if (p.anterior > p.precio) {
-   const anterior = document.createElement("div");
-   anterior.className = "precio-anterior";
-   anterior.textContent = dinero(p.anterior);
-   cuerpo.appendChild(anterior);
-
-   const descuento = document.createElement("p");
-   descuento.className = "descuento";
-   descuento.textContent =
-    "Ahorro estimado " +
-    Math.round((1-p.precio/p.anterior)*100) + "%";
-   cuerpo.appendChild(descuento);
-  }
-
-  cuerpo.appendChild(crearEtiqueta(p.categoria));
-  cuerpo.appendChild(crearEtiqueta(p.tienda));
-  cuerpo.appendChild(crearEtiqueta("Reportado"));
-
-  const fecha = document.createElement("p");
-  fecha.className = "nota";
-  fecha.textContent = p.fecha
-   ? "Consulta: " + p.fecha
-   : "Fecha no especificada";
-  cuerpo.appendChild(fecha);
-
-  if (p.estado || p.municipio) {
-   const ubicacion = document.createElement("p");
-   ubicacion.className = "nota";
-   ubicacion.textContent = [p.municipio,p.estado].filter(Boolean).join(", ");
-   cuerpo.appendChild(ubicacion);
-  }
-
-  if (p.observaciones) {
-   const detalle = document.createElement("p");
-   detalle.className = "nota";
-   detalle.textContent = p.observaciones;
-   cuerpo.appendChild(detalle);
-  }
-
-  const fuente = document.createElement("a");
-  fuente.href = p.fuente;
-  fuente.target = "_blank";
-  fuente.rel = "noopener noreferrer";
-  fuente.textContent = "Consultar fuente ↗";
-  fuente.className = "nota";
-  cuerpo.appendChild(fuente);
-
-  const acciones = document.createElement("div");
-  acciones.className = "producto-acciones";
-
-  const agregar = document.createElement("button");
-  agregar.className = "boton-verde";
-  agregar.textContent = "Agregar al carrito";
-  agregar.addEventListener("click",()=>agregarCarrito(p.id));
-
-  const eliminar = document.createElement("button");
-  eliminar.className = "rojo";
-  eliminar.textContent = "Eliminar";
-  eliminar.addEventListener("click",()=>eliminarProducto(p.id));
-
-  acciones.append(agregar,eliminar);
-  cuerpo.appendChild(acciones);
-  tarjeta.appendChild(cuerpo);
-  contenedor.appendChild(tarjeta);
- });
-}
-
-function guardarProducto(event) {
- event.preventDefault();
-
- const precio = Number($("precio").value);
- const anterior = Number($("precioAnterior").value || 0);
- const fuente = $("fuente").value.trim();
-
- if (!Number.isFinite(precio) || precio <= 0) {
-  alert("Introduce un precio válido.");
-  return;
- }
-
- if (anterior > 0 && anterior < precio) {
-  alert("El precio anterior no puede ser menor que el precio actual.");
-  return;
- }
-
- try {
-  const url = new URL(fuente);
-  if (!["http:","https:"].includes(url.protocol)) throw new Error();
- } catch(e) {
-  alert("Introduce un enlace válido que comience con https:// o http://");
-  return;
- }
-
- const imagen = $("imagen").value.trim();
- if (imagen) {
-  try {
-   const urlImagen = new URL(imagen);
-   if (!["http:","https:"].includes(urlImagen.protocol)) throw new Error();
-  } catch(e) {
-   alert("La dirección de fotografía no es válida.");
-   return;
-  }
- }
-
- const producto = {
-  id: Date.now().toString() + Math.random().toString(36).slice(2,7),
-  nombre: $("nombre").value.trim(),
-  categoria: $("nuevaCategoria").value,
-  tienda: $("tienda").value.trim(),
-  precio,
-  anterior,
-  fecha: $("vigencia").value,
-  imagen,
-  fuente,
-  observaciones: $("observaciones").value.trim(),
-  estado: $("estado").value,
-  municipio: $("municipio").value
- };
-
- productos.unshift(producto);
- guardarDatos();
- $("formProducto").reset();
- $("panelRegistro").classList.add("oculto");
- actualizarTiendas();
- actualizarProductos();
-
- alert("Producto registrado correctamente.");
-}
-
-function eliminarProducto(id) {
- if (!confirm("¿Quieres eliminar este producto?")) return;
-
- productos = productos.filter(p=>p.id!==id);
- delete carrito[id];
-
- guardarDatos();
- actualizarProductos();
- actualizarCarrito();
-}
-
-function agregarCarrito(id) {
- const producto = productos.find(p=>p.id===id);
- if (!producto) return;
-
- carrito[id] = (carrito[id] || 0) + 1;
- guardarDatos();
- actualizarCarrito();
-}
-
-function cambiarCantidad(id, cambio) {
- const nueva = (carrito[id] || 0) + cambio;
-
- if (nueva <= 0) {
-  delete carrito[id];
- } else {
-  carrito[id] = nueva;
- }
-
- guardarDatos();
- actualizarCarrito();
-}
-
-function actualizarCarrito() {
- const contenedor = $("listaCarrito");
- contenedor.innerHTML = "";
-
- let total = 0;
- let ahorro = 0;
- let unidades = 0;
-
- const ids = Object.keys(carrito);
-
- if (!ids.length) {
-  contenedor.textContent = "Tu carrito está vacío.";
- }
-
- ids.forEach(id => {
-  const p = productos.find(item=>item.id===id);
-  const cantidad = Number(carrito[id]);
-
-  if (!p || !cantidad || cantidad < 1) {
-   delete carrito[id];
-   return;
-  }
-
-  const subtotal = p.precio * cantidad;
-  total += subtotal;
-  unidades += cantidad;
-
-  if (p.anterior > p.precio) {
-   ahorro += (p.anterior-p.precio)*cantidad;
-  }
-
-  const fila = document.createElement("div");
-  fila.className = "item-carrito";
-
-  const nombre = document.createElement("span");
-  nombre.textContent = p.nombre + " · " + dinero(subtotal);
-
-  const controles = document.createElement("div");
-  controles.className = "cantidad";
-
-  const menos = document.createElement("button");
-  menos.textContent = "−";
-  menos.addEventListener("click",()=>cambiarCantidad(id,-1));
-
-  const numero = document.createElement("strong");
-  numero.textContent = cantidad;
-
-  const mas = document.createElement("button");
-  mas.textContent = "+";
-  mas.addEventListener("click",()=>cambiarCantidad(id,1));
-
-  controles.append(menos,numero,mas);
-  fila.append(nombre,controles);
-  contenedor.appendChild(fila);
- });
-
- $("total").textContent = dinero(total);
- $("resumen").textContent =
-  "Productos: " + unidades +
-  " | Ahorro potencial: " + dinero(ahorro) +
-  " | El ahorro es estimado frente a los precios anteriores registrados.";
-
- guardarDatos();
-}
-
-function vaciarCarrito() {
- carrito = {};
- guardarDatos();
- actualizarCarrito();
-}
-
-function cambiarPestana(tipo) {
- const ofertas = tipo === "ofertas";
-
- $("tabOfertas").classList.toggle("activa",ofertas);
- $("tabProfeco").classList.toggle("activa",!ofertas);
-
- $("seccionOfertas").classList.toggle("activa",ofertas);
- $("seccionProfeco").classList.toggle("activa",!ofertas);
-}
-
-function abrirRegistro() {
- $("panelRegistro").classList.remove("oculto");
- $("panelRegistro").scrollIntoView({behavior:"smooth"});
-}
-
-function cerrarRegistro() {
- $("panelRegistro").classList.add("oculto");
-}
-
-$("estado").addEventListener("change",cargarMunicipios);
-$("busqueda").addEventListener("input",actualizarProductos);
-$("categoria").addEventListener("change",actualizarProductos);
-$("filtroTienda").addEventListener("change",actualizarProductos);
-
-$("tabOfertas").addEventListener("click",()=>cambiarPestana("ofertas"));
-$("tabProfeco").addEventListener("click",()=>cambiarPestana("profeco"));
-
-$("mostrarRegistro").addEventListener("click",abrirRegistro);
-$("cancelarRegistro").addEventListener("click",cerrarRegistro);
-$("formProducto").addEventListener("submit",guardarProducto);
-$("vaciarCarrito").addEventListener("click",()=>{
- if(confirm("¿Quieres vaciar todo el carrito?")) vaciarCarrito();
-});
-
-llenarEstados();
-actualizarTiendas();
-actualizarProductos();
-actualizarCarrito();
-cargarCatalogo();
-
-if ("serviceWorker" in navigator) {
- window.addEventListener("load",()=>{
-  navigator.serviceWorker.register("./service-worker.js")
-  .catch(error=>console.log("Service Worker:",error));
- });
-}
-</script>
+  <header>
+    <div class="contenedor">
+      <div class="marca">
+        <div class="logo">🛒</div>
+        <div>
+          <h1>Precios al Día</h1>
+          <p class="subtitulo">Compara, encuentra y ahorra en México</p>
+        </div>
+      </div>
+
+      <div class="estado" id="estado">
+        <strong>Conectando...</strong>
+        Estamos consultando el servicio de precios.
+      </div>
+    </div>
+  </header>
+
+  <main class="contenedor">
+    <section>
+      <h2 class="titulo-seccion">Productos y ofertas</h2>
+
+      <div class="busqueda">
+        <input
+          id="buscar"
+          type="search"
+          placeholder="Buscar productos..."
+          aria-label="Buscar productos"
+        >
+        <button id="actualizar">Actualizar precios</button>
+      </div>
+
+      <div class="filtros">
+        <select id="categoria">
+          <option value="">Todas las categorías</option>
+        </select>
+
+        <select id="tienda">
+          <option value="">Todos los establecimientos</option>
+        </select>
+
+        <select id="orden">
+          <option value="precio">Menor precio</option>
+          <option value="nombre">Nombre</option>
+          <option value="descuento">Mayor descuento</option>
+        </select>
+      </div>
+
+      <div class="resumen">
+        <span id="cantidadProductos">0 productos</span>
+        <span id="fechaConsulta">Sin consulta</span>
+      </div>
+
+      <div class="productos" id="productos">
+        <div class="vacio">
+          <div class="simbolo">🔎</div>
+          Consultando fuentes de precios...
+        </div>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <h2 class="titulo-seccion">🛒 Mi carrito</h2>
+
+      <div class="carrito">
+        <div id="contenidoCarrito">
+          <p class="subtitulo">Todavía no has agregado productos.</p>
+        </div>
+
+        <div class="totales">
+          <div>Total estimado: <strong class="total" id="total">$0.00</strong></div>
+          <div>Ahorro calculado: <strong id="ahorro">$0.00</strong></div>
+        </div>
+
+        <button class="boton-secundario" id="vaciarCarrito">
+          Vaciar carrito
+        </button>
+      </div>
+    </section>
+
+    <section class="seccion">
+      <h2 class="titulo-seccion">📊 Información de PROFECO</h2>
+
+      <p class="subtitulo">
+        Consulta los precios oficiales de referencia. La fecha de levantamiento
+        de cada dato es importante: no todos los precios representan promociones
+        vigentes.
+      </p>
+
+      <div class="profeco-enlaces">
+        <a class="enlace"
+           href="https://qqp.profeco.gob.mx/"
+           target="_blank"
+           rel="noopener">
+          Quién es Quién en los Precios — PROFECO ↗
+        </a>
+
+        <a class="enlace"
+           href="https://datos.profeco.gob.mx/"
+           target="_blank"
+           rel="noopener">
+          Datos abiertos de PROFECO ↗
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Precios al Día · México<br>
+    Los precios y descuentos se mostrarán únicamente cuando exista
+    información verificable de su fuente.
+  </footer>
+
+  <script>
+    const API_OFERTAS = "./api/offers";
+    const API_ESTADO = "./api/status";
+
+    let productos = [];
+    let carrito = [];
+
+    const elemento = id => document.getElementById(id);
+
+    function escapar(valor) {
+      return String(valor ?? "").replace(/[&<>"']/g, letra => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[letra]);
+    }
+
+    function dinero(valor) {
+      const numero = Number(valor);
+      if (!Number.isFinite(numero)) return "No disponible";
+
+      return numero.toLocaleString("es-MX", {
+        style: "currency",
+        currency: "MXN"
+      });
+    }
+
+    function mostrarEstado(mensaje, correcto = false) {
+      elemento("estado").innerHTML =
+        `<strong>${correcto ? "Servicio conectado" : "Información"}:</strong> ` +
+        escapar(mensaje);
+    }
+
+    function cargarOpciones() {
+      const categorias = [...new Set(
+        productos.map(p => p.category).filter(Boolean)
+      )].sort();
+
+      const tiendas = [...new Set(
+        productos.map(p => p.store).filter(Boolean)
+      )].sort();
+
+      elemento("categoria").innerHTML =
+        '<option value="">Todas las categorías</option>' +
+        categorias.map(c =>
+          `<option value="${escapar(c)}">${escapar(c)}</option>`
+        ).join("");
+
+      elemento("tienda").innerHTML =
+        '<option value="">Todos los establecimientos</option>' +
+        tiendas.map(t =>
+          `<option value="${escapar(t)}">${escapar(t)}</option>`
+        ).join("");
+    }
+
+    function mostrarProductos() {
+      const busqueda = elemento("buscar").value.toLowerCase().trim();
+      const categoria = elemento("categoria").value;
+      const tienda = elemento("tienda").value;
+      const orden = elemento("orden").value;
+
+      let lista = productos.filter(p => {
+        const nombre = String(p.name || "").toLowerCase();
+
+        return nombre.includes(busqueda) &&
+          (!categoria || p.category === categoria) &&
+          (!tienda || p.store === tienda);
+      });
+
+      lista.sort((a, b) => {
+        if (orden === "nombre") {
+          return String(a.name).localeCompare(String(b.name));
+        }
+
+        if (orden === "descuento") {
+          return Number(b.discount || 0) - Number(a.discount || 0);
+        }
+
+        return Number(a.price) - Number(b.price);
+      });
+
+      elemento("cantidadProductos").textContent =
+        `${lista.length} productos`;
+
+      if (!lista.length) {
+        elemento("productos").innerHTML = `
+          <div class="vacio">
+            <div class="simbolo">🔎</div>
+            <strong>No hay productos disponibles para mostrar.</strong>
+            <p>
+              No se han recibido ofertas verificadas de las fuentes conectadas.
+              Vuelve a consultar más tarde.
+            </p>
+          </div>`;
+        return;
+      }
+
+      elemento("productos").innerHTML = lista.map(p => {
+        const imagen = typeof p.image === "string" &&
+          /^https:\/\//i.test(p.image);
+
+        const foto = imagen
+          ? `<img src="${escapar(p.image)}"
+                  alt="${escapar(p.name)}"
+                  loading="lazy">`
+          : `<div class="sin-foto">🛍️</div>`;
+
+        const anterior = Number(p.originalPrice) > Number(p.price)
+          ? `<span class="precio-anterior">${dinero(p.originalPrice)}</span>`
+          : "";
+
+        const descuento = Number(p.discount) > 0
+          ? `<div>Descuento informado: ${escapar(p.discount)}%</div>`
+          : "";
+
+        return `
+          <article class="producto">
+            ${foto}
+            <div class="producto-info">
+              <h3>${escapar(p.name)}</h3>
+              <div class="tienda">${escapar(p.store || "Establecimiento no indicado")}</div>
+              <div class="precio">
+                ${dinero(p.price)}
+                ${anterior}
+              </div>
+              <div class="detalle">
+                ${escapar(p.category || "Categoría no indicada")}<br>
+                Ubicación: ${escapar(p.location || "No indicada")}<br>
+                Vigencia: ${escapar(p.validUntil || "No informada")}<br>
+                Consulta: ${escapar(p.checkedAt || "No informada")}<br>
+                Fuente: ${escapar(p.source || "No indicada")}
+                ${descuento}
+              </div>
+              <button onclick="agregarCarrito('${escapar(p.id)}')">
+                Agregar al carrito
+              </button>
+            </div>
+          </article>`;
+      }).join("");
+    }
+
+    function agregarCarrito(id) {
+      const producto = productos.find(p => String(p.id) === String(id));
+      if (!producto) return;
+
+      const existente = carrito.find(p => String(p.id) === String(id));
+
+      if (existente) {
+        existente.quantity++;
+      } else {
+        carrito.push({ ...producto, quantity: 1 });
+      }
+
+      mostrarCarrito();
+    }
+
+    function cambiarCantidad(id, cambio) {
+      const producto = carrito.find(p => String(p.id) === String(id));
+      if (!producto) return;
+
+      producto.quantity += cambio;
+
+      if (producto.quantity <= 0) {
+        carrito = carrito.filter(p => String(p.id) !== String(id));
+      }
+
+      mostrarCarrito();
+    }
+
+    function mostrarCarrito() {
+      const contenido = elemento("contenidoCarrito");
+
+      if (!carrito.length) {
+        contenido.innerHTML =
+          '<p class="subtitulo">Todavía no has agregado productos.</p>';
+      } else {
+        contenido.innerHTML = carrito.map(p => `
+          <div class="carrito-fila">
+            <div>
+              <strong>${escapar(p.name)}</strong><br>
+              ${dinero(p.price)} por unidad
+            </div>
+            <div class="cantidad">
+              <button onclick="cambiarCantidad('${escapar(p.id)}',-1)">−</button>
+              ${p.quantity}
+              <button onclick="cambiarCantidad('${escapar(p.id)}',1)">+</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      const total = carrito.reduce(
+        (suma, p) => suma + Number(p.price) * p.quantity, 0
+      );
+
+      const ahorro = carrito.reduce((suma, p) => {
+        const original = Number(p.originalPrice);
+        const precio = Number(p.price);
+
+        return suma + (
+          Number.isFinite(original) && original > precio
+            ? (original - precio) * p.quantity
+            : 0
+        );
+      }, 0);
+
+      elemento("total").textContent = dinero(total);
+      elemento("ahorro").textContent = dinero(ahorro);
+    }
+
+    async function consultarEstado() {
+      try {
+        const respuesta = await fetch(API_ESTADO, { cache: "no-store" });
+
+        if (!respuesta.ok) throw new Error("Estado no disponible");
+
+        const datos = await respuesta.json();
+
+        mostrarEstado(
+          datos.mensaje || "Backend conectado.",
+          datos.estado === "backend_activo"
+        );
+      } catch {
+        mostrarEstado("No fue posible consultar el servicio.");
+      }
+    }
+
+    async function actualizarProductos() {
+      const boton = elemento("actualizar");
+      boton.disabled = true;
+      boton.textContent = "Consultando...";
+
+      try {
+        const respuesta = await fetch(API_OFERTAS, {
+          cache: "no-store"
+        });
+
+        if (!respuesta.ok) {
+          throw new Error("No se pudo consultar el servicio.");
+        }
+
+        const datos = await respuesta.json();
+
+        productos = Array.isArray(datos.ofertas)
+          ? datos.ofertas.filter(p =>
+              p &&
+              p.id !== undefined &&
+              p.name &&
+              Number.isFinite(Number(p.price)) &&
+              Number(p.price) >= 0
+            )
+          : [];
+
+        cargarOpciones();
+        mostrarProductos();
+
+        elemento("fechaConsulta").textContent =
+          datos.ultimaConsulta
+            ? `Consulta: ${datos.ultimaConsulta}`
+            : "Fecha de consulta no disponible";
+
+        mostrarEstado(
+          datos.mensaje || "Consulta completada.",
+          true
+        );
+      } catch (error) {
+        productos = [];
+        cargarOpciones();
+        mostrarProductos();
+        mostrarEstado(error.message);
+      } finally {
+        boton.disabled = false;
+        boton.textContent = "Actualizar precios";
+      }
+    }
+
+    elemento("buscar").addEventListener("input", mostrarProductos);
+    elemento("categoria").addEventListener("change", mostrarProductos);
+    elemento("tienda").addEventListener("change", mostrarProductos);
+    elemento("orden").addEventListener("change", mostrarProductos);
+
+    elemento("actualizar").addEventListener(
+      "click",
+      actualizarProductos
+    );
+
+    elemento("vaciarCarrito").addEventListener("click", () => {
+      carrito = [];
+      mostrarCarrito();
+    });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .catch(() => {});
+      });
+    }
+
+    consultarEstado();
+    actualizarProductos();
+    mostrarCarrito();
+  </script>
 </body>
 </html>
