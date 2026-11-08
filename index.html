@@ -541,8 +541,8 @@ function cargarMunicipios() {
 }
 
 function esUbicacionDemo() {
-  return $("estado").value === "Sinaloa" &&
-         $("municipio").value === "Mazatlán";
+  return $("estado").value !== "" &&
+         $("municipio").value !== "";
 }
 
 function actualizarUbicacion() {
