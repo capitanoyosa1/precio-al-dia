@@ -22,72 +22,69 @@ export default {
       return respuesta({ error: "Método no permitido" }, 405);
     }
 
+    if (url.pathname === "/api/profeco-test") {
+      try {
+        const upstream = await fetch(
+          "https://qqp.profeco.gob.mx/results?city=0901&searchTerm=leche",
+          {
+            headers: {
+              "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
+              "User-Agent": "Mozilla/5.0 (compatible; PreciosAlDia/1.0)"
+            },
+            signal: AbortSignal.timeout(15000)
+          }
+        );
+
+        const body = await upstream.text();
+
+        return respuesta({
+          prueba: "PROFECO QQP",
+          http: upstream.status,
+          correcto: upstream.ok,
+          contentType: upstream.headers.get("content-type"),
+          longitud: body.length,
+          muestra: body.slice(0, 6000)
+        });
+      } catch (error) {
+        return respuesta({
+          prueba: "PROFECO QQP",
+          correcto: false,
+          error: String(error.message || error)
+        }, 502);
+      }
+    }
+
     if (url.pathname === "/api/status") {
       return respuesta({
         aplicacion: "Precios al Día",
         estado: "backend_activo",
-        fuentes: [
-          {
-            nombre: "PROFECO - Quién es Quién en los Precios",
-            tipo: "precios_de_referencia",
-            estado: "pendiente_de_integracion"
-          },
-          {
-            nombre: "PROFECO - Precios en Comercio Electrónico",
-            tipo: "monitoreo_comercial",
-            estado: "pendiente_de_integracion"
-          },
-          {
-            nombre: "Directorio DENUE - INEGI",
-            tipo: "directorio_de_establecimientos",
-            estado: "pendiente_de_credenciales"
-          }
-        ],
-        ultimaConsulta: null,
-        mensaje: "El servicio está activo. Las fuentes de precios todavía no están conectadas."
+        mensaje: "Servicio activo."
       });
     }
 
     if (url.pathname === "/api/offers") {
-      const estado = limpiarParametro(
-        url.searchParams.get("estado")
-      );
-
-      const municipio = limpiarParametro(
-        url.searchParams.get("municipio")
-      );
+      const estado = limpiarParametro(url.searchParams.get("estado"));
+      const municipio = limpiarParametro(url.searchParams.get("municipio"));
 
       if (!estado || !municipio) {
         return respuesta({
           estado: "ubicacion_incompleta",
-          ubicacion: {
-            estado: estado || null,
-            municipio: municipio || null
-          },
           ofertas: [],
-          total: 0,
-          ultimaConsulta: null,
-          mensaje: "Selecciona un estado y un municipio para consultar la zona."
+          total: 0
         }, 400);
       }
 
       return respuesta({
         estado: "fuentes_pendientes",
-        ubicacion: {
-          estado,
-          municipio
-        },
+        ubicacion: { estado, municipio },
         ofertas: [],
         total: 0,
-        ultimaConsulta: new Date().toISOString(),
-        mensaje: `Ubicación recibida: ${municipio}, ${estado}. Todavía no hay fuentes comerciales conectadas para mostrar ofertas verificadas. No se muestran precios inventados.`
+        mensaje: "No hay ofertas comerciales verificadas conectadas."
       });
     }
 
     if (url.pathname.startsWith("/api/")) {
-      return respuesta({
-        error: "Ruta API no encontrada"
-      }, 404);
+      return respuesta({ error: "Ruta API no encontrada" }, 404);
     }
 
     return env.ASSETS.fetch(request);
