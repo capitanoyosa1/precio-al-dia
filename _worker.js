@@ -3,15 +3,43 @@ const JSON_HEADERS = {
   "Cache-Control": "no-store"
 };
 
-function respuesta(datos, estadoHttp = 200) {
+function respuesta(datos, estado = 200) {
   return new Response(JSON.stringify(datos), {
-    status: estadoHttp,
+    status: estado,
     headers: JSON_HEADERS
   });
 }
 
 function limpiarParametro(valor, maximo = 100) {
   return String(valor || "").trim().slice(0, maximo);
+}
+
+async function inspeccionar(url) {
+  try {
+    const r = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0" },
+      signal: AbortSignal.timeout(15000)
+    });
+    const codigo = await r.text();
+    const patrones = /fetch\(|axios|XMLHttpRequest|searchTerm|city=|\/api\/|graphql|results|products|precios|price/gi;
+    const hallazgos = [];
+    let coincidencia;
+
+    while ((coincidencia = patrones.exec(codigo)) !== null && hallazgos.length < 60) {
+      hallazgos.push(
+        codigo.slice(Math.max(0, coincidencia.index - 120), coincidencia.index + 220)
+      );
+    }
+
+    return {
+      url,
+      http: r.status,
+      longitud: codigo.length,
+      hallazgos
+    };
+  } catch (e) {
+    return { url, error: String(e.message || e) };
+  }
 }
 
 export default {
@@ -23,42 +51,18 @@ export default {
     }
 
     if (url.pathname === "/api/profeco-test") {
-      try {
-        const upstream = await fetch(
-          "https://qqp.profeco.gob.mx/results?city=0901&searchTerm=leche",
-          {
-            headers: {
-              "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
-              "User-Agent": "Mozilla/5.0 (compatible; PreciosAlDia/1.0)"
-            },
-            signal: AbortSignal.timeout(15000)
-          }
-        );
-
-        const body = await upstream.text();
-
-        return respuesta({
-          prueba: "PROFECO QQP",
-          http: upstream.status,
-          correcto: upstream.ok,
-          contentType: upstream.headers.get("content-type"),
-          longitud: body.length,
-          muestra: body.slice(0, 6000)
-        });
-      } catch (error) {
-        return respuesta({
-          prueba: "PROFECO QQP",
-          correcto: false,
-          error: String(error.message || error)
-        }, 502);
-      }
+      const base = "https://qqp.profeco.gob.mx";
+      const resultados = await Promise.all([
+        inspeccionar(base + "/assets/main.js?v=1794185395"),
+        inspeccionar(base + "/build/assets/app-DP31drAa.js")
+      ]);
+      return respuesta({ prueba: "Archivos JavaScript de PROFECO", resultados });
     }
 
     if (url.pathname === "/api/status") {
       return respuesta({
         aplicacion: "Precios al Día",
-        estado: "backend_activo",
-        mensaje: "Servicio activo."
+        estado: "backend_activo"
       });
     }
 
@@ -67,19 +71,14 @@ export default {
       const municipio = limpiarParametro(url.searchParams.get("municipio"));
 
       if (!estado || !municipio) {
-        return respuesta({
-          estado: "ubicacion_incompleta",
-          ofertas: [],
-          total: 0
-        }, 400);
+        return respuesta({ estado: "ubicacion_incompleta", ofertas: [], total: 0 }, 400);
       }
 
       return respuesta({
         estado: "fuentes_pendientes",
         ubicacion: { estado, municipio },
         ofertas: [],
-        total: 0,
-        mensaje: "No hay ofertas comerciales verificadas conectadas."
+        total: 0
       });
     }
 
