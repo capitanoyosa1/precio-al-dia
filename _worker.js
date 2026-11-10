@@ -1,3 +1,4 @@
+
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
   "Cache-Control": "no-store"
@@ -128,6 +129,33 @@ async function queryOverpass(query) {
   throw new Error(ultimoError);
 }
 
+function errorPrecioCheck(status) {
+  if (status === 401 || status === 403) {
+    return json({
+      conectado: false,
+      estado: "clave_rechazada",
+      codigo: status,
+      mensaje: "PrecioCheck rechazó la clave configurada."
+    }, 502);
+  }
+
+  if (status === 429) {
+    return json({
+      conectado: false,
+      estado: "limite_alcanzado",
+      codigo: 429,
+      mensaje: "Se alcanzó el límite de consultas de PrecioCheck. Inténtalo más tarde."
+    }, 429);
+  }
+
+  return json({
+    conectado: false,
+    estado: "error_proveedor",
+    codigo: status,
+    mensaje: "PrecioCheck respondió con un error HTTP."
+  }, 502);
+}
+
 async function probarPrecioCheck(env) {
   const apiKey = env.PRECIOCHECK_API_KEY;
 
@@ -152,50 +180,15 @@ async function probarPrecioCheck(env) {
       }
     );
 
-    if (response.status === 401 || response.status === 403) {
-      return json({
-        conectado: false,
-        estado: "clave_rechazada",
-        codigo: response.status,
-        mensaje: "PrecioCheck rechazó la clave. Revisa el secreto configurado en Cloudflare."
-      }, 502);
-    }
+    if (!response.ok) return errorPrecioCheck(response.status);
 
-    if (response.status === 429) {
-      return json({
-        conectado: false,
-        estado: "limite_alcanzado",
-        codigo: 429,
-        mensaje: "PrecioCheck informó que se alcanzó el límite de consultas. Inténtalo más tarde."
-      }, 429);
-    }
-
-    if (!response.ok) {
-      return json({
-        conectado: false,
-        estado: "error_proveedor",
-        codigo: response.status,
-        mensaje: "PrecioCheck respondió con un error HTTP."
-      }, 502);
-    }
-
-    let data;
-
-    try {
-      data = await response.json();
-    } catch (error) {
-      return json({
-        conectado: false,
-        estado: "respuesta_invalida",
-        mensaje: "PrecioCheck respondió, pero el formato recibido no es JSON válido."
-      }, 502);
-    }
+    const data = await response.json();
 
     if (data.ok === false) {
       return json({
         conectado: false,
         estado: "respuesta_no_confirmada",
-        mensaje: "La API respondió, pero no confirmó la consulta."
+        mensaje: "PrecioCheck no confirmó la consulta."
       }, 502);
     }
 
@@ -211,12 +204,132 @@ async function probarPrecioCheck(env) {
       totalCategorias: categorias,
       mensaje: "La conexión con PrecioCheck funciona correctamente."
     });
-
   } catch (error) {
     return json({
       conectado: false,
       estado: "error_de_conexion",
-      mensaje: "No fue posible conectar con PrecioCheck. Inténtalo de nuevo."
+      mensaje: "No fue posible conectar con PrecioCheck."
+    }, 503);
+  }
+}
+
+async function buscarPrecioCheck(env, url) {
+  const apiKey = env.PRECIOCHECK_API_KEY;
+
+  if (!apiKey) {
+    return json({
+      disponible: false,
+      estado: "secreto_no_encontrado",
+      mensaje: "No se encontró la clave de PrecioCheck en Cloudflare."
+    }, 503);
+  }
+
+  const consulta = clean(url.searchParams.get("q"), 80);
+  const limiteSolicitado = Number(url.searchParams.get("limite") || 10);
+  const limite = Number.isFinite(limiteSolicitado)
+    ? Math.max(1, Math.min(20, Math.floor(limiteSolicitado)))
+    : 10;
+
+  if (consulta.length < 2) {
+    return json({
+      disponible: false,
+      productos: [],
+      mensaje: "Escribe al menos dos caracteres para buscar."
+    }, 400);
+  }
+
+  const cacheKey = new Request(
+    "https://precio-al-dia-cache.local/api/preciocheck/search?q=" +
+    encodeURIComponent(consulta.toLowerCase()) +
+    "&limite=" + limite
+  );
+
+  const cache = caches.default;
+
+  try {
+    const cached = await cache.match(cacheKey);
+    if (cached) return cached;
+  } catch (error) {
+    // La búsqueda continúa aunque la caché no esté disponible.
+  }
+
+  try {
+    const apiUrl = new URL("https://preciocheck.com/api/v1/buscar");
+    apiUrl.searchParams.set("q", consulta);
+    apiUrl.searchParams.set("limite", String(limite));
+
+    const response = await fetch(apiUrl.toString(), {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "X-API-Key": apiKey
+      },
+      signal: AbortSignal.timeout(15000)
+    });
+
+    if (!response.ok) return errorPrecioCheck(response.status);
+
+    const data = await response.json();
+
+    if (data.ok === false || !Array.isArray(data.productos)) {
+      return json({
+        disponible: false,
+        estado: "respuesta_invalida",
+        productos: [],
+        mensaje: "PrecioCheck no devolvió una lista válida de productos."
+      }, 502);
+    }
+
+    const productos = data.productos.map(producto => {
+      const precio = Number(producto.precio_sugerido);
+
+      return {
+        codigoBarras: producto.codigo_barras || "",
+        nombre: producto.nombre || "",
+        marca: producto.marca || "",
+        categoria: producto.categoria || "",
+        precioReferencia:
+          Number.isFinite(precio) && precio > 0 ? precio : null,
+        imagen: producto.imagen_url || "",
+        descripcion: producto.descripcion || "",
+        contenidoNeto: producto.contenido_neto || "",
+        paisOrigen: producto.pais_origen || "",
+        tipoPrecio: "Precio comunitario de referencia",
+        fuente: "PrecioCheck"
+      };
+    });
+
+    const resultado = json({
+      disponible: true,
+      proveedor: "PrecioCheck",
+      consulta,
+      total: Number.isFinite(Number(data.total))
+        ? Number(data.total)
+        : productos.length,
+      productos,
+      aviso:
+        "Los precios son referenciales. No representan ofertas verificadas " +
+        "ni confirman el precio de una sucursal.",
+      mensaje: productos.length
+        ? `Se encontraron ${productos.length} productos en el catálogo.`
+        : "No se encontraron productos para esa búsqueda."
+    }, 200, {
+      "Cache-Control": "public, max-age=600"
+    });
+
+    try {
+      await cache.put(cacheKey, resultado.clone());
+    } catch (error) {
+      // La respuesta se entrega aunque no pueda guardarse en caché.
+    }
+
+    return resultado;
+  } catch (error) {
+    return json({
+      disponible: false,
+      estado: "error_de_conexion",
+      productos: [],
+      mensaje: "No fue posible consultar el catálogo de PrecioCheck."
     }, 503);
   }
 }
@@ -235,13 +348,17 @@ export default {
         estado: "backend_activo",
         busquedaLocal: "openstreetmap_overpass",
         fuenteEstablecimientos: "OpenStreetMap",
-        preciosOnline: "pendientes_de_integracion",
+        preciosOnline: "catalogo_referencial_disponible",
         proveedorPrecios: "PrecioCheck"
       });
     }
 
     if (url.pathname === "/api/preciocheck/test") {
       return probarPrecioCheck(env);
+    }
+
+    if (url.pathname === "/api/preciocheck/search") {
+      return buscarPrecioCheck(env, url);
     }
 
     if (url.pathname === "/api/places") {
@@ -387,7 +504,7 @@ export default {
         total: 0,
         ofertas: [],
         disponible: false,
-        mensaje: "La consulta automática de precios comerciales aún no está activada. No se mostrarán precios estimados ni ofertas inventadas."
+        mensaje: "La consulta automática de ofertas comerciales verificadas aún no está activada. No se mostrarán precios estimados ni promociones inventadas."
       });
     }
 
