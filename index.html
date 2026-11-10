@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#171717">
-<meta name="description" content="Precios al Día: ofertas verificables y comparación de precios en México.">
+<meta name="description" content="Precios al Día: búsqueda y comparación de precios en México.">
 <link rel="manifest" href="./manifest.json">
 <title>Precios al Día</title>
 <style>
@@ -15,74 +15,80 @@ body{margin:0;background:var(--fondo);color:var(--oscuro);font-family:Arial,Helv
 header{background:var(--oscuro);color:white;text-align:center;padding:16px 12px;border-bottom:4px solid var(--dorado)}
 .encabezado-fila{display:flex;align-items:center;justify-content:center;gap:10px}
 header h1{margin:0;font-size:27px}
-.boton-compartir{width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--dorado);color:#171717;border-radius:50%;flex:0 0 36px}
-.boton-compartir svg{width:19px;height:19px}
-header p{color:#e5cf9b;font-size:13px;margin:7px 0 0}
+header p{color:#e5cf9b;font-size:13px;margin:7px 0 12px}
+.boton-compartir{width:38px;height:38px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--dorado);color:#171717;border-radius:50%;flex:0 0 38px}
+.boton-compartir svg{width:20px;height:20px}
 main{max-width:1150px;margin:auto;padding:14px}
 .panel{background:white;padding:15px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000c}
 h2{font-size:19px;margin:0 0 12px}
-h3{font-size:16px}
+h3{font-size:15px;margin:5px 0 8px}
 input,select,button{font:inherit}
-input,select{width:100%;padding:12px;border:1px solid var(--borde);border-radius:9px;background:white;min-width:0}
+input,select{width:100%;padding:11px;border:1px solid var(--borde);border-radius:9px;background:white;min-width:0}
 button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:bold}
+button:disabled{opacity:.5;cursor:not-allowed}
 .boton{background:var(--oscuro);color:white}
 .dorado{background:var(--dorado);color:#171717}
 .verde{background:var(--verde);color:white}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .nota{font-size:12px;color:#666;line-height:1.5}
-.busqueda-fila{display:flex;align-items:center;gap:7px;border:1px solid var(--borde);border-radius:12px;background:white;padding:4px 7px}
-.busqueda-fila input[type=search]{flex:1;min-width:0;border:0;outline:none;padding:10px 5px;background:transparent}
+.busqueda-fila{display:flex;align-items:center;gap:6px;border:1px solid var(--borde);border-radius:12px;background:white;padding:4px 6px}
+.busqueda-fila input[type=search]{flex:1;min-width:0;border:0;outline:none;padding:10px 4px;background:transparent}
 .boton-imagen{width:40px;height:40px;flex:0 0 40px;padding:0;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--verde);border-radius:9px;cursor:pointer}
 .boton-imagen svg{width:23px;height:23px}
-.boton-imagen:active{background:#e9f5ed}
 .archivo-foto{display:none}
-.vista-previa{display:none;margin-top:10px;max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--borde);border-radius:10px;background:#f4f1e9}
-.productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+.vista-previa{display:none;margin-top:10px;max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--borde);border-radius:10px}
+.productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:13px}
 .producto{background:white;border:1px solid var(--borde);border-radius:13px;overflow:hidden;min-width:0}
-.producto img{width:100%;height:155px;object-fit:contain;background:#f4f1e9}
+.producto img{width:100%;height:145px;object-fit:contain;background:#f4f1e9}
 .producto-cuerpo{padding:12px}
-.producto h3{margin:4px 0 8px;min-height:36px}
-.precio{font-size:23px;font-weight:bold;color:var(--verde)}
-.precio-anterior{font-size:13px;color:#888;text-decoration:line-through}
+.producto h3{margin:3px 0 8px;line-height:1.35}
+.precio{font-size:22px;font-weight:bold;color:var(--verde);margin:7px 0}
+.precio-anterior{font-size:12px;color:#888;text-decoration:line-through}
 .descuento{display:inline-block;background:#e9f5ed;color:var(--verde);padding:5px 8px;border-radius:7px;font-size:12px;font-weight:bold}
-.etiqueta{font-size:11px;color:#666;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}
-.producto-acciones{display:flex;gap:7px;margin-top:10px;align-items:center}
-.cantidad-producto{width:76px;padding:9px}
-.producto-acciones button{flex:1;font-size:12px}
-.vacio{padding:25px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6}
+.etiqueta{font-size:11px;color:#555;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}
+.producto-acciones{display:flex;gap:6px;margin-top:10px;align-items:center}
+.cantidad-producto{width:85px;padding:9px}
+.unidad-producto{flex:1;padding:9px}
+.producto-acciones button{font-size:12px;flex:1}
+.vacio{padding:23px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6;margin-top:12px}
+.lista-establecimientos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;margin-top:12px}
+.establecimiento{padding:12px;border:1px solid var(--borde);border-radius:10px;background:#fff}
+.establecimiento a{font-size:12px;color:var(--verde)}
 .tabla-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:430px}
-th,td{text-align:center;padding:11px 9px;border-bottom:1px solid var(--borde)}
+th,td{text-align:center;padding:10px 8px;border-bottom:1px solid var(--borde)}
 th{background:#f5f2e9;white-space:nowrap}
-th:first-child,td:first-child{text-align:left;min-width:150px}
+th:first-child,td:first-child{text-align:left;min-width:145px}
 td.precio-tabla{font-weight:bold;color:var(--verde);white-space:nowrap}
 .carrito{background:#202020;color:white;border-radius:14px;padding:15px;margin-top:16px}
 .carrito h2{color:var(--dorado)}
 .item-carrito{border-bottom:1px solid #444;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
-.cantidad{display:flex;align-items:center;gap:8px}
+.cantidad{display:flex;align-items:center;gap:7px}
 .cantidad button{padding:6px 10px;background:#444;color:white}
 .total{font-size:24px;color:var(--dorado);font-weight:bold;margin-top:12px}
-.resumen{font-size:13px;color:#ddd;line-height:1.8;margin-top:8px}
+.resumen{font-size:12px;color:#ddd;line-height:1.7;margin-top:8px}
 footer{text-align:center;padding:25px 10px;font-size:12px;color:#777}
 .oculto{display:none!important}
 @media(max-width:600px){
-.grid{grid-template-columns:1fr}
-.productos{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-.producto img{height:125px}
-.producto-cuerpo{padding:9px}
-.producto h3{font-size:14px}
-.precio{font-size:19px}
-.producto-acciones{flex-direction:column}
-header h1{font-size:24px}
+ .grid{grid-template-columns:1fr}
+ .productos{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .producto img{height:115px}
+ .producto-cuerpo{padding:9px}
+ .producto h3{font-size:13px}
+ .precio{font-size:19px}
+ .producto-acciones{flex-wrap:wrap}
+ .cantidad-producto{width:65px}
+ header h1{font-size:23px}
 }
 </style>
 </head>
 <body>
+
 <header>
   <div class="encabezado-fila">
     <h1>🛒 Precios al Día</h1>
     <button class="boton-compartir" id="compartir" type="button" aria-label="Compartir aplicación" title="Compartir">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <circle cx="18" cy="5" r="3"></circle>
         <circle cx="6" cy="12" r="3"></circle>
         <circle cx="18" cy="19" r="3"></circle>
@@ -91,9 +97,11 @@ header h1{font-size:24px}
     </button>
   </div>
   <p>Encuentra ofertas, compara precios y descubre cuánto puedes ahorrar</p>
+  <button class="dorado" id="buscarEstablecimientos" type="button">📍 Buscar establecimientos</button>
 </header>
 
 <main>
+
 <section class="panel">
   <h2>📍 Ubicación</h2>
   <div class="grid">
@@ -110,345 +118,933 @@ header h1{font-size:24px}
 <section class="panel">
   <h2>🔎 Buscar productos</h2>
   <div class="busqueda-fila">
-    <input id="busqueda" type="search" placeholder="Escribe el nombre del producto..." aria-label="Buscar productos">
-
+    <input id="busqueda" type="search" placeholder="Buscar producto..." aria-label="Buscar productos">
     <label class="boton-imagen" for="fotoCamara" title="Tomar fotografía" aria-label="Abrir cámara">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M14 4h-4L8 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"></path>
         <circle cx="12" cy="13" r="3"></circle>
       </svg>
     </label>
     <input class="archivo-foto" id="fotoCamara" type="file" accept="image/*" capture="environment">
-
-    <label class="boton-imagen" for="fotoAdjuntar" title="Adjuntar imagen" aria-label="Elegir imagen">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <label class="boton-imagen" for="fotoAdjuntar" title="Elegir fotografía" aria-label="Elegir imagen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="m21.4 11.1-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l9.2-9.2a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.2a1.8 1.8 0 0 1-2.6-2.6l8.5-8.5"></path>
       </svg>
     </label>
     <input class="archivo-foto" id="fotoAdjuntar" type="file" accept="image/*">
   </div>
-  <img id="vistaFotoProducto" class="vista-previa" alt="Vista previa de la imagen seleccionada">
+  <img id="vistaFotoProducto" class="vista-previa" alt="Vista previa de la fotografía">
   <p id="estadoFotoProducto" class="nota" aria-live="polite"></p>
+  <p id="estadoBusqueda" class="nota" aria-live="polite">Escribe al menos dos letras para buscar.</p>
+  <div id="resultadosBusqueda" class="productos"></div>
+  <div id="sinResultados" class="vacio">Los resultados de búsqueda aparecerán aquí.</div>
+  <p class="nota">Los precios de PrecioCheck son referencias de catálogo. No confirman el precio de una sucursal ni representan ofertas verificadas.</p>
+</section>
+
+<section class="panel">
+  <h2>🏬 Establecimientos encontrados</h2>
+  <p id="estadoEstablecimientos" class="nota">Selecciona estado y municipio y pulsa «Buscar establecimientos».</p>
+  <div id="listaEstablecimientos" class="lista-establecimientos"></div>
+  <div id="sinEstablecimientos" class="vacio">Aquí aparecerán los establecimientos localizados en el municipio seleccionado.</div>
+  <p class="nota">Ubicaciones obtenidas de OpenStreetMap. La cobertura depende de los establecimientos registrados en el mapa.</p>
 </section>
 
 <section class="panel">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
     <h2 style="margin:0">🔥 Productos en oferta al día</h2>
-    <span class="nota" id="actualizacion">Consulta automática al seleccionar ubicación</span>
+    <span class="nota" id="actualizacion">Consulta por ubicación</span>
   </div>
-  <p id="estadoOfertas" class="nota">Selecciona estado y municipio para consultar precios en línea disponibles.</p>
+  <p id="estadoOfertas" class="nota">Selecciona estado y municipio para consultar ofertas verificadas.</p>
   <div id="listaProductos" class="productos"></div>
   <div id="sinProductos" class="vacio">
-    <h3>Aún no hay ofertas verificadas para esta ubicación</h3>
-    <p>Las ofertas aparecerán cuando una fuente comercial devuelva datos verificables. No se mostrarán precios estimados.</p>
+    <h3>Aún no hay ofertas verificadas</h3>
+    <p>No se mostrarán precios estimados como si fueran promociones.</p>
   </div>
 </section>
 
 <section class="panel">
   <h2>📊 Comparación de precios</h2>
-  <p class="nota">Se muestran hasta 10 productos con mayor descuento verificable y hasta 3 establecimientos con los mejores precios comparativos. Si un establecimiento no ofrece un producto, aparecerá «—».</p>
+  <p class="nota">La comparación mostrará los establecimientos con los mejores precios cuando existan ofertas actuales verificables.</p>
   <div class="tabla-wrap">
     <table>
       <thead id="encabezadoComparacion">
         <tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>
       </thead>
       <tbody id="tablaComparacion">
-        <tr><td colspan="4">Selecciona una ubicación para consultar ofertas.</td></tr>
+        <tr><td colspan="4">Aún no hay ofertas verificadas para comparar.</td></tr>
       </tbody>
     </table>
   </div>
-  <p id="estadoProfeco" class="nota">Los datos PROFECO se identificarán como referencia oficial, no como promoción. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p>
-  <p class="nota">Los precios publicados por PROFECO son referencias tomadas en una fecha concreta y pueden cambiar en tienda. <a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a></p>
+  <p class="nota">Los datos de PROFECO se identificarán como referencia oficial, no como promoción.
+    <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a>
+  </p>
+  <p class="nota">
+    <a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a>
+  </p>
 </section>
 
 <section class="carrito">
   <h2>🛍️ Mi carrito</h2>
   <div id="listaCarrito">Tu carrito está vacío.</div>
   <div class="total" id="total">$0.00</div>
-  <div class="resumen" id="resumen">Agrega productos para calcular el total y el ahorro estimado.</div>
+  <div class="resumen" id="resumen">Agrega productos para calcular el total.</div>
   <button class="dorado" id="vaciarCarrito" style="width:100%;margin-top:12px">Vaciar carrito</button>
 </section>
+
 </main>
 
 <footer>Precios al Día · Comparar para ahorrar<br>Los precios dependen de la fecha, ubicación y disponibilidad de cada establecimiento.</footer>
 
 <script>
 'use strict';
-const $=id=>document.getElementById(id);
-const estados=['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila de Zaragoza','Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','México','Michoacán de Ocampo','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz de Ignacio de la Llave','Yucatán','Zacatecas'];
-const URL_MUNICIPIOS='https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json';
-const CLAVE_CARRITO='precios_al_dia_carrito_v2';
-let catalogoMunicipios=null,productos=[],carrito=leerCarrito(),ultimaUbicacion='';
 
-function leerCarrito(){try{return JSON.parse(localStorage.getItem(CLAVE_CARRITO))||{}}catch(e){return {}}}
-function guardarCarrito(){try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}}
-function dinero(v){return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'})}
-function norm(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+const $=id=>document.getElementById(id);
+const URL_MUNICIPIOS='https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json';
+const CLAVE_CARRITO='precios_al_dia_carrito_v3';
+
+const estados=[
+'Aguascalientes','Baja California','Baja California Sur','Campeche',
+'Chiapas','Chihuahua','Ciudad de México','Coahuila de Zaragoza',
+'Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco',
+'México','Michoacán de Ocampo','Morelos','Nayarit','Nuevo León',
+'Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí',
+'Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala',
+'Veracruz de Ignacio de la Llave','Yucatán','Zacatecas'
+];
+
+let catalogoMunicipios=null;
+let resultadosBusqueda=[];
+let ofertas=[];
+let establecimientos=[];
+let carrito=leerCarrito();
+let temporizadorBusqueda=null;
+let controladorBusqueda=null;
+let contadorOfertas=0;
+let ultimaUbicacion='';
+let intervaloOfertas=null;
+
+function leerCarrito(){
+  try{
+    const x=JSON.parse(localStorage.getItem(CLAVE_CARRITO));
+    return Array.isArray(x)?x:[];
+  }catch(e){return []}
+}
+
+function guardarCarrito(){
+  try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}
+}
+
+function dinero(v){
+  return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'});
+}
+
+function norm(t){
+  return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+}
+
 function llenarEstados(){
-  estados.forEach(n=>{let o=document.createElement('option');o.value=n;o.textContent=n;$('estado').appendChild(o)});
+  estados.forEach(n=>{
+    const o=document.createElement('option');
+    o.value=n;
+    o.textContent=n;
+    $('estado').appendChild(o);
+  });
 }
+
 function aliasEstado(e){
-  return ({'Coahuila de Zaragoza':'Coahuila','México':'Estado de México','Michoacán de Ocampo':'Michoacán','Veracruz de Ignacio de la Llave':'Veracruz'})[e]||e;
+  return ({
+    'Coahuila de Zaragoza':'Coahuila',
+    'México':'Estado de México',
+    'Michoacán de Ocampo':'Michoacán',
+    'Veracruz de Ignacio de la Llave':'Veracruz'
+  })[e]||e;
 }
+
 function municipiosDe(datos){
   if(!Array.isArray(datos))return [];
   return datos.map(x=>typeof x==='string'?x:(x&&(x.nombre||x.municipio||x.name||x.Municipio))||'').filter(Boolean);
 }
+
 function buscarMunicipios(datos,e){
   if(!datos)return [];
-  let n=aliasEstado(e),k=Object.keys(datos).find(x=>norm(x)===norm(n));
+  const n=aliasEstado(e);
+  const k=Object.keys(datos).find(x=>norm(x)===norm(n));
   if(k)return municipiosDe(datos[k]);
+
   if(Array.isArray(datos.estados)){
-    let x=datos.estados.find(y=>y&&norm(y.nombre||y.estado||y.name)===norm(n));
+    const x=datos.estados.find(y=>y&&norm(y.nombre||y.estado||y.name)===norm(n));
     if(x)return municipiosDe(x.municipios);
   }
   return [];
 }
+
 async function cargarCatalogo(){
   try{
-    let r=await fetch(URL_MUNICIPIOS);
+    const r=await fetch(URL_MUNICIPIOS);
     if(!r.ok)throw Error();
     catalogoMunicipios=await r.json();
     $('estadoCarga').textContent='Catálogo de municipios disponible.';
+    if($('estado').value)cargarMunicipios();
   }catch(e){
     $('estadoCarga').textContent='No se pudo cargar el catálogo de municipios. Revisa tu conexión.';
   }
 }
+
 function cargarMunicipios(){
-  let e=$('estado').value,s=$('municipio');
-  s.innerHTML='';
-  let o=document.createElement('option');
-  o.value='';o.textContent='Selecciona tu municipio';
-  s.appendChild(o);
-  let lista=[...new Set(buscarMunicipios(catalogoMunicipios,e))].sort((a,b)=>a.localeCompare(b,'es'));
-  lista.forEach(n=>{let x=document.createElement('option');x.value=n;x.textContent=n;s.appendChild(x)});
+  const e=$('estado').value;
+  const s=$('municipio');
+  s.innerHTML='<option value="">Selecciona tu municipio</option>';
+
+  const lista=[...new Set(buscarMunicipios(catalogoMunicipios,e))]
+    .sort((a,b)=>a.localeCompare(b,'es'));
+
+  lista.forEach(n=>{
+    const x=document.createElement('option');
+    x.value=n;
+    x.textContent=n;
+    s.appendChild(x);
+  });
+
   s.disabled=!lista.length;
-  if(e&&!lista.length)o.textContent='Municipios no disponibles';
-  productos=[];ultimaUbicacion='';
-  mostrarProductos();limpiarTabla();actualizarCarrito();
-}
-function adaptar(x,i){
-  return {
-    id:String(x.id||x.productId||x.sku||i),
-    nombre:x.nombre||x.name||x.product||'Producto',
-    categoria:x.categoria||x.category||'Otros',
-    tienda:x.tienda||x.store||x.establecimiento||'Tienda en línea',
-    precio:Number(x.precio??x.price??x.currentPrice),
-    anterior:Number(x.precioAnterior??x.listPrice??x.originalPrice??0),
-    imagen:x.imagen||x.image||x.imageUrl||'',
-    contenido:x.contenido||x.content||x.presentation||'',
-    unidad:x.unidad||x.unit||'pieza',
-    vigencia:x.vigencia||x.validUntil||'',
-    consultado:x.consultado||x.scrapedAt||x.checkedAt||'',
-    fuente:x.fuente||x.url||x.sourceUrl||'',
-    ubicacion:x.ubicacion||'',
-    tipo:x.tipo||'Precio en línea',
-    verificada:x.verificada===true||x.verified===true||x.available===true
-  };
-}
-async function consultarOfertas(force=false){
-  let e=$('estado').value,m=$('municipio').value;
-  if(!e||!m){
-    $('estadoOfertas').textContent='Selecciona estado y municipio para consultar precios.';
-    productos=[];mostrarProductos();limpiarTabla();return;
-  }
-  let key=e+'|'+m;
-  if(!force&&key===ultimaUbicacion)return;
-  ultimaUbicacion=key;
-  $('estadoOfertas').textContent='Consultando fuentes disponibles para '+m+', '+e+'...';
-  $('sinProductos').classList.add('oculto');
-  try{
-    let r=await fetch('./api/offers?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'});
-    let d=await r.json();
-    if(!r.ok)throw Error(d.mensaje||'Error de consulta');
-    let raw=Array.isArray(d.ofertas)?d.ofertas:[];
-    productos=raw.map(adaptar).filter(p=>p.verificada&&Number.isFinite(p.precio)&&p.precio>0&&p.fuente);
-    $('estadoOfertas').textContent=d.mensaje||('Consulta para '+m+', '+e+'.');
-    $('actualizacion').textContent='Última consulta: '+new Date().toLocaleString('es-MX');
-    mostrarProductos();renderTabla();actualizarCarrito();
-  }catch(err){
-    productos=[];
-    $('estadoOfertas').textContent='No fue posible consultar las fuentes. Intenta más tarde.';
-    mostrarProductos();limpiarTabla();actualizarCarrito();
-  }
-}
-function etiqueta(t){
-  let e=document.createElement('span');e.className='etiqueta';e.textContent=t;return e;
-}
-function mostrarProductos(){
-  let c=$('listaProductos');c.innerHTML='';
-  let q=norm($('busqueda').value);
-  let list=productos.filter(p=>norm(p.nombre).includes(q));
-  $('sinProductos').classList.toggle('oculto',list.length>0);
-  list.forEach(p=>{
-    let card=document.createElement('article');card.className='producto';
-    if(p.imagen){
-      let img=document.createElement('img');img.src=p.imagen;img.alt=p.nombre;img.loading='lazy';
-      img.onerror=()=>img.remove();card.appendChild(img);
-    }
-    let b=document.createElement('div');b.className='producto-cuerpo';
-    let h=document.createElement('h3');h.textContent=p.nombre;b.appendChild(h);
-    if(p.contenido)b.appendChild(etiqueta(p.contenido));
-    b.appendChild(etiqueta('Unidad: '+p.unidad));
-    let pr=document.createElement('div');pr.className='precio';pr.textContent=dinero(p.precio);b.appendChild(pr);
-    if(p.anterior>p.precio){
-      let a=document.createElement('div');a.className='precio-anterior';a.textContent=dinero(p.anterior);b.appendChild(a);
-      let porcentaje=Math.round((1-p.precio/p.anterior)*100);
-      let d=document.createElement('p');d.className='descuento';d.textContent='Ahorro '+porcentaje+'%';b.appendChild(d);
-    }
-    b.append(etiqueta(p.categoria),etiqueta(p.tienda),etiqueta(p.tipo));
-    let info=document.createElement('p');info.className='nota';
-    info.textContent=[p.ubicacion||'Precio en línea; sucursal no confirmada',p.vigencia?'Vigencia: '+p.vigencia:'Vigencia no informada',p.consultado?'Consultado: '+p.consultado:''].filter(Boolean).join(' · ');
-    b.appendChild(info);
-    let link=document.createElement('a');link.className='nota';link.href=p.fuente;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ver fuente ↗';b.appendChild(link);
-    let actions=document.createElement('div');actions.className='producto-acciones';
-    let qty=document.createElement('input');qty.type='number';qty.min='1';qty.max='999';qty.value='1';qty.className='cantidad-producto';qty.setAttribute('aria-label','Cantidad');
-    let add=document.createElement('button');add.className='verde';add.textContent='Agregar';
-    add.addEventListener('click',()=>agregar(p.id,Math.max(1,Math.min(999,parseInt(qty.value,10)||1))));
-    actions.append(qty,add);b.appendChild(actions);card.appendChild(b);c.appendChild(card);
-  });
-}
-function claveProducto(p){return [norm(p.nombre),norm(p.contenido),norm(p.unidad)].join('|')}
-function porcentajeDescuento(p){return p.anterior>p.precio&&p.anterior>0?(1-p.precio/p.anterior)*100:0}
-function obtenerProductosDestacados(){
-  let grupos=new Map();
-  productos.forEach(p=>{
-    let k=claveProducto(p);
-    if(!grupos.has(k))grupos.set(k,{clave:k,nombre:p.nombre,items:[],descuento:0});
-    let g=grupos.get(k);g.items.push(p);g.descuento=Math.max(g.descuento,porcentajeDescuento(p));
-  });
-  return [...grupos.values()].filter(g=>g.descuento>0).sort((a,b)=>b.descuento-a.descuento).slice(0,10);
-}
-function obtenerMejoresTiendas(destacados){
-  let puntuaciones=new Map();
-  destacados.forEach(g=>{
-    let porTienda=new Map();
-    g.items.forEach(p=>{
-      let actual=porTienda.get(p.tienda);
-      if(!actual||p.precio<actual)porTienda.set(p.tienda,p.precio);
-    });
-    if(!porTienda.size)return;
-    let minimo=Math.min(...porTienda.values());
-    porTienda.forEach((precio,tienda)=>{
-      if(!puntuaciones.has(tienda))puntuaciones.set(tienda,{suma:0,cantidad:0});
-      let s=puntuaciones.get(tienda);s.suma+=precio/minimo;s.cantidad++;
-    });
-  });
-  return [...puntuaciones.entries()].sort((a,b)=>{
-    let promedioA=a[1].suma/a[1].cantidad,promedioB=b[1].suma/b[1].cantidad;
-    return promedioA-promedioB||b[1].cantidad-a[1].cantidad;
-  }).slice(0,3).map(x=>x[0]);
-}
-function limpiarTabla(mensaje='Aún no hay ofertas con descuentos verificables para comparar.'){
-  $('encabezadoComparacion').innerHTML='<tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>';
-  $('tablaComparacion').innerHTML='';
-  let tr=document.createElement('tr'),td=document.createElement('td');
-  td.colSpan=4;td.textContent=mensaje;tr.appendChild(td);$('tablaComparacion').appendChild(tr);
-}
-function renderTabla(){
-  let destacados=obtenerProductosDestacados();
-  if(!destacados.length){limpiarTabla('Todavía no hay productos con descuento anterior y precio actual verificables para comparar.');return}
-  let tiendas=obtenerMejoresTiendas(destacados);
-  if(!tiendas.length){limpiarTabla();return}
-  let head=$('encabezadoComparacion');head.innerHTML='';
-  let trh=document.createElement('tr');
-  ['Productos',...tiendas].forEach(nombre=>{let th=document.createElement('th');th.textContent=nombre;trh.appendChild(th)});
-  for(let i=tiendas.length;i<3;i++){let th=document.createElement('th');th.textContent='—';trh.appendChild(th)}
-  head.appendChild(trh);
-  let body=$('tablaComparacion');body.innerHTML='';
-  destacados.forEach(g=>{
-    let tr=document.createElement('tr'),tdNombre=document.createElement('td');
-    tdNombre.textContent=g.nombre;tr.appendChild(tdNombre);
-    tiendas.forEach(tienda=>{
-      let td=document.createElement('td');td.className='precio-tabla';
-      let ofertas=g.items.filter(p=>p.tienda===tienda);
-      if(ofertas.length){
-        let mejor=ofertas.reduce((a,b)=>a.precio<=b.precio?a:b);
-        td.textContent=dinero(mejor.precio);td.title=mejor.unidad+(mejor.contenido?' · '+mejor.contenido:'');
-      }else td.textContent='—';
-      tr.appendChild(td);
-    });
-    for(let i=tiendas.length;i<3;i++){let td=document.createElement('td');td.textContent='—';tr.appendChild(td)}
-    body.appendChild(tr);
-  });
-}
-function agregar(id,n=1){
-  let p=productos.find(x=>x.id===id);if(!p)return;
-  carrito[id]=(carrito[id]||0)+n;guardarCarrito();actualizarCarrito();
-}
-function cantidad(id,n){
-  let v=(carrito[id]||0)+n;
-  if(v<=0)delete carrito[id];else carrito[id]=v;
-  guardarCarrito();actualizarCarrito();
-}
-function actualizarCarrito(){
-  let c=$('listaCarrito');c.innerHTML='';
-  let total=0,ahorro=0,unidades=0,ids=Object.keys(carrito);
-  if(!ids.length)c.textContent='Tu carrito está vacío.';
-  ids.forEach(id=>{
-    let p=productos.find(x=>x.id===id),q=Number(carrito[id]);
-    if(!p||q<1)return;
-    total+=p.precio*q;unidades+=q;
-    if(p.anterior>p.precio)ahorro+=(p.anterior-p.precio)*q;
-    let row=document.createElement('div');row.className='item-carrito';
-    let n=document.createElement('span');n.textContent=p.nombre+' ('+p.unidad+') · '+dinero(p.precio*q);
-    let ctr=document.createElement('div');ctr.className='cantidad';
-    let m=document.createElement('button');m.textContent='−';m.addEventListener('click',()=>cantidad(id,-1));
-    let num=document.createElement('strong');num.textContent=q;
-    let plus=document.createElement('button');plus.textContent='+';plus.addEventListener('click',()=>cantidad(id,1));
-    ctr.append(m,num,plus);row.append(n,ctr);c.appendChild(row);
-  });
-  $('total').textContent=dinero(total);
-  let avg=total+ahorro>0?ahorro/(total+ahorro)*100:0;
-  $('resumen').textContent='Unidades: '+unidades+' | Ahorro potencial: '+dinero(ahorro)+' | Descuento promedio estimado: '+avg.toFixed(1)+'%.';
-  guardarCarrito();
+  if(e&&!lista.length)s.options[0].textContent='Municipios no disponibles';
+
+  limpiarResultadosUbicacion();
 }
 
-/* Cámara y selección de imágenes: solo acepta fotografías. */
+function limpiarResultadosUbicacion(){
+  ultimaUbicacion='';
+  ofertas=[];
+  establecimientos=[];
+  $('listaProductos').innerHTML='';
+  $('listaEstablecimientos').innerHTML='';
+  $('sinProductos').classList.remove('oculto');
+  $('sinEstablecimientos').classList.remove('oculto');
+  $('estadoOfertas').textContent='Selecciona un municipio para consultar ofertas verificadas.';
+  $('estadoEstablecimientos').textContent='Selecciona un municipio para buscar establecimientos.';
+  limpiarTabla();
+}
+
+function crearEtiqueta(texto){
+  const e=document.createElement('span');
+  e.className='etiqueta';
+  e.textContent=texto;
+  return e;
+}
+
+/* BÚSQUEDA DE PRODUCTOS EN PRECIOCHECK */
+async function buscarProductos(consulta){
+  if(controladorBusqueda)controladorBusqueda.abort();
+  controladorBusqueda=new AbortController();
+
+  const q=consulta.trim();
+  if(q.length<2){
+    resultadosBusqueda=[];
+    $('estadoBusqueda').textContent='Escribe al menos dos letras para buscar.';
+    mostrarResultadosBusqueda();
+    return;
+  }
+
+  $('estadoBusqueda').textContent='Buscando en el catálogo...';
+  $('sinResultados').classList.add('oculto');
+
+  try{
+    const url='./api/preciocheck/search?q='+encodeURIComponent(q)+'&limite=20';
+    const r=await fetch(url,{cache:'no-store',signal:controladorBusqueda.signal});
+    const d=await r.json();
+
+    if(!r.ok)throw Error(d.mensaje||d.error||'No se pudo completar la búsqueda.');
+    if(!d.disponible||!Array.isArray(d.productos))throw Error(d.mensaje||'El catálogo no devolvió productos.');
+
+    resultadosBusqueda=d.productos.map((p,i)=>({
+      id:String(p.codigoBarras||('producto-'+i+'-'+norm(p.nombre))),
+      nombre:p.nombre||'Producto sin nombre',
+      marca:p.marca||'',
+      categoria:p.categoria||'',
+      precio:Number(p.precioReferencia||0),
+      imagen:typeof p.imagen==='string'&&p.imagen.startsWith('https://')?p.imagen:'',
+      codigoBarras:p.codigoBarras||'',
+      fuente:p.fuente||'PrecioCheck'
+    }));
+
+    $('estadoBusqueda').textContent=d.mensaje||('Resultados para «'+q+'».');
+    mostrarResultadosBusqueda();
+  }catch(e){
+    if(e.name==='AbortError')return;
+    resultadosBusqueda=[];
+    $('estadoBusqueda').textContent='No fue posible buscar: '+e.message;
+    mostrarResultadosBusqueda();
+  }
+}
+
+function mostrarResultadosBusqueda(){
+  const c=$('resultadosBusqueda');
+  c.innerHTML='';
+  $('sinResultados').classList.toggle('oculto',resultadosBusqueda.length>0);
+
+  if(!resultadosBusqueda.length){
+    $('sinResultados').textContent=$('busqueda').value.trim().length>=2
+      ?'No se encontraron productos para esta búsqueda.'
+      :'Los resultados de búsqueda aparecerán aquí.';
+    return;
+  }
+
+  resultadosBusqueda.forEach(p=>{
+    const card=document.createElement('article');
+    card.className='producto';
+
+    if(p.imagen){
+      const img=document.createElement('img');
+      img.src=p.imagen;
+      img.alt=p.nombre;
+      img.loading='lazy';
+      img.onerror=()=>img.remove();
+      card.appendChild(img);
+    }
+
+    const b=document.createElement('div');
+    b.className='producto-cuerpo';
+
+    const h=document.createElement('h3');
+    h.textContent=p.nombre;
+    b.appendChild(h);
+
+    if(p.marca)b.appendChild(crearEtiqueta(p.marca));
+    if(p.categoria)b.appendChild(crearEtiqueta(p.categoria));
+
+    if(p.precio>0){
+      const precio=document.createElement('div');
+      precio.className='precio';
+      precio.textContent=dinero(p.precio);
+      b.appendChild(precio);
+    }else{
+      const nota=document.createElement('p');
+      nota.className='nota';
+      nota.textContent='Precio no disponible';
+      b.appendChild(nota);
+    }
+
+    b.appendChild(crearEtiqueta('Precio de referencia'));
+
+    const aviso=document.createElement('p');
+    aviso.className='nota';
+    aviso.textContent='Precio de catálogo. No confirma tienda, sucursal ni promoción.';
+    b.appendChild(aviso);
+
+    const acciones=document.createElement('div');
+    acciones.className='producto-acciones';
+
+    const boton=document.createElement('button');
+    boton.className='verde';
+    boton.textContent='Agregar referencia';
+    boton.disabled=!(p.precio>0);
+    boton.addEventListener('click',()=>agregarReferencia(p));
+
+    acciones.appendChild(boton);
+    b.appendChild(acciones);
+    card.appendChild(b);
+    c.appendChild(card);
+  });
+}
+
+/* ESTABLECIMIENTOS DEL MUNICIPIO */
+async function buscarEstablecimientos(){
+  const estado=$('estado').value;
+  const municipio=$('municipio').value;
+
+  if(!estado||!municipio){
+    $('estadoEstablecimientos').textContent='Primero selecciona estado y municipio.';
+    return;
+  }
+
+  $('estadoEstablecimientos').textContent='Buscando establecimientos en '+municipio+'...';
+  $('listaEstablecimientos').innerHTML='';
+  $('sinEstablecimientos').classList.add('oculto');
+
+  try{
+    const url='./api/places?estado='+encodeURIComponent(estado)+'&municipio='+encodeURIComponent(municipio);
+    const r=await fetch(url,{cache:'no-store'});
+    const d=await r.json();
+
+    if(!r.ok||!Array.isArray(d.establecimientos))throw Error(d.mensaje||'No se encontraron establecimientos.');
+
+    establecimientos=d.establecimientos;
+    mostrarEstablecimientos();
+    $('estadoEstablecimientos').textContent=d.mensaje||('Establecimientos encontrados: '+establecimientos.length+'.');
+  }catch(e){
+    establecimientos=[];
+    $('listaEstablecimientos').innerHTML='';
+    $('sinEstablecimientos').classList.remove('oculto');
+    $('sinEstablecimientos').textContent=e.message;
+    $('estadoEstablecimientos').textContent='No fue posible completar la búsqueda.';
+  }
+}
+
+function mostrarEstablecimientos(){
+  const c=$('listaEstablecimientos');
+  c.innerHTML='';
+  $('sinEstablecimientos').classList.toggle('oculto',establecimientos.length>0);
+
+  establecimientos.forEach(p=>{
+    const card=document.createElement('article');
+    card.className='establecimiento';
+
+    const h=document.createElement('h3');
+    h.textContent=p.nombre||'Establecimiento';
+    card.appendChild(h);
+
+    const tipo=document.createElement('p');
+    tipo.className='nota';
+    tipo.textContent=p.tipo||'Establecimiento';
+    card.appendChild(tipo);
+
+    if(p.direccion){
+      const dir=document.createElement('p');
+      dir.className='nota';
+      dir.textContent=p.direccion;
+      card.appendChild(dir);
+    }
+
+    if(p.url&&p.url.startsWith('https://www.openstreetmap.org/')){
+      const a=document.createElement('a');
+      a.href=p.url;
+      a.target='_blank';
+      a.rel='noopener noreferrer';
+      a.textContent='Ver ubicación en el mapa ↗';
+      card.appendChild(a);
+    }
+
+    c.appendChild(card);
+  });
+}
+
+/* VALIDACIÓN DE OFERTAS */
+function fechaValida(valor){
+  if(!valor)return false;
+  let t=typeof valor==='number'?valor:Date.parse(valor);
+  if(!Number.isFinite(t))return false;
+  if(t<100000000000)t*=1000;
+  const edad=Date.now()-t;
+  return edad>=-60000&&edad<=15*60*1000;
+}
+
+function vigente(valor){
+  if(!valor)return true;
+  const t=Date.parse(valor);
+  return !Number.isFinite(t)||t>=Date.now();
+}
+
+function adaptarOferta(x,i){
+  const precio=Number(x.precio);
+  const anterior=Number(x.precioAnterior||x.precio_anterior||0);
+  return {
+    id:String(x.id||x.codigoBarras||('oferta-'+i)),
+    nombre:String(x.nombre||x.producto||''),
+    tienda:String(x.tienda||x.establecimiento||''),
+    precio,
+    anterior,
+    imagen:typeof x.imagen==='string'&&x.imagen.startsWith('https://')?x.imagen:'',
+    contenido:String(x.contenido||x.presentacion||x.cantidad||''),
+    unidad:String(x.unidad||''),
+    vigencia:x.vigencia||x.fechaFin||'',
+    consultado:x.consultado||x.scrapedAt||x.checkedAt||x.verifiedAt||'',
+    fuente:String(x.fuente||x.source||''),
+    urlFuente:String(x.urlFuente||x.url||''),
+    verificada:x.verificada===true||x.verified===true
+  };
+}
+
+function esVerificable(p){
+  return Boolean(
+    p.nombre&&p.tienda&&p.fuente&&
+    Number.isFinite(p.precio)&&p.precio>0&&
+    p.verificada&&fechaValida(p.consultado)&&
+    vigente(p.vigencia)
+  );
+}
+
+async function consultarOfertas(forzar=false){
+  const estado=$('estado').value;
+  const municipio=$('municipio').value;
+
+  if(!estado||!municipio){
+    $('estadoOfertas').textContent='Selecciona estado y municipio para consultar ofertas verificadas.';
+    $('sinProductos').classList.remove('oculto');
+    return;
+  }
+
+  const clave=estado+'|'+municipio;
+  if(!forzar&&clave===ultimaUbicacion)return;
+
+  ultimaUbicacion=clave;
+  const consulta=++contadorOfertas;
+
+  $('estadoOfertas').textContent='Consultando ofertas verificadas para '+municipio+'...';
+  $('actualizacion').textContent='Consulta automática activa';
+  $('listaProductos').innerHTML='';
+  ofertas=[];
+  $('sinProductos').classList.remove('oculto');
+  limpiarTabla();
+
+  try{
+    const url='./api/offers?estado='+encodeURIComponent(estado)+'&municipio='+encodeURIComponent(municipio);
+    const r=await fetch(url,{cache:'no-store'});
+    const d=await r.json();
+
+    if(consulta!==contadorOfertas)return;
+
+    const recibidas=Array.isArray(d.ofertas)?d.ofertas:[];
+    ofertas=recibidas.map(adaptarOferta).filter(esVerificable);
+
+    if(!r.ok&& !d.mensaje)throw Error('No se pudo consultar el servicio de ofertas.');
+
+    mostrarOfertas();
+    renderTabla();
+
+    if(ofertas.length){
+      $('estadoOfertas').textContent=ofertas.length+' ofertas verificadas disponibles en '+municipio+'.';
+    }else{
+      $('estadoOfertas').textContent=d.mensaje||'No hay ofertas verificadas disponibles para esta ubicación.';
+    }
+  }catch(e){
+    if(consulta!==contadorOfertas)return;
+    ofertas=[];
+    mostrarOfertas();
+    limpiarTabla();
+    $('estadoOfertas').textContent='No fue posible consultar las ofertas. No se mostrarán precios sin verificar.';
+  }
+}
+
+function mostrarOfertas(){
+  const c=$('listaProductos');
+  c.innerHTML='';
+  $('sinProductos').classList.toggle('oculto',ofertas.length>0);
+
+  ofertas.sort((a,b)=>{
+    const da=a.anterior>0?Math.max(0,(a.anterior-a.precio)/a.anterior):0;
+    const db=b.anterior>0?Math.max(0,(b.anterior-b.precio)/b.anterior):0;
+    return db-da||a.precio-b.precio;
+  });
+
+  ofertas.forEach(p=>{
+    const card=document.createElement('article');
+    card.className='producto';
+
+    if(p.imagen){
+      const img=document.createElement('img');
+      img.src=p.imagen;
+      img.alt=p.nombre;
+      img.loading='lazy';
+      img.onerror=()=>img.remove();
+      card.appendChild(img);
+    }
+
+    const b=document.createElement('div');
+    b.className='producto-cuerpo';
+
+    const h=document.createElement('h3');
+    h.textContent=p.nombre;
+    b.appendChild(h);
+
+    if(p.contenido)b.appendChild(crearEtiqueta(p.contenido));
+    const tienda=document.createElement('p');
+    tienda.className='nota';
+    tienda.textContent=p.tienda;
+    b.appendChild(tienda);
+
+    if(p.anterior>p.precio){
+      const porcentaje=Math.round((p.anterior-p.precio)/p.anterior*100);
+      const desc=document.createElement('span');
+      desc.className='descuento';
+      desc.textContent='-'+porcentaje+'%';
+      b.appendChild(desc);
+
+      const anterior=document.createElement('div');
+      anterior.className='precio-anterior';
+      anterior.textContent=dinero(p.anterior);
+      b.appendChild(anterior);
+    }else{
+      b.appendChild(crearEtiqueta('Sin descuento'));
+    }
+
+    const precio=document.createElement('div');
+    precio.className='precio';
+    precio.textContent=dinero(p.precio);
+    b.appendChild(precio);
+
+    const acciones=document.createElement('div');
+    acciones.className='producto-acciones';
+
+    const cantidad=document.createElement('input');
+    cantidad.className='cantidad-producto';
+    cantidad.type='number';
+    cantidad.min='0.01';
+    cantidad.step='any';
+    cantidad.value='1';
+    cantidad.setAttribute('aria-label','Cantidad');
+
+    const unidad=document.createElement('select');
+    unidad.className='unidad-producto';
+    unidad.setAttribute('aria-label','Unidad de compra');
+
+    const opciones=unidadesDisponibles(p);
+    opciones.forEach(u=>{
+      const o=document.createElement('option');
+      o.value=u.value;
+      o.textContent=u.label;
+      unidad.appendChild(o);
+    });
+
+    const add=document.createElement('button');
+    add.className='verde';
+    add.textContent='Agregar';
+    add.addEventListener('click',()=>{
+      const n=Number(cantidad.value);
+      if(!Number.isFinite(n)||n<=0){
+        alert('Escribe una cantidad válida.');
+        return;
+      }
+      agregarOferta(p,n,unidad.value);
+    });
+
+    acciones.append(cantidad,unidad,add);
+    b.appendChild(acciones);
+
+    const fuente=document.createElement('p');
+    fuente.className='nota';
+    fuente.textContent='Fuente verificada: '+p.fuente;
+    b.appendChild(fuente);
+
+    card.appendChild(b);
+    c.appendChild(card);
+  });
+}
+
+/* UNIDADES Y CÁLCULO DE PRESENTACIONES */
+function tipoUnidad(p){
+  const t=norm((p.contenido||'')+' '+(p.unidad||'')+' '+p.nombre);
+  if(/\b(kg|kilo|kilogramo|gramo|gr|g)\b/.test(t))return 'masa';
+  if(/\b(litro|litros|lt|ml|mililitro)\b/.test(t))return 'volumen';
+  return 'pieza';
+}
+
+function contenidoBase(p){
+  const texto=norm(p.contenido||'');
+  const m=texto.match(/(\d+(?:[.,]\d+)?)\s*(kg|kilos?|kilogramos?|g|gr|gramos?|l|litros?|lt|ml|mililitros?)/);
+  if(!m)return null;
+
+  const n=Number(m[1].replace(',','.'));
+  const u=m[2];
+
+  if(!Number.isFinite(n)||n<=0)return null;
+  if(['kg','kilo','kilos','kilogramo','kilogramos'].includes(u))return {tipo:'masa',valor:n*1000};
+  if(['g','gr','gramo','gramos'].includes(u))return {tipo:'masa',valor:n};
+  if(['l','litro','litros','lt'].includes(u))return {tipo:'volumen',valor:n*1000};
+  return {tipo:'volumen',valor:n};
+}
+
+function unidadesDisponibles(p){
+  const tipo=tipoUnidad(p);
+  if(tipo==='masa')return [
+    {value:'kg',label:'kg'},
+    {value:'g',label:'gramos'}
+  ];
+  if(tipo==='volumen')return [
+    {value:'l',label:'litros'},
+    {value:'ml',label:'ml'}
+  ];
+  return [{value:'pieza',label:'pieza'}];
+}
+
+function cantidadBase(cantidad,unidad){
+  if(unidad==='kg'||unidad==='l')return cantidad*1000;
+  return cantidad;
+}
+
+function unidadCompatible(p,unidad){
+  const tipo=tipoUnidad(p);
+  return (tipo==='masa'&&(unidad==='kg'||unidad==='g'))||
+    (tipo==='volumen'&&(unidad==='l'||unidad==='ml'))||
+    (tipo==='pieza'&&unidad==='pieza');
+}
+
+function precioPorCantidad(p,cantidad,unidad){
+  if(!unidadCompatible(p,unidad))return null;
+  if(unidad==='pieza')return p.precio*cantidad;
+
+  const contenido=contenidoBase(p);
+  if(!contenido)return null;
+
+  const base=cantidadBase(cantidad,unidad);
+  if(contenido.tipo!==tipoUnidad(p)||base<=0)return null;
+
+  return p.precio*(base/contenido.valor);
+}
+
+/* CARRITO */
+function agregarOferta(p,cantidad,unidad){
+  const importe=precioPorCantidad(p,cantidad,unidad);
+
+  if(importe===null){
+    alert('No se puede calcular esta cantidad porque falta información verificable de la presentación del producto.');
+    return;
+  }
+
+  const key=p.id+'|'+p.tienda+'|'+unidad;
+  const existente=carrito.find(x=>x.key===key);
+
+  if(existente){
+    existente.cantidad+=cantidad;
+  }else{
+    carrito.push({
+      key,
+      id:p.id,
+      nombre:p.nombre,
+      tienda:p.tienda,
+      precio:p.precio,
+      cantidad,
+      unidad,
+      contenido:p.contenido,
+      tipo:'oferta'
+    });
+  }
+
+  guardarCarrito();
+  actualizarCarrito();
+}
+
+function agregarReferencia(p){
+  if(!(p.precio>0))return;
+  const key='ref|'+p.id;
+  const existente=carrito.find(x=>x.key===key);
+
+  if(existente)existente.cantidad++;
+  else{
+    carrito.push({
+      key,
+      id:p.id,
+      nombre:p.nombre,
+      tienda:'Precio de referencia',
+      precio:p.precio,
+      cantidad:1,
+      unidad:'pieza',
+      tipo:'referencia'
+    });
+  }
+
+  guardarCarrito();
+  actualizarCarrito();
+}
+
+function cambiarCantidad(key,cambio){
+  const p=carrito.find(x=>x.key===key);
+  if(!p)return;
+
+  p.cantidad+=cambio;
+  if(p.cantidad<=0)carrito=carrito.filter(x=>x.key!==key);
+
+  guardarCarrito();
+  actualizarCarrito();
+}
+
+function importeCarrito(p){
+  if(p.tipo==='referencia')return p.precio*p.cantidad;
+  const original=ofertas.find(x=>x.id===p.id&&x.tienda===p.tienda);
+  if(original)return precioPorCantidad(original,p.cantidad,p.unidad);
+  return null;
+}
+
+function actualizarCarrito(){
+  const c=$('listaCarrito');
+  c.innerHTML='';
+  let total=0;
+  let unidades=0;
+
+  if(!carrito.length)c.textContent='Tu carrito está vacío.';
+
+  carrito.forEach(p=>{
+    const importe=importeCarrito(p);
+    const valor=importe===null?p.precio*p.cantidad:importe;
+    total+=valor;
+    unidades+=p.cantidad;
+
+    const row=document.createElement('div');
+    row.className='item-carrito';
+
+    const nombre=document.createElement('span');
+    nombre.textContent=p.nombre+' · '+p.cantidad+' '+p.unidad+' · '+dinero(valor);
+
+    const ctr=document.createElement('div');
+    ctr.className='cantidad';
+
+    const menos=document.createElement('button');
+    menos.textContent='−';
+    menos.addEventListener('click',()=>cambiarCantidad(p.key,-(p.unidad==='g'||p.unidad==='ml'?100:p.unidad==='kg'||p.unidad==='l'?0.1:1)));
+
+    const mas=document.createElement('button');
+    mas.textContent='+';
+    mas.addEventListener('click',()=>cambiarCantidad(p.key,p.unidad==='g'||p.unidad==='ml'?100:p.unidad==='kg'||p.unidad==='l'?0.1:1));
+
+    const quitar=document.createElement('button');
+    quitar.textContent='×';
+    quitar.title='Quitar producto';
+    quitar.addEventListener('click',()=>cambiarCantidad(p.key,-p.cantidad));
+
+    ctr.append(menos,mas,quitar);
+    row.append(nombre,ctr);
+    c.appendChild(row);
+  });
+
+  $('total').textContent=dinero(total);
+  $('resumen').textContent='Cantidad total: '+unidades+'. Incluye precios referenciales cuando así se indica. Los importes por peso o volumen son cálculos proporcionales de la presentación.';
+}
+
+/* TABLA COMPARATIVA */
+function limpiarTabla(){
+  $('encabezadoComparacion').innerHTML='<tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>';
+  $('tablaComparacion').innerHTML='<tr><td colspan="4">Aún no hay ofertas verificadas para comparar.</td></tr>';
+}
+
+function renderTabla(){
+  const conDescuento=ofertas.filter(p=>p.anterior>p.precio);
+  if(!conDescuento.length){
+    limpiarTabla();
+    return;
+  }
+
+  const tiendas=[...new Set(conDescuento.map(p=>p.tienda))].slice(0,3);
+  const thead=$('encabezadoComparacion');
+  thead.innerHTML='';
+
+  const trh=document.createElement('tr');
+  ['Producto',...tiendas].forEach(t=>{
+    const th=document.createElement('th');
+    th.textContent=t;
+    trh.appendChild(th);
+  });
+  thead.appendChild(trh);
+
+  const tbody=$('tablaComparacion');
+  tbody.innerHTML='';
+
+  const grupos=new Map();
+  conDescuento.forEach(p=>{
+    const key=norm(p.nombre)+'|'+norm(p.contenido);
+    if(!grupos.has(key))grupos.set(key,[]);
+    grupos.get(key).push(p);
+  });
+
+  [...grupos.values()].slice(0,10).forEach(items=>{
+    const tr=document.createElement('tr');
+    const tdNombre=document.createElement('td');
+    tdNombre.textContent=items[0].nombre+(items[0].contenido?' · '+items[0].contenido:'');
+    tr.appendChild(tdNombre);
+
+    tiendas.forEach(t=>{
+      const td=document.createElement('td');
+      td.className='precio-tabla';
+      const p=items.filter(x=>x.tienda===t).sort((a,b)=>a.precio-b.precio)[0];
+      td.textContent=p?dinero(p.precio):'—';
+      tr.appendChild(td);
+    });
+
+    tbody.appendChild(tr);
+  });
+}
+
+/* FOTOGRAFÍA: VISTA PREVIA, SIN SIMULAR RECONOCIMIENTO */
 function procesarImagen(event){
   const file=event.target.files&&event.target.files[0];
-  const img=$('vistaFotoProducto'),msg=$('estadoFotoProducto');
+  const img=$('vistaFotoProducto');
+  const msg=$('estadoFotoProducto');
   if(!file)return;
+
   if(!file.type.startsWith('image/')){
     msg.textContent='Selecciona únicamente una imagen.';
-    event.target.value='';return;
+    event.target.value='';
+    return;
   }
+
   if(file.size>10*1024*1024){
-    event.target.value='';msg.textContent='La imagen debe pesar menos de 10 MB.';
-    img.style.display='none';return;
+    event.target.value='';
+    msg.textContent='La imagen debe pesar menos de 10 MB.';
+    img.style.display='none';
+    return;
   }
+
   if(img.dataset.url)URL.revokeObjectURL(img.dataset.url);
+
   const url=URL.createObjectURL(file);
-  img.src=url;img.dataset.url=url;img.style.display='block';
-  msg.textContent='Imagen seleccionada correctamente. El reconocimiento del producto requiere conectar un servicio de búsqueda por imagen.';
+  img.src=url;
+  img.dataset.url=url;
+  img.style.display='block';
+  msg.textContent='Imagen seleccionada. El reconocimiento automático de productos por fotografía aún no está conectado.';
 }
+
+/* EVENTOS */
 $('fotoCamara').addEventListener('change',procesarImagen);
 $('fotoAdjuntar').addEventListener('change',procesarImagen);
 
 $('estado').addEventListener('change',cargarMunicipios);
+
 $('municipio').addEventListener('change',()=>{
-  ultimaUbicacion='';consultarOfertas(true);
+  ultimaUbicacion='';
+  consultarOfertas(true);
+  buscarEstablecimientos();
 });
-$('busqueda').addEventListener('input',mostrarProductos);
+
+$('buscarEstablecimientos').addEventListener('click',buscarEstablecimientos);
+
+$('busqueda').addEventListener('input',()=>{
+  clearTimeout(temporizadorBusqueda);
+  const q=$('busqueda').value;
+  temporizadorBusqueda=setTimeout(()=>buscarProductos(q),450);
+});
+
 $('vaciarCarrito').addEventListener('click',()=>{
   if(confirm('¿Quieres vaciar todo el carrito?')){
-    carrito={};guardarCarrito();actualizarCarrito();
+    carrito=[];
+    guardarCarrito();
+    actualizarCarrito();
   }
 });
+
 $('compartir').addEventListener('click',async()=>{
-  let data={title:'Precios al Día',text:'Compara precios y encuentra ofertas en México',url:location.href};
+  const data={
+    title:'Precios al Día',
+    text:'Compara precios y encuentra productos en México',
+    url:location.href
+  };
+
   try{
-    if(navigator.share)await navigator.share(data);
-    else{await navigator.clipboard.writeText(location.href);alert('Enlace copiado.');}
+    if(navigator.share){
+      await navigator.share(data);
+    }else if(navigator.clipboard){
+      await navigator.clipboard.writeText(location.href);
+      alert('Enlace copiado.');
+    }else{
+      prompt('Copia el enlace de la aplicación:',location.href);
+    }
   }catch(e){}
 });
 
+/* INICIO */
 llenarEstados();
 actualizarCarrito();
 cargarCatalogo();
+
 if('serviceWorker'in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  });
 }
+
+/* ACTUALIZACIÓN PERIÓDICA DE OFERTAS */
+intervaloOfertas=setInterval(()=>{
+  if($('estado').value&&$('municipio').value){
+    consultarOfertas(true);
+  }
+},5*60*1000);
+
 </script>
 </body>
 </html>
