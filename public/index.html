@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#171717">
-<meta name="description" content="Precios al Día: ofertas verificables y comparación de precios en México.">
+<meta name="description" content="Precios al Día: búsqueda y comparación de precios en México.">
 <link rel="manifest" href="./manifest.json">
 <title>Precios al Día</title>
 <style>
@@ -43,19 +43,16 @@ button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:b
 .producto-cuerpo{padding:12px}
 .producto h3{margin:4px 0 8px;min-height:36px}
 .precio{font-size:23px;font-weight:bold;color:var(--verde)}
-.precio-anterior{font-size:13px;color:#888;text-decoration:line-through}
-.descuento{display:inline-block;background:#e9f5ed;color:var(--verde);padding:5px 8px;border-radius:7px;font-size:12px;font-weight:bold}
-.etiqueta{font-size:11px;color:#666;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}
+.etiqueta{font-size:11px;color:#555;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}
 .producto-acciones{display:flex;gap:7px;margin-top:10px;align-items:center}
 .cantidad-producto{width:76px;padding:9px}
 .producto-acciones button{flex:1;font-size:12px}
-.vacio{padding:25px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6}
+.vacio{padding:22px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6;margin-top:12px}
 .tabla-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:430px}
 th,td{text-align:center;padding:11px 9px;border-bottom:1px solid var(--borde)}
 th{background:#f5f2e9;white-space:nowrap}
 th:first-child,td:first-child{text-align:left;min-width:150px}
-td.precio-tabla{font-weight:bold;color:var(--verde);white-space:nowrap}
 .carrito{background:#202020;color:white;border-radius:14px;padding:15px;margin-top:16px}
 .carrito h2{color:var(--dorado)}
 .item-carrito{border-bottom:1px solid #444;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
@@ -83,9 +80,7 @@ header h1{font-size:24px}
     <h1>🛒 Precios al Día</h1>
     <button class="boton-compartir" id="compartir" type="button" aria-label="Compartir aplicación" title="Compartir">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="18" cy="5" r="3"></circle>
-        <circle cx="6" cy="12" r="3"></circle>
-        <circle cx="18" cy="19" r="3"></circle>
+        <circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle>
         <path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"></path>
       </svg>
     </button>
@@ -97,12 +92,8 @@ header h1{font-size:24px}
 <section class="panel">
   <h2>📍 Ubicación</h2>
   <div class="grid">
-    <select id="estado" aria-label="Selecciona tu estado">
-      <option value="">Selecciona tu estado</option>
-    </select>
-    <select id="municipio" aria-label="Selecciona tu municipio" disabled>
-      <option value="">Selecciona tu municipio</option>
-    </select>
+    <select id="estado" aria-label="Selecciona tu estado"><option value="">Selecciona tu estado</option></select>
+    <select id="municipio" aria-label="Selecciona tu municipio" disabled><option value="">Selecciona tu municipio</option></select>
   </div>
   <p id="estadoCarga" class="nota">Cargando catálogo de municipios...</p>
 </section>
@@ -111,15 +102,12 @@ header h1{font-size:24px}
   <h2>🔎 Buscar productos</h2>
   <div class="busqueda-fila">
     <input id="busqueda" type="search" placeholder="Escribe el nombre del producto..." aria-label="Buscar productos">
-
     <label class="boton-imagen" for="fotoCamara" title="Tomar fotografía" aria-label="Abrir cámara">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M14 4h-4L8 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"></path>
-        <circle cx="12" cy="13" r="3"></circle>
+        <path d="M14 4h-4L8 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"></path><circle cx="12" cy="13" r="3"></circle>
       </svg>
     </label>
     <input class="archivo-foto" id="fotoCamara" type="file" accept="image/*" capture="environment">
-
     <label class="boton-imagen" for="fotoAdjuntar" title="Adjuntar imagen" aria-label="Elegir imagen">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="m21.4 11.1-8.5 8.5a5.5 5.5 0 0 1-7.8-7.8l9.2-9.2a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.2a1.8 1.8 0 0 1-2.6-2.6l8.5-8.5"></path>
@@ -129,43 +117,43 @@ header h1{font-size:24px}
   </div>
   <img id="vistaFotoProducto" class="vista-previa" alt="Vista previa de la imagen seleccionada">
   <p id="estadoFotoProducto" class="nota" aria-live="polite"></p>
+  <p id="estadoBusqueda" class="nota" aria-live="polite">Escribe al menos dos letras para buscar en el catálogo.</p>
+  <div id="resultadosBusqueda" class="productos"></div>
+  <div id="sinResultados" class="vacio">Los resultados de búsqueda aparecerán aquí.</div>
+  <p class="nota">Los precios de este catálogo son referenciales. No confirman el precio de una sucursal ni representan ofertas verificadas.</p>
 </section>
 
 <section class="panel">
   <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
     <h2 style="margin:0">🔥 Productos en oferta al día</h2>
-    <span class="nota" id="actualizacion">Consulta automática al seleccionar ubicación</span>
+    <span class="nota" id="actualizacion">Consulta por ubicación</span>
   </div>
-  <p id="estadoOfertas" class="nota">Selecciona estado y municipio para consultar precios en línea disponibles.</p>
+  <p id="estadoOfertas" class="nota">Las ofertas verificadas aparecerán cuando haya fuentes comerciales disponibles.</p>
   <div id="listaProductos" class="productos"></div>
   <div id="sinProductos" class="vacio">
-    <h3>Aún no hay ofertas verificadas para esta ubicación</h3>
-    <p>Las ofertas aparecerán cuando una fuente comercial devuelva datos verificables. No se mostrarán precios estimados.</p>
+    <h3>Aún no hay ofertas verificadas</h3>
+    <p>No se mostrarán precios estimados como si fueran promociones.</p>
   </div>
 </section>
 
 <section class="panel">
   <h2>📊 Comparación de precios</h2>
-  <p class="nota">Se muestran hasta 10 productos con mayor descuento verificable y hasta 3 establecimientos con los mejores precios comparativos. Si un establecimiento no ofrece un producto, aparecerá «—».</p>
+  <p class="nota">La comparación de ofertas se activará cuando existan precios actuales y anteriores verificables por establecimiento.</p>
   <div class="tabla-wrap">
     <table>
-      <thead id="encabezadoComparacion">
-        <tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>
-      </thead>
-      <tbody id="tablaComparacion">
-        <tr><td colspan="4">Selecciona una ubicación para consultar ofertas.</td></tr>
-      </tbody>
+      <thead><tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr></thead>
+      <tbody id="tablaComparacion"><tr><td colspan="4">Aún no hay ofertas verificadas para comparar.</td></tr></tbody>
     </table>
   </div>
-  <p id="estadoProfeco" class="nota">Los datos PROFECO se identificarán como referencia oficial, no como promoción. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p>
-  <p class="nota">Los precios publicados por PROFECO son referencias tomadas en una fecha concreta y pueden cambiar en tienda. <a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a></p>
+  <p class="nota">Los datos PROFECO se identificarán como referencia oficial, no como promoción. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p>
+  <p class="nota"><a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a></p>
 </section>
 
 <section class="carrito">
   <h2>🛍️ Mi carrito</h2>
   <div id="listaCarrito">Tu carrito está vacío.</div>
   <div class="total" id="total">$0.00</div>
-  <div class="resumen" id="resumen">Agrega productos para calcular el total y el ahorro estimado.</div>
+  <div class="resumen" id="resumen">El total se calcula con los precios referenciales de los productos agregados.</div>
   <button class="dorado" id="vaciarCarrito" style="width:100%;margin-top:12px">Vaciar carrito</button>
 </section>
 </main>
@@ -175,17 +163,35 @@ header h1{font-size:24px}
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
-const estados=['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila de Zaragoza','Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','México','Michoacán de Ocampo','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz de Ignacio de la Llave','Yucatán','Zacatecas'];
 const URL_MUNICIPIOS='https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json';
-const CLAVE_CARRITO='precios_al_dia_carrito_v2';
-let catalogoMunicipios=null,productos=[],carrito=leerCarrito(),ultimaUbicacion='';
+const estados=['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila de Zaragoza','Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','México','Michoacán de Ocampo','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz de Ignacio de la Llave','Yucatán','Zacatecas'];
+const CLAVE_CARRITO='precios_al_dia_carrito_referencial_v1';
+let catalogoMunicipios=null;
+let resultados=[];
+let carrito=leerCarrito();
+let temporizadorBusqueda=null;
+let controladorBusqueda=null;
+let ultimaConsulta='';
 
-function leerCarrito(){try{return JSON.parse(localStorage.getItem(CLAVE_CARRITO))||{}}catch(e){return {}}}
-function guardarCarrito(){try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}}
-function dinero(v){return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'})}
-function norm(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+function leerCarrito(){
+  try{
+    const x=JSON.parse(localStorage.getItem(CLAVE_CARRITO));
+    return Array.isArray(x)?x:[];
+  }catch(e){return []}
+}
+function guardarCarrito(){
+  try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}
+}
+function dinero(v){
+  return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'});
+}
+function norm(t){
+  return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+}
 function llenarEstados(){
-  estados.forEach(n=>{let o=document.createElement('option');o.value=n;o.textContent=n;$('estado').appendChild(o)});
+  estados.forEach(n=>{
+    const o=document.createElement('option');o.value=n;o.textContent=n;$('estado').appendChild(o);
+  });
 }
 function aliasEstado(e){
   return ({'Coahuila de Zaragoza':'Coahuila','México':'Estado de México','Michoacán de Ocampo':'Michoacán','Veracruz de Ignacio de la Llave':'Veracruz'})[e]||e;
@@ -196,17 +202,17 @@ function municipiosDe(datos){
 }
 function buscarMunicipios(datos,e){
   if(!datos)return [];
-  let n=aliasEstado(e),k=Object.keys(datos).find(x=>norm(x)===norm(n));
+  const n=aliasEstado(e),k=Object.keys(datos).find(x=>norm(x)===norm(n));
   if(k)return municipiosDe(datos[k]);
   if(Array.isArray(datos.estados)){
-    let x=datos.estados.find(y=>y&&norm(y.nombre||y.estado||y.name)===norm(n));
+    const x=datos.estados.find(y=>y&&norm(y.nombre||y.estado||y.name)===norm(n));
     if(x)return municipiosDe(x.municipios);
   }
   return [];
 }
 async function cargarCatalogo(){
   try{
-    let r=await fetch(URL_MUNICIPIOS);
+    const r=await fetch(URL_MUNICIPIOS);
     if(!r.ok)throw Error();
     catalogoMunicipios=await r.json();
     $('estadoCarga').textContent='Catálogo de municipios disponible.';
@@ -215,228 +221,186 @@ async function cargarCatalogo(){
   }
 }
 function cargarMunicipios(){
-  let e=$('estado').value,s=$('municipio');
-  s.innerHTML='';
-  let o=document.createElement('option');
-  o.value='';o.textContent='Selecciona tu municipio';
-  s.appendChild(o);
-  let lista=[...new Set(buscarMunicipios(catalogoMunicipios,e))].sort((a,b)=>a.localeCompare(b,'es'));
-  lista.forEach(n=>{let x=document.createElement('option');x.value=n;x.textContent=n;s.appendChild(x)});
+  const e=$('estado').value,s=$('municipio');
+  s.innerHTML='<option value="">Selecciona tu municipio</option>';
+  const lista=[...new Set(buscarMunicipios(catalogoMunicipios,e))].sort((a,b)=>a.localeCompare(b,'es'));
+  lista.forEach(n=>{
+    const x=document.createElement('option');x.value=n;x.textContent=n;s.appendChild(x);
+  });
   s.disabled=!lista.length;
-  if(e&&!lista.length)o.textContent='Municipios no disponibles';
-  productos=[];ultimaUbicacion='';
-  mostrarProductos();limpiarTabla();actualizarCarrito();
+  if(e&&!lista.length)s.options[0].textContent='Municipios no disponibles';
+  consultarOfertas();
 }
-function adaptar(x,i){
-  return {
-    id:String(x.id||x.productId||x.sku||i),
-    nombre:x.nombre||x.name||x.product||'Producto',
-    categoria:x.categoria||x.category||'Otros',
-    tienda:x.tienda||x.store||x.establecimiento||'Tienda en línea',
-    precio:Number(x.precio??x.price??x.currentPrice),
-    anterior:Number(x.precioAnterior??x.listPrice??x.originalPrice??0),
-    imagen:x.imagen||x.image||x.imageUrl||'',
-    contenido:x.contenido||x.content||x.presentation||'',
-    unidad:x.unidad||x.unit||'pieza',
-    vigencia:x.vigencia||x.validUntil||'',
-    consultado:x.consultado||x.scrapedAt||x.checkedAt||'',
-    fuente:x.fuente||x.url||x.sourceUrl||'',
-    ubicacion:x.ubicacion||'',
-    tipo:x.tipo||'Precio en línea',
-    verificada:x.verificada===true||x.verified===true||x.available===true
-  };
+function crearEtiqueta(texto){
+  const e=document.createElement('span');e.className='etiqueta';e.textContent=texto;return e;
 }
-async function consultarOfertas(force=false){
-  let e=$('estado').value,m=$('municipio').value;
-  if(!e||!m){
-    $('estadoOfertas').textContent='Selecciona estado y municipio para consultar precios.';
-    productos=[];mostrarProductos();limpiarTabla();return;
+
+/* BÚSQUEDA REAL EN PRECIOCHECK */
+async function buscarProductos(consulta){
+  if(controladorBusqueda)controladorBusqueda.abort();
+  controladorBusqueda=new AbortController();
+  const q=consulta.trim();
+  if(q.length<2){
+    resultados=[];
+    $('estadoBusqueda').textContent='Escribe al menos dos letras para buscar en el catálogo.';
+    mostrarResultados();
+    return;
   }
-  let key=e+'|'+m;
-  if(!force&&key===ultimaUbicacion)return;
-  ultimaUbicacion=key;
-  $('estadoOfertas').textContent='Consultando fuentes disponibles para '+m+', '+e+'...';
-  $('sinProductos').classList.add('oculto');
+  $('estadoBusqueda').textContent='Buscando productos en el catálogo...';
+  $('sinResultados').classList.add('oculto');
   try{
-    let r=await fetch('./api/offers?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'});
-    let d=await r.json();
-    if(!r.ok)throw Error(d.mensaje||'Error de consulta');
-    let raw=Array.isArray(d.ofertas)?d.ofertas:[];
-    productos=raw.map(adaptar).filter(p=>p.verificada&&Number.isFinite(p.precio)&&p.precio>0&&p.fuente);
-    $('estadoOfertas').textContent=d.mensaje||('Consulta para '+m+', '+e+'.');
-    $('actualizacion').textContent='Última consulta: '+new Date().toLocaleString('es-MX');
-    mostrarProductos();renderTabla();actualizarCarrito();
-  }catch(err){
-    productos=[];
-    $('estadoOfertas').textContent='No fue posible consultar las fuentes. Intenta más tarde.';
-    mostrarProductos();limpiarTabla();actualizarCarrito();
+    const url='./api/preciocheck/search?q='+encodeURIComponent(q)+'&limite=20';
+    const r=await fetch(url,{cache:'no-store',signal:controladorBusqueda.signal});
+    const d=await r.json();
+    if(!r.ok)throw Error(d.mensaje||d.error||'No se pudo completar la búsqueda.');
+    if(!d.disponible||!Array.isArray(d.productos))throw Error(d.mensaje||'El catálogo no devolvió productos.');
+    resultados=d.productos.map((p,i)=>({
+      id:String(p.codigoBarras||('producto-'+i+'-'+norm(p.nombre))),
+      nombre:p.nombre||'Producto sin nombre',
+      marca:p.marca||'',
+      categoria:p.categoria||'',
+      precio:Number(p.precioReferencia||0),
+      imagen:typeof p.imagen==='string'&&p.imagen.startsWith('https://')?p.imagen:'',
+      codigoBarras:p.codigoBarras||'',
+      fuente:p.fuente||'PrecioCheck',
+      tipoPrecio:p.tipoPrecio||'Precio comunitario de referencia'
+    }));
+    $('estadoBusqueda').textContent='Se encontraron '+resultados.length+' productos para «'+q+'». '+(d.aviso||'Precios referenciales.');
+    mostrarResultados();
+  }catch(e){
+    if(e.name==='AbortError')return;
+    resultados=[];
+    $('estadoBusqueda').textContent='No fue posible buscar en este momento: '+e.message;
+    mostrarResultados();
   }
 }
-function etiqueta(t){
-  let e=document.createElement('span');e.className='etiqueta';e.textContent=t;return e;
-}
-function mostrarProductos(){
-  let c=$('listaProductos');c.innerHTML='';
-  let q=norm($('busqueda').value);
-  let list=productos.filter(p=>norm(p.nombre).includes(q));
-  $('sinProductos').classList.toggle('oculto',list.length>0);
-  list.forEach(p=>{
-    let card=document.createElement('article');card.className='producto';
+function mostrarResultados(){
+  const c=$('resultadosBusqueda');c.innerHTML='';
+  $('sinResultados').classList.toggle('oculto',resultados.length>0);
+  if(!resultados.length){
+    $('sinResultados').textContent=$('busqueda').value.trim().length>=2?'No se encontraron productos para esta búsqueda.':'Los resultados de búsqueda aparecerán aquí.';
+    return;
+  }
+  resultados.forEach(p=>{
+    const card=document.createElement('article');card.className='producto';
     if(p.imagen){
-      let img=document.createElement('img');img.src=p.imagen;img.alt=p.nombre;img.loading='lazy';
+      const img=document.createElement('img');img.src=p.imagen;img.alt=p.nombre;img.loading='lazy';
       img.onerror=()=>img.remove();card.appendChild(img);
     }
-    let b=document.createElement('div');b.className='producto-cuerpo';
-    let h=document.createElement('h3');h.textContent=p.nombre;b.appendChild(h);
-    if(p.contenido)b.appendChild(etiqueta(p.contenido));
-    b.appendChild(etiqueta('Unidad: '+p.unidad));
-    let pr=document.createElement('div');pr.className='precio';pr.textContent=dinero(p.precio);b.appendChild(pr);
-    if(p.anterior>p.precio){
-      let a=document.createElement('div');a.className='precio-anterior';a.textContent=dinero(p.anterior);b.appendChild(a);
-      let porcentaje=Math.round((1-p.precio/p.anterior)*100);
-      let d=document.createElement('p');d.className='descuento';d.textContent='Ahorro '+porcentaje+'%';b.appendChild(d);
+    const b=document.createElement('div');b.className='producto-cuerpo';
+    const h=document.createElement('h3');h.textContent=p.nombre;b.appendChild(h);
+    if(p.marca)b.appendChild(crearEtiqueta(p.marca));
+    if(p.categoria)b.appendChild(crearEtiqueta(p.categoria));
+    if(p.codigoBarras)b.appendChild(crearEtiqueta('Código: '+p.codigoBarras));
+    if(p.precio>0){
+      const precio=document.createElement('div');precio.className='precio';precio.textContent=dinero(p.precio);b.appendChild(precio);
+    }else{
+      const sinPrecio=document.createElement('p');sinPrecio.className='nota';sinPrecio.textContent='Precio no disponible';b.appendChild(sinPrecio);
     }
-    b.append(etiqueta(p.categoria),etiqueta(p.tienda),etiqueta(p.tipo));
-    let info=document.createElement('p');info.className='nota';
-    info.textContent=[p.ubicacion||'Precio en línea; sucursal no confirmada',p.vigencia?'Vigencia: '+p.vigencia:'Vigencia no informada',p.consultado?'Consultado: '+p.consultado:''].filter(Boolean).join(' · ');
-    b.appendChild(info);
-    let link=document.createElement('a');link.className='nota';link.href=p.fuente;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ver fuente ↗';b.appendChild(link);
-    let actions=document.createElement('div');actions.className='producto-acciones';
-    let qty=document.createElement('input');qty.type='number';qty.min='1';qty.max='999';qty.value='1';qty.className='cantidad-producto';qty.setAttribute('aria-label','Cantidad');
-    let add=document.createElement('button');add.className='verde';add.textContent='Agregar';
-    add.addEventListener('click',()=>agregar(p.id,Math.max(1,Math.min(999,parseInt(qty.value,10)||1))));
+    b.appendChild(crearEtiqueta('Precio de referencia'));
+    const nota=document.createElement('p');nota.className='nota';
+    nota.textContent='Fuente: '+p.fuente+'. Precio referencial; tienda y sucursal no confirmadas. No es una oferta verificada.';
+    b.appendChild(nota);
+    const actions=document.createElement('div');actions.className='producto-acciones';
+    const qty=document.createElement('input');qty.type='number';qty.min='1';qty.max='999';qty.value='1';qty.className='cantidad-producto';qty.setAttribute('aria-label','Cantidad');
+    const add=document.createElement('button');add.className='verde';add.textContent='Agregar al carrito';add.disabled=!(p.precio>0);
+    add.addEventListener('click',()=>agregarAlCarrito(p,Math.max(1,Math.min(999,parseInt(qty.value,10)||1))));
     actions.append(qty,add);b.appendChild(actions);card.appendChild(b);c.appendChild(card);
   });
 }
-function claveProducto(p){return [norm(p.nombre),norm(p.contenido),norm(p.unidad)].join('|')}
-function porcentajeDescuento(p){return p.anterior>p.precio&&p.anterior>0?(1-p.precio/p.anterior)*100:0}
-function obtenerProductosDestacados(){
-  let grupos=new Map();
-  productos.forEach(p=>{
-    let k=claveProducto(p);
-    if(!grupos.has(k))grupos.set(k,{clave:k,nombre:p.nombre,items:[],descuento:0});
-    let g=grupos.get(k);g.items.push(p);g.descuento=Math.max(g.descuento,porcentajeDescuento(p));
+
+/* OFERTAS VERIFICADAS: SE MANTIENEN SEPARADAS DEL CATÁLOGO */
+async function consultarOfertas(){
+  const e=$('estado').value,m=$('municipio').value;
+  if(!e||!m){
+    $('estadoOfertas').textContent='Selecciona estado y municipio para consultar ofertas verificadas.';
+    $('sinProductos').classList.remove('oculto');
+    return;
+  }
+  const key=e+'|'+m;
+  if(key===ultimaConsulta)return;
+  ultimaConsulta=key;
+  $('estadoOfertas').textContent='Consultando ofertas verificadas para '+m+', '+e+'...';
+  try{
+    const r=await fetch('./api/offers?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'});
+    const d=await r.json();
+    $('estadoOfertas').textContent=d.mensaje||'No hay ofertas verificadas disponibles para esta ubicación.';
+    $('actualizacion').textContent='Consulta: '+new Date().toLocaleString('es-MX');
+    $('sinProductos').classList.remove('oculto');
+  }catch(e){
+    $('estadoOfertas').textContent='No fue posible consultar las ofertas en este momento.';
+    $('sinProductos').classList.remove('oculto');
+  }
+}
+
+/* CARRITO CON REGISTRO DEL PRODUCTO Y SU PRECIO REFERENCIAL */
+function agregarAlCarrito(p,cantidad){
+  if(!(p.precio>0))return;
+  const existente=carrito.find(x=>x.id===p.id);
+  if(existente)existente.cantidad=Math.min(999,existente.cantidad+cantidad);
+  else carrito.push({
+    id:p.id,nombre:p.nombre,marca:p.marca||'',precio:p.precio,
+    cantidad,fuente:p.fuente||'PrecioCheck'
   });
-  return [...grupos.values()].filter(g=>g.descuento>0).sort((a,b)=>b.descuento-a.descuento).slice(0,10);
+  guardarCarrito();actualizarCarrito();
 }
-function obtenerMejoresTiendas(destacados){
-  let puntuaciones=new Map();
-  destacados.forEach(g=>{
-    let porTienda=new Map();
-    g.items.forEach(p=>{
-      let actual=porTienda.get(p.tienda);
-      if(!actual||p.precio<actual)porTienda.set(p.tienda,p.precio);
-    });
-    if(!porTienda.size)return;
-    let minimo=Math.min(...porTienda.values());
-    porTienda.forEach((precio,tienda)=>{
-      if(!puntuaciones.has(tienda))puntuaciones.set(tienda,{suma:0,cantidad:0});
-      let s=puntuaciones.get(tienda);s.suma+=precio/minimo;s.cantidad++;
-    });
-  });
-  return [...puntuaciones.entries()].sort((a,b)=>{
-    let promedioA=a[1].suma/a[1].cantidad,promedioB=b[1].suma/b[1].cantidad;
-    return promedioA-promedioB||b[1].cantidad-a[1].cantidad;
-  }).slice(0,3).map(x=>x[0]);
-}
-function limpiarTabla(mensaje='Aún no hay ofertas con descuentos verificables para comparar.'){
-  $('encabezadoComparacion').innerHTML='<tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>';
-  $('tablaComparacion').innerHTML='';
-  let tr=document.createElement('tr'),td=document.createElement('td');
-  td.colSpan=4;td.textContent=mensaje;tr.appendChild(td);$('tablaComparacion').appendChild(tr);
-}
-function renderTabla(){
-  let destacados=obtenerProductosDestacados();
-  if(!destacados.length){limpiarTabla('Todavía no hay productos con descuento anterior y precio actual verificables para comparar.');return}
-  let tiendas=obtenerMejoresTiendas(destacados);
-  if(!tiendas.length){limpiarTabla();return}
-  let head=$('encabezadoComparacion');head.innerHTML='';
-  let trh=document.createElement('tr');
-  ['Productos',...tiendas].forEach(nombre=>{let th=document.createElement('th');th.textContent=nombre;trh.appendChild(th)});
-  for(let i=tiendas.length;i<3;i++){let th=document.createElement('th');th.textContent='—';trh.appendChild(th)}
-  head.appendChild(trh);
-  let body=$('tablaComparacion');body.innerHTML='';
-  destacados.forEach(g=>{
-    let tr=document.createElement('tr'),tdNombre=document.createElement('td');
-    tdNombre.textContent=g.nombre;tr.appendChild(tdNombre);
-    tiendas.forEach(tienda=>{
-      let td=document.createElement('td');td.className='precio-tabla';
-      let ofertas=g.items.filter(p=>p.tienda===tienda);
-      if(ofertas.length){
-        let mejor=ofertas.reduce((a,b)=>a.precio<=b.precio?a:b);
-        td.textContent=dinero(mejor.precio);td.title=mejor.unidad+(mejor.contenido?' · '+mejor.contenido:'');
-      }else td.textContent='—';
-      tr.appendChild(td);
-    });
-    for(let i=tiendas.length;i<3;i++){let td=document.createElement('td');td.textContent='—';tr.appendChild(td)}
-    body.appendChild(tr);
-  });
-}
-function agregar(id,n=1){
-  let p=productos.find(x=>x.id===id);if(!p)return;
-  carrito[id]=(carrito[id]||0)+n;guardarCarrito();actualizarCarrito();
-}
-function cantidad(id,n){
-  let v=(carrito[id]||0)+n;
-  if(v<=0)delete carrito[id];else carrito[id]=v;
+function cambiarCantidad(id,cambio){
+  const p=carrito.find(x=>x.id===id);if(!p)return;
+  p.cantidad+=cambio;
+  if(p.cantidad<=0)carrito=carrito.filter(x=>x.id!==id);
   guardarCarrito();actualizarCarrito();
 }
 function actualizarCarrito(){
-  let c=$('listaCarrito');c.innerHTML='';
-  let total=0,ahorro=0,unidades=0,ids=Object.keys(carrito);
-  if(!ids.length)c.textContent='Tu carrito está vacío.';
-  ids.forEach(id=>{
-    let p=productos.find(x=>x.id===id),q=Number(carrito[id]);
-    if(!p||q<1)return;
-    total+=p.precio*q;unidades+=q;
-    if(p.anterior>p.precio)ahorro+=(p.anterior-p.precio)*q;
-    let row=document.createElement('div');row.className='item-carrito';
-    let n=document.createElement('span');n.textContent=p.nombre+' ('+p.unidad+') · '+dinero(p.precio*q);
-    let ctr=document.createElement('div');ctr.className='cantidad';
-    let m=document.createElement('button');m.textContent='−';m.addEventListener('click',()=>cantidad(id,-1));
-    let num=document.createElement('strong');num.textContent=q;
-    let plus=document.createElement('button');plus.textContent='+';plus.addEventListener('click',()=>cantidad(id,1));
-    ctr.append(m,num,plus);row.append(n,ctr);c.appendChild(row);
+  const c=$('listaCarrito');c.innerHTML='';
+  let total=0,unidades=0;
+  if(!carrito.length)c.textContent='Tu carrito está vacío.';
+  carrito.forEach(p=>{
+    total+=p.precio*p.cantidad;unidades+=p.cantidad;
+    const row=document.createElement('div');row.className='item-carrito';
+    const nombre=document.createElement('span');
+    nombre.textContent=p.nombre+' · '+dinero(p.precio*p.cantidad);
+    const ctr=document.createElement('div');ctr.className='cantidad';
+    const menos=document.createElement('button');menos.textContent='−';menos.addEventListener('click',()=>cambiarCantidad(p.id,-1));
+    const num=document.createElement('strong');num.textContent=p.cantidad;
+    const mas=document.createElement('button');mas.textContent='+';mas.addEventListener('click',()=>cambiarCantidad(p.id,1));
+    ctr.append(menos,num,mas);row.append(nombre,ctr);c.appendChild(row);
   });
   $('total').textContent=dinero(total);
-  let avg=total+ahorro>0?ahorro/(total+ahorro)*100:0;
-  $('resumen').textContent='Unidades: '+unidades+' | Ahorro potencial: '+dinero(ahorro)+' | Descuento promedio estimado: '+avg.toFixed(1)+'%.';
-  guardarCarrito();
+  $('resumen').textContent='Unidades: '+unidades+'. Total calculado con precios referenciales; no representa una cotización confirmada en tienda.';
 }
-
-/* Cámara y selección de imágenes: solo acepta fotografías. */
 function procesarImagen(event){
   const file=event.target.files&&event.target.files[0];
   const img=$('vistaFotoProducto'),msg=$('estadoFotoProducto');
   if(!file)return;
   if(!file.type.startsWith('image/')){
-    msg.textContent='Selecciona únicamente una imagen.';
-    event.target.value='';return;
+    msg.textContent='Selecciona únicamente una imagen.';event.target.value='';return;
   }
   if(file.size>10*1024*1024){
-    event.target.value='';msg.textContent='La imagen debe pesar menos de 10 MB.';
-    img.style.display='none';return;
+    event.target.value='';msg.textContent='La imagen debe pesar menos de 10 MB.';img.style.display='none';return;
   }
   if(img.dataset.url)URL.revokeObjectURL(img.dataset.url);
   const url=URL.createObjectURL(file);
   img.src=url;img.dataset.url=url;img.style.display='block';
-  msg.textContent='Imagen seleccionada correctamente. El reconocimiento del producto requiere conectar un servicio de búsqueda por imagen.';
+  msg.textContent='Imagen seleccionada. La búsqueda por fotografía todavía no está conectada.';
 }
+
+/* EVENTOS */
 $('fotoCamara').addEventListener('change',procesarImagen);
 $('fotoAdjuntar').addEventListener('change',procesarImagen);
-
 $('estado').addEventListener('change',cargarMunicipios);
-$('municipio').addEventListener('change',()=>{
-  ultimaUbicacion='';consultarOfertas(true);
+$('municipio').addEventListener('change',()=>{ultimaConsulta='';consultarOfertas()});
+$('busqueda').addEventListener('input',()=>{
+  clearTimeout(temporizadorBusqueda);
+  const q=$('busqueda').value;
+  temporizadorBusqueda=setTimeout(()=>buscarProductos(q),450);
 });
-$('busqueda').addEventListener('input',mostrarProductos);
 $('vaciarCarrito').addEventListener('click',()=>{
   if(confirm('¿Quieres vaciar todo el carrito?')){
-    carrito={};guardarCarrito();actualizarCarrito();
+    carrito=[];guardarCarrito();actualizarCarrito();
   }
 });
 $('compartir').addEventListener('click',async()=>{
-  let data={title:'Precios al Día',text:'Compara precios y encuentra ofertas en México',url:location.href};
+  const data={title:'Precios al Día',text:'Compara precios y encuentra productos en México',url:location.href};
   try{
     if(navigator.share)await navigator.share(data);
     else{await navigator.clipboard.writeText(location.href);alert('Enlace copiado.');}
