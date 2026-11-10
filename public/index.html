@@ -13,9 +13,10 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--fondo);color:var(--oscuro);font-family:Arial,Helvetica,sans-serif}
 header{background:var(--oscuro);color:white;text-align:center;padding:16px 12px;border-bottom:4px solid var(--dorado)}
-.encabezado-fila{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.encabezado-fila{display:flex;align-items:center;justify-content:center;gap:10px}
 header h1{margin:0;font-size:27px}
-.boton-compartir{background:var(--dorado);color:#171717;padding:9px 12px;white-space:nowrap}
+.boton-compartir{width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--dorado);color:#171717;border-radius:50%;flex:0 0 36px}
+.boton-compartir svg{width:19px;height:19px}
 header p{color:#e5cf9b;font-size:13px;margin:7px 0 0}
 main{max-width:1150px;margin:auto;padding:14px}
 .panel{background:white;padding:15px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000c}
@@ -28,12 +29,8 @@ button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:b
 .boton{background:var(--oscuro);color:white}
 .dorado{background:var(--dorado);color:#171717}
 .verde{background:var(--verde);color:white}
-.secundario{background:#eee;color:#333}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.aviso{background:#fff5dc;border:1px solid #ead49c;color:#624b16;padding:12px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:14px}
 .nota{font-size:12px;color:#666;line-height:1.5}
-.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.barra h2{margin:0}
 .busqueda-fila{display:flex;align-items:center;gap:8px}
 .busqueda-fila input[type=search]{flex:1;min-width:0}
 .boton-foto{width:46px;height:46px;flex:0 0 46px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--verde);color:white;font-size:22px;border-radius:50%;cursor:pointer;margin:0}
@@ -52,14 +49,12 @@ button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:b
 .cantidad-producto{width:76px;padding:9px}
 .producto-acciones button{flex:1;font-size:12px}
 .vacio{padding:25px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6}
-.lista-lugares{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;margin-top:12px}
-.lugar{border:1px solid var(--borde);border-radius:10px;padding:11px;background:#fff}
-.lugar strong{display:block;font-size:14px}
-.lugar span{font-size:12px;color:#666;display:block;margin-top:4px}
 .tabla-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}
-th,td{text-align:left;padding:10px;border-bottom:1px solid var(--borde)}
-th{background:#f5f2e9}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:430px}
+th,td{text-align:center;padding:11px 9px;border-bottom:1px solid var(--borde)}
+th{background:#f5f2e9;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;min-width:150px}
+td.precio-tabla{font-weight:bold;color:var(--verde);white-space:nowrap}
 .carrito{background:#202020;color:white;border-radius:14px;padding:15px;margin-top:16px}
 .carrito h2{color:var(--dorado)}
 .item-carrito{border-bottom:1px solid #444;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
@@ -69,8 +64,6 @@ th{background:#f5f2e9}
 .resumen{font-size:13px;color:#ddd;line-height:1.8;margin-top:8px}
 footer{text-align:center;padding:25px 10px;font-size:12px;color:#777}
 .oculto{display:none!important}
-.acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.acciones button{flex:1}
 @media(max-width:600px){
 .grid{grid-template-columns:1fr}
 .productos{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
@@ -79,7 +72,6 @@ footer{text-align:center;padding:25px 10px;font-size:12px;color:#777}
 .producto h3{font-size:14px}
 .precio{font-size:19px}
 .producto-acciones{flex-direction:column}
-.encabezado-fila{gap:8px}
 header h1{font-size:24px}
 }
 </style>
@@ -88,14 +80,21 @@ header h1{font-size:24px}
 <header>
   <div class="encabezado-fila">
     <h1>🛒 Precios al Día</h1>
-    <button class="boton-compartir" id="compartir" type="button">↗ Compartir</button>
+    <button class="boton-compartir" id="compartir" type="button" aria-label="Compartir aplicación" title="Compartir">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="18" cy="5" r="3"></circle>
+        <circle cx="6" cy="12" r="3"></circle>
+        <circle cx="18" cy="19" r="3"></circle>
+        <path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"></path>
+      </svg>
+    </button>
   </div>
   <p>Encuentra ofertas, compara precios y descubre cuánto puedes ahorrar</p>
 </header>
-<main>
 
+<main>
 <section class="panel">
-  <h2>📍 Buscar establecimientos por ubicación</h2>
+  <h2>📍 Buscar ofertas por ubicación</h2>
   <div class="grid">
     <div>
       <label for="estado">Estado</label>
@@ -107,16 +106,7 @@ header h1{font-size:24px}
     </div>
   </div>
   <p id="estadoCarga" class="nota">Cargando catálogo de municipios...</p>
-  <div class="acciones">
-    <button class="boton" id="buscarLugar">Buscar establecimientos</button>
-  </div>
-  <p id="estadoLugares" class="nota">Al elegir municipio se buscarán establecimientos registrados en el mapa colaborativo de OpenStreetMap.</p>
-  <div id="listaLugares" class="lista-lugares"></div>
 </section>
-
-<div class="aviso">
-  <b>Información transparente:</b> las tiendas cercanas son ubicaciones encontradas en el mapa. Los precios en línea no se atribuyen a una sucursal local si la fuente no lo confirma. No se publican ofertas inventadas ni registros manuales.
-</div>
 
 <section class="panel">
   <h2>🔎 Buscar productos</h2>
@@ -127,29 +117,11 @@ header h1{font-size:24px}
   </div>
   <img id="vistaFotoProducto" class="vista-previa" alt="Vista previa de la fotografía seleccionada">
   <p id="estadoFotoProducto" class="nota" aria-live="polite"></p>
-
-  <div class="grid">
-    <div>
-      <label for="categoria">Categoría</label>
-      <select id="categoria">
-        <option value="Todos">Todas las categorías</option>
-        <option>Granos</option><option>Abarrotes</option><option>Lácteos</option>
-        <option>Frutas</option><option>Verduras</option><option>Bebidas</option>
-        <option>Limpieza</option><option>Higiene</option><option>Belleza</option>
-        <option>Hogar</option><option>Mascotas</option><option>Electrónica</option>
-        <option>Ropa</option><option>Otros</option>
-      </select>
-    </div>
-    <div>
-      <label for="filtroTienda">Establecimiento</label>
-      <select id="filtroTienda"><option value="Todos">Todos los establecimientos</option></select>
-    </div>
-  </div>
 </section>
 
 <section class="panel">
-  <div class="barra">
-    <h2>🔥 Productos en oferta al día</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+    <h2 style="margin:0">🔥 Productos en oferta al día</h2>
     <span class="nota" id="actualizacion">Consulta automática al seleccionar ubicación</span>
   </div>
   <p id="estadoOfertas" class="nota">Selecciona estado y municipio para consultar precios en línea disponibles.</p>
@@ -162,14 +134,18 @@ header h1{font-size:24px}
 
 <section class="panel">
   <h2>📊 Comparación de precios</h2>
-  <p class="nota">Se comparan únicamente registros con producto, precio, establecimiento, fuente y fecha disponibles. Los datos PROFECO se identificarán como referencia oficial, no como promoción.</p>
+  <p class="nota">Se muestran hasta 10 productos con mayor descuento verificable y hasta 3 establecimientos con los mejores precios comparativos. Si un establecimiento no ofrece un producto, aparecerá «—».</p>
   <div class="tabla-wrap">
     <table>
-      <thead><tr><th>Producto</th><th>Establecimiento</th><th>Precio</th><th>Tipo de dato</th><th>Fecha</th></tr></thead>
-      <tbody id="tablaComparacion"><tr><td colspan="5">Aún no hay datos comparables para esta ubicación.</td></tr></tbody>
+      <thead id="encabezadoComparacion">
+        <tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>
+      </thead>
+      <tbody id="tablaComparacion">
+        <tr><td colspan="4">Selecciona una ubicación para consultar ofertas.</td></tr>
+      </tbody>
     </table>
   </div>
-  <p id="estadoProfeco" class="nota">La integración automática del archivo oficial descargable de PROFECO está pendiente de validar su formato y actualización. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p>
+  <p id="estadoProfeco" class="nota">Los datos PROFECO se identificarán como referencia oficial, no como promoción. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p>
   <p class="nota">Los precios publicados por PROFECO son referencias tomadas en una fecha concreta y pueden cambiar en tienda. <a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a></p>
 </section>
 
@@ -181,6 +157,7 @@ header h1{font-size:24px}
   <button class="dorado" id="vaciarCarrito" style="width:100%;margin-top:12px">Vaciar carrito</button>
 </section>
 </main>
+
 <footer>Precios al Día · Comparar para ahorrar<br>Los precios dependen de la fecha, ubicación y disponibilidad de cada establecimiento.</footer>
 
 <script>
@@ -195,7 +172,6 @@ function leerCarrito(){try{return JSON.parse(localStorage.getItem(CLAVE_CARRITO)
 function guardarCarrito(){try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}}
 function dinero(v){return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'})}
 function norm(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
-
 function llenarEstados(){
   estados.forEach(n=>{let o=document.createElement('option');o.value=n;o.textContent=n;$('estado').appendChild(o)});
 }
@@ -237,11 +213,8 @@ function cargarMunicipios(){
   s.disabled=!lista.length;
   if(e&&!lista.length)o.textContent='Catálogo no disponible';
   productos=[];ultimaUbicacion='';
-  $('listaLugares').innerHTML='';
-  $('estadoLugares').textContent='Selecciona municipio para buscar establecimientos.';
-  actualizarTiendas();mostrarProductos();limpiarTabla();
+  mostrarProductos();limpiarTabla();actualizarCarrito();
 }
-
 function adaptar(x,i){
   return {
     id:String(x.id||x.productId||x.sku||i),
@@ -280,55 +253,20 @@ async function consultarOfertas(force=false){
     productos=raw.map(adaptar).filter(p=>p.verificada&&Number.isFinite(p.precio)&&p.precio>0&&p.fuente);
     $('estadoOfertas').textContent=d.mensaje||('Consulta para '+m+', '+e+'.');
     $('actualizacion').textContent='Última consulta: '+new Date().toLocaleString('es-MX');
-    actualizarTiendas();mostrarProductos();renderTabla();actualizarCarrito();
+    mostrarProductos();renderTabla();actualizarCarrito();
   }catch(err){
     productos=[];
     $('estadoOfertas').textContent='No fue posible consultar las fuentes. Intenta más tarde.';
-    mostrarProductos();limpiarTabla();
+    mostrarProductos();limpiarTabla();actualizarCarrito();
   }
 }
-
-async function buscarEstablecimientos(){
-  let e=$('estado').value,m=$('municipio').value;
-  if(!e||!m){$('estadoLugares').textContent='Primero selecciona estado y municipio.';return}
-  $('estadoLugares').textContent='Buscando establecimientos registrados en el mapa...';
-  $('listaLugares').innerHTML='';
-  try{
-    let r=await fetch('./api/places?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'});
-    let d=await r.json();
-    if(!r.ok)throw Error();
-    let arr=Array.isArray(d.establecimientos)?d.establecimientos:[];
-    $('estadoLugares').textContent=d.mensaje||('Establecimientos encontrados: '+arr.length+'.');
-    arr.forEach(p=>{
-      let card=document.createElement('div');card.className='lugar';
-      let name=document.createElement('strong');name.textContent=p.nombre||'Establecimiento';
-      let detail=document.createElement('span');
-      detail.textContent=[p.tipo,p.direccion].filter(Boolean).join(' · ')||'Ubicación registrada en OpenStreetMap';
-      card.append(name,detail);
-      if(p.url){
-        let a=document.createElement('a');a.href=p.url;a.target='_blank';a.rel='noopener noreferrer';
-        a.textContent='Ver mapa ↗';a.className='nota';card.appendChild(a);
-      }
-      $('listaLugares').appendChild(card);
-    });
-  }catch(e){
-    $('estadoLugares').textContent='No se pudo completar la búsqueda de establecimientos. Prueba más tarde.';
-  }
+function etiqueta(t){
+  let e=document.createElement('span');e.className='etiqueta';e.textContent=t;return e;
 }
-
-function actualizarTiendas(){
-  let s=$('filtroTienda'),v=s.value;
-  let ts=[...new Set(productos.map(p=>p.tienda))].sort((a,b)=>a.localeCompare(b,'es'));
-  s.innerHTML='<option value="Todos">Todos los establecimientos</option>';
-  ts.forEach(t=>{let o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o)});
-  s.value=ts.includes(v)?v:'Todos';
-}
-function etiqueta(t){let e=document.createElement('span');e.className='etiqueta';e.textContent=t;return e}
-
 function mostrarProductos(){
   let c=$('listaProductos');c.innerHTML='';
-  let q=norm($('busqueda').value),cat=$('categoria').value,store=$('filtroTienda').value;
-  let list=productos.filter(p=>(norm(p.nombre).includes(q)||norm(p.tienda).includes(q))&&(cat==='Todos'||p.categoria===cat)&&(store==='Todos'||p.tienda===store));
+  let q=norm($('busqueda').value);
+  let list=productos.filter(p=>norm(p.nombre).includes(q));
   $('sinProductos').classList.toggle('oculto',list.length>0);
   list.forEach(p=>{
     let card=document.createElement('article');card.className='producto';
@@ -343,7 +281,8 @@ function mostrarProductos(){
     let pr=document.createElement('div');pr.className='precio';pr.textContent=dinero(p.precio);b.appendChild(pr);
     if(p.anterior>p.precio){
       let a=document.createElement('div');a.className='precio-anterior';a.textContent=dinero(p.anterior);b.appendChild(a);
-      let d=document.createElement('p');d.className='descuento';d.textContent='Ahorro '+Math.round((1-p.precio/p.anterior)*100)+'%';b.appendChild(d);
+      let porcentaje=Math.round((1-p.precio/p.anterior)*100);
+      let d=document.createElement('p');d.className='descuento';d.textContent='Ahorro '+porcentaje+'%';b.appendChild(d);
     }
     b.append(etiqueta(p.categoria),etiqueta(p.tienda),etiqueta(p.tipo));
     let info=document.createElement('p');info.className='nota';
@@ -358,17 +297,100 @@ function mostrarProductos(){
   });
 }
 
-function limpiarTabla(){
-  $('tablaComparacion').innerHTML='<tr><td colspan="5">Aún no hay datos comparables para esta ubicación.</td></tr>';
+/* Agrupa el mismo producto aunque aparezca en varias tiendas. */
+function claveProducto(p){
+  return [norm(p.nombre),norm(p.contenido),norm(p.unidad)].join('|');
+}
+function porcentajeDescuento(p){
+  return p.anterior>p.precio&&p.anterior>0?(1-p.precio/p.anterior)*100:0;
+}
+function obtenerProductosDestacados(){
+  let grupos=new Map();
+  productos.forEach(p=>{
+    let k=claveProducto(p);
+    if(!grupos.has(k))grupos.set(k,{clave:k,nombre:p.nombre,items:[],descuento:0});
+    let g=grupos.get(k);
+    g.items.push(p);
+    g.descuento=Math.max(g.descuento,porcentajeDescuento(p));
+  });
+  return [...grupos.values()]
+    .filter(g=>g.descuento>0)
+    .sort((a,b)=>b.descuento-a.descuento)
+    .slice(0,10);
+}
+
+/* Compara cada tienda contra el precio más bajo de cada producto.
+   Así no se suman directamente productos con unidades distintas. */
+function obtenerMejoresTiendas(destacados){
+  let puntuaciones=new Map();
+  destacados.forEach(g=>{
+    let porTienda=new Map();
+    g.items.forEach(p=>{
+      let actual=porTienda.get(p.tienda);
+      if(!actual||p.precio<actual)porTienda.set(p.tienda,p.precio);
+    });
+    if(!porTienda.size)return;
+    let minimo=Math.min(...porTienda.values());
+    porTienda.forEach((precio,tienda)=>{
+      if(!puntuaciones.has(tienda))puntuaciones.set(tienda,{suma:0,cantidad:0});
+      let s=puntuaciones.get(tienda);
+      s.suma+=precio/minimo;
+      s.cantidad++;
+    });
+  });
+  return [...puntuaciones.entries()]
+    .sort((a,b)=>{
+      let promedioA=a[1].suma/a[1].cantidad;
+      let promedioB=b[1].suma/b[1].cantidad;
+      return promedioA-promedioB||b[1].cantidad-a[1].cantidad;
+    })
+    .slice(0,3)
+    .map(x=>x[0]);
+}
+function limpiarTabla(mensaje='Aún no hay ofertas con descuentos verificables para comparar.'){
+  $('encabezadoComparacion').innerHTML='<tr><th>Productos</th><th>Establecimiento 1</th><th>Establecimiento 2</th><th>Establecimiento 3</th></tr>';
+  $('tablaComparacion').innerHTML='';
+  let tr=document.createElement('tr'),td=document.createElement('td');
+  td.colSpan=4;td.textContent=mensaje;tr.appendChild(td);$('tablaComparacion').appendChild(tr);
 }
 function renderTabla(){
+  let destacados=obtenerProductosDestacados();
+  if(!destacados.length){
+    limpiarTabla('Todavía no hay productos con descuento anterior y precio actual verificables para comparar.');
+    return;
+  }
+  let tiendas=obtenerMejoresTiendas(destacados);
+  if(!tiendas.length){limpiarTabla();return}
+
+  let head=$('encabezadoComparacion');head.innerHTML='';
+  let trh=document.createElement('tr');
+  ['Productos',...tiendas].forEach(nombre=>{
+    let th=document.createElement('th');th.textContent=nombre;trh.appendChild(th);
+  });
+  for(let i=tiendas.length;i<3;i++){
+    let th=document.createElement('th');th.textContent='—';trh.appendChild(th);
+  }
+  head.appendChild(trh);
+
   let body=$('tablaComparacion');body.innerHTML='';
-  if(!productos.length){limpiarTabla();return}
-  productos.forEach(p=>{
+  destacados.forEach(g=>{
     let tr=document.createElement('tr');
-    [p.nombre,p.tienda,dinero(p.precio),p.tipo,p.consultado||'Fecha no informada'].forEach(v=>{
-      let td=document.createElement('td');td.textContent=v;tr.appendChild(td);
+    let tdNombre=document.createElement('td');
+    tdNombre.textContent=g.nombre;
+    tr.appendChild(tdNombre);
+    tiendas.forEach(tienda=>{
+      let td=document.createElement('td');td.className='precio-tabla';
+      let ofertas=g.items.filter(p=>p.tienda===tienda);
+      if(ofertas.length){
+        let mejor=ofertas.reduce((a,b)=>a.precio<=b.precio?a:b);
+        td.textContent=dinero(mejor.precio);
+        td.title=mejor.unidad+(mejor.contenido?' · '+mejor.contenido:'');
+      }else td.textContent='—';
+      tr.appendChild(td);
     });
+    for(let i=tiendas.length;i<3;i++){
+      let td=document.createElement('td');td.textContent='—';tr.appendChild(td);
+    }
     body.appendChild(tr);
   });
 }
@@ -422,12 +444,9 @@ $('fotoProducto').addEventListener('change',()=>{
 
 $('estado').addEventListener('change',cargarMunicipios);
 $('municipio').addEventListener('change',()=>{
-  ultimaUbicacion='';buscarEstablecimientos();consultarOfertas(true);
+  ultimaUbicacion='';consultarOfertas(true);
 });
-$('buscarLugar').addEventListener('click',buscarEstablecimientos);
 $('busqueda').addEventListener('input',mostrarProductos);
-$('categoria').addEventListener('change',mostrarProductos);
-$('filtroTienda').addEventListener('change',mostrarProductos);
 $('vaciarCarrito').addEventListener('click',()=>{
   if(confirm('¿Quieres vaciar todo el carrito?')){
     carrito={};guardarCarrito();actualizarCarrito();
