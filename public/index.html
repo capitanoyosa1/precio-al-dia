@@ -1,32 +1,452 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#171717"><meta name="description" content="Precios al Día: ofertas verificables y comparación de precios en México."><link rel="manifest" href="./manifest.json"><title>Precios al Día</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#171717">
+<meta name="description" content="Precios al Día: ofertas verificables y comparación de precios en México.">
+<link rel="manifest" href="./manifest.json">
+<title>Precios al Día</title>
 <style>
-:root{--fondo:#f5f2e9;--oscuro:#171717;--dorado:#d5ad55;--verde:#176b45;--borde:#e5dfd2;--rojo:#a33b30}*{box-sizing:border-box}body{margin:0;background:var(--fondo);color:var(--oscuro);font-family:Arial,Helvetica,sans-serif}header{background:var(--oscuro);color:white;text-align:center;padding:20px 12px;border-bottom:4px solid var(--dorado)}header h1{margin:0;font-size:27px}header p{color:#e5cf9b;font-size:13px;margin:7px 0 0}main{max-width:1150px;margin:auto;padding:14px}.panel{background:white;padding:15px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000c}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px}label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}input,select,button{font:inherit}input,select{width:100%;padding:12px;border:1px solid var(--borde);border-radius:9px;background:white;min-width:0}button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:bold}.boton{background:var(--oscuro);color:white}.dorado{background:var(--dorado);color:#171717}.verde{background:var(--verde);color:white}.secundario{background:#eee;color:#333}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.aviso{background:#fff5dc;border:1px solid #ead49c;color:#624b16;padding:12px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:14px}.nota{font-size:12px;color:#666;line-height:1.5}.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.barra h2{margin:0}.productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}.producto{background:white;border:1px solid var(--borde);border-radius:13px;overflow:hidden;min-width:0}.producto img{width:100%;height:155px;object-fit:contain;background:#f4f1e9}.producto-cuerpo{padding:12px}.producto h3{margin:4px 0 8px;min-height:36px}.precio{font-size:23px;font-weight:bold;color:var(--verde)}.precio-anterior{font-size:13px;color:#888;text-decoration:line-through}.descuento{display:inline-block;background:#e9f5ed;color:var(--verde);padding:5px 8px;border-radius:7px;font-size:12px;font-weight:bold}.etiqueta{font-size:11px;color:#666;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}.producto-acciones{display:flex;gap:7px;margin-top:10px;align-items:center}.cantidad-producto{width:76px;padding:9px}.producto-acciones button{flex:1;font-size:12px}.vacio{padding:25px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6}.lista-lugares{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;margin-top:12px}.lugar{border:1px solid var(--borde);border-radius:10px;padding:11px;background:#fff}.lugar strong{display:block;font-size:14px}.lugar span{font-size:12px;color:#666;display:block;margin-top:4px}.tabla-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--borde)}th{background:#f5f2e9}.origen{font-size:11px;border-radius:6px;padding:4px 6px;background:#eee;display:inline-block}.carrito{background:#202020;color:white;border-radius:14px;padding:15px;margin-top:16px}.carrito h2{color:var(--dorado)}.item-carrito{border-bottom:1px solid #444;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}.cantidad{display:flex;align-items:center;gap:8px}.cantidad button{padding:6px 10px;background:#444;color:white}.total{font-size:24px;color:var(--dorado);font-weight:bold;margin-top:12px}.resumen{font-size:13px;color:#ddd;line-height:1.8;margin-top:8px}.vista-previa{display:none;margin-top:10px;max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--borde);border-radius:10px;background:#f4f1e9}footer{text-align:center;padding:25px 10px;font-size:12px;color:#777}.oculto{display:none!important}.acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.acciones button{flex:1}@media(max-width:600px){.grid{grid-template-columns:1fr}.productos{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.producto img{height:125px}.producto-cuerpo{padding:9px}.producto h3{font-size:14px}.precio{font-size:19px}.producto-acciones{flex-direction:column}}
-</style></head>
-<body><header><h1>🛒 Precios al Día</h1><p>Encuentra ofertas, compara precios y descubre cuánto puedes ahorrar</p></header><main>
-<section class="panel"><h2>📍 Buscar establecimientos por ubicación</h2><div class="grid"><div><label for="estado">Estado</label><select id="estado"><option value="">Selecciona tu estado</option></select></div><div><label for="municipio">Municipio</label><select id="municipio" disabled><option>Selecciona un estado primero</option></select></div></div><p id="estadoCarga" class="nota">Cargando catálogo de municipios...</p><div class="acciones"><button class="boton" id="buscarLugar">Buscar establecimientos</button><button class="secundario" id="compartir">Compartir aplicación</button></div><p id="estadoLugares" class="nota">Al elegir municipio se buscarán establecimientos registrados en el mapa colaborativo de OpenStreetMap.</p><div id="listaLugares" class="lista-lugares"></div></section>
-<div class="aviso"><b>Información transparente:</b> las tiendas cercanas son ubicaciones encontradas en el mapa. Los precios en línea no se atribuyen a una sucursal local si la fuente no lo confirma. No se publican ofertas inventadas ni registros manuales.</div>
-<section class="panel"><h2>🔎 Buscar productos</h2><input id="busqueda" type="search" placeholder="Ej. leche, arroz, aceite..."><div class="grid"><div><label for="categoria">Categoría</label><select id="categoria"><option value="Todos">Todas las categorías</option><option>Granos</option><option>Abarrotes</option><option>Lácteos</option><option>Frutas</option><option>Verduras</option><option>Bebidas</option><option>Limpieza</option><option>Higiene</option><option>Belleza</option><option>Hogar</option><option>Mascotas</option><option>Electrónica</option><option>Ropa</option><option>Otros</option></select></div><div><label for="filtroTienda">Establecimiento</label><select id="filtroTienda"><option value="Todos">Todos los establecimientos</option></select></div></div></section>
-<section class="panel"><div class="barra"><h2>🔥 Productos en oferta al día</h2><span class="nota" id="actualizacion">Consulta automática al seleccionar ubicación</span></div><p id="estadoOfertas" class="nota">Selecciona estado y municipio para consultar precios en línea disponibles.</p><div id="listaProductos" class="productos"></div><div id="sinProductos" class="vacio"><h3>Aún no hay ofertas verificadas para esta ubicación</h3><p>Las ofertas aparecerán cuando una fuente comercial devuelva datos verificables. No se mostrarán precios estimados.</p></div></section>
-<section class="panel"><h2>📊 Comparación de precios</h2><p class="nota">Se comparan únicamente registros con producto, precio, establecimiento, fuente y fecha disponibles. Los datos PROFECO se identificarán como referencia oficial, no como promoción.</p><div class="tabla-wrap"><table><thead><tr><th>Producto</th><th>Establecimiento</th><th>Precio</th><th>Tipo de dato</th><th>Fecha</th></tr></thead><tbody id="tablaComparacion"><tr><td colspan="5">Aún no hay datos comparables para esta ubicación.</td></tr></tbody></table></div><p id="estadoProfeco" class="nota">La integración automática del archivo oficial descargable de PROFECO está pendiente de validar su formato y actualización. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p><p class="nota">Los precios publicados por PROFECO son referencias tomadas en una fecha concreta y pueden cambiar en tienda. <a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a></p></section>
-<section class="carrito"><h2>🛍️ Mi carrito</h2><div id="listaCarrito">Tu carrito está vacío.</div><div class="total" id="total">$0.00</div><div class="resumen" id="resumen">Agrega productos para calcular el total y el ahorro estimado.</div><button class="dorado" id="vaciarCarrito" style="width:100%;margin-top:12px">Vaciar carrito</button></section>
-</main><footer>Precios al Día · Comparar para ahorrar<br>Los precios dependen de la fecha, ubicación y disponibilidad de cada establecimiento.</footer>
+:root{--fondo:#f5f2e9;--oscuro:#171717;--dorado:#d5ad55;--verde:#176b45;--borde:#e5dfd2;--rojo:#a33b30}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--oscuro);font-family:Arial,Helvetica,sans-serif}
+header{background:var(--oscuro);color:white;text-align:center;padding:16px 12px;border-bottom:4px solid var(--dorado)}
+.encabezado-fila{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+header h1{margin:0;font-size:27px}
+.boton-compartir{background:var(--dorado);color:#171717;padding:9px 12px;white-space:nowrap}
+header p{color:#e5cf9b;font-size:13px;margin:7px 0 0}
+main{max-width:1150px;margin:auto;padding:14px}
+.panel{background:white;padding:15px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000c}
+h2{font-size:19px;margin:0 0 12px}
+h3{font-size:16px}
+label{display:block;font-size:13px;font-weight:bold;margin:10px 0 5px}
+input,select,button{font:inherit}
+input,select{width:100%;padding:12px;border:1px solid var(--borde);border-radius:9px;background:white;min-width:0}
+button{border:0;border-radius:9px;padding:11px 13px;cursor:pointer;font-weight:bold}
+.boton{background:var(--oscuro);color:white}
+.dorado{background:var(--dorado);color:#171717}
+.verde{background:var(--verde);color:white}
+.secundario{background:#eee;color:#333}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.aviso{background:#fff5dc;border:1px solid #ead49c;color:#624b16;padding:12px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:14px}
+.nota{font-size:12px;color:#666;line-height:1.5}
+.barra{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.barra h2{margin:0}
+.busqueda-fila{display:flex;align-items:center;gap:8px}
+.busqueda-fila input[type=search]{flex:1;min-width:0}
+.boton-foto{width:46px;height:46px;flex:0 0 46px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--verde);color:white;font-size:22px;border-radius:50%;cursor:pointer;margin:0}
+.archivo-foto{display:none}
+.vista-previa{display:none;margin-top:10px;max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--borde);border-radius:10px;background:#f4f1e9}
+.productos{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:14px}
+.producto{background:white;border:1px solid var(--borde);border-radius:13px;overflow:hidden;min-width:0}
+.producto img{width:100%;height:155px;object-fit:contain;background:#f4f1e9}
+.producto-cuerpo{padding:12px}
+.producto h3{margin:4px 0 8px;min-height:36px}
+.precio{font-size:23px;font-weight:bold;color:var(--verde)}
+.precio-anterior{font-size:13px;color:#888;text-decoration:line-through}
+.descuento{display:inline-block;background:#e9f5ed;color:var(--verde);padding:5px 8px;border-radius:7px;font-size:12px;font-weight:bold}
+.etiqueta{font-size:11px;color:#666;background:#eee;padding:5px 7px;border-radius:6px;display:inline-block;margin:3px 2px 3px 0}
+.producto-acciones{display:flex;gap:7px;margin-top:10px;align-items:center}
+.cantidad-producto{width:76px;padding:9px}
+.producto-acciones button{flex:1;font-size:12px}
+.vacio{padding:25px 15px;text-align:center;background:white;border:1px dashed #d8d0c1;border-radius:12px;color:#666;line-height:1.6}
+.lista-lugares{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:9px;margin-top:12px}
+.lugar{border:1px solid var(--borde);border-radius:10px;padding:11px;background:#fff}
+.lugar strong{display:block;font-size:14px}
+.lugar span{font-size:12px;color:#666;display:block;margin-top:4px}
+.tabla-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--borde)}
+th{background:#f5f2e9}
+.carrito{background:#202020;color:white;border-radius:14px;padding:15px;margin-top:16px}
+.carrito h2{color:var(--dorado)}
+.item-carrito{border-bottom:1px solid #444;padding:10px 0;display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
+.cantidad{display:flex;align-items:center;gap:8px}
+.cantidad button{padding:6px 10px;background:#444;color:white}
+.total{font-size:24px;color:var(--dorado);font-weight:bold;margin-top:12px}
+.resumen{font-size:13px;color:#ddd;line-height:1.8;margin-top:8px}
+footer{text-align:center;padding:25px 10px;font-size:12px;color:#777}
+.oculto{display:none!important}
+.acciones{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.acciones button{flex:1}
+@media(max-width:600px){
+.grid{grid-template-columns:1fr}
+.productos{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.producto img{height:125px}
+.producto-cuerpo{padding:9px}
+.producto h3{font-size:14px}
+.precio{font-size:19px}
+.producto-acciones{flex-direction:column}
+.encabezado-fila{gap:8px}
+header h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="encabezado-fila">
+    <h1>🛒 Precios al Día</h1>
+    <button class="boton-compartir" id="compartir" type="button">↗ Compartir</button>
+  </div>
+  <p>Encuentra ofertas, compara precios y descubre cuánto puedes ahorrar</p>
+</header>
+<main>
+
+<section class="panel">
+  <h2>📍 Buscar establecimientos por ubicación</h2>
+  <div class="grid">
+    <div>
+      <label for="estado">Estado</label>
+      <select id="estado"><option value="">Selecciona tu estado</option></select>
+    </div>
+    <div>
+      <label for="municipio">Municipio</label>
+      <select id="municipio" disabled><option>Selecciona un estado primero</option></select>
+    </div>
+  </div>
+  <p id="estadoCarga" class="nota">Cargando catálogo de municipios...</p>
+  <div class="acciones">
+    <button class="boton" id="buscarLugar">Buscar establecimientos</button>
+  </div>
+  <p id="estadoLugares" class="nota">Al elegir municipio se buscarán establecimientos registrados en el mapa colaborativo de OpenStreetMap.</p>
+  <div id="listaLugares" class="lista-lugares"></div>
+</section>
+
+<div class="aviso">
+  <b>Información transparente:</b> las tiendas cercanas son ubicaciones encontradas en el mapa. Los precios en línea no se atribuyen a una sucursal local si la fuente no lo confirma. No se publican ofertas inventadas ni registros manuales.
+</div>
+
+<section class="panel">
+  <h2>🔎 Buscar productos</h2>
+  <div class="busqueda-fila">
+    <input id="busqueda" type="search" placeholder="Ej. leche, arroz, aceite..." aria-label="Buscar productos">
+    <label class="boton-foto" for="fotoProducto" title="Tomar foto o elegir archivo" aria-label="Tomar foto o elegir archivo">📷</label>
+    <input class="archivo-foto" id="fotoProducto" type="file" accept="image/*" capture="environment">
+  </div>
+  <img id="vistaFotoProducto" class="vista-previa" alt="Vista previa de la fotografía seleccionada">
+  <p id="estadoFotoProducto" class="nota" aria-live="polite"></p>
+
+  <div class="grid">
+    <div>
+      <label for="categoria">Categoría</label>
+      <select id="categoria">
+        <option value="Todos">Todas las categorías</option>
+        <option>Granos</option><option>Abarrotes</option><option>Lácteos</option>
+        <option>Frutas</option><option>Verduras</option><option>Bebidas</option>
+        <option>Limpieza</option><option>Higiene</option><option>Belleza</option>
+        <option>Hogar</option><option>Mascotas</option><option>Electrónica</option>
+        <option>Ropa</option><option>Otros</option>
+      </select>
+    </div>
+    <div>
+      <label for="filtroTienda">Establecimiento</label>
+      <select id="filtroTienda"><option value="Todos">Todos los establecimientos</option></select>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="barra">
+    <h2>🔥 Productos en oferta al día</h2>
+    <span class="nota" id="actualizacion">Consulta automática al seleccionar ubicación</span>
+  </div>
+  <p id="estadoOfertas" class="nota">Selecciona estado y municipio para consultar precios en línea disponibles.</p>
+  <div id="listaProductos" class="productos"></div>
+  <div id="sinProductos" class="vacio">
+    <h3>Aún no hay ofertas verificadas para esta ubicación</h3>
+    <p>Las ofertas aparecerán cuando una fuente comercial devuelva datos verificables. No se mostrarán precios estimados.</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>📊 Comparación de precios</h2>
+  <p class="nota">Se comparan únicamente registros con producto, precio, establecimiento, fuente y fecha disponibles. Los datos PROFECO se identificarán como referencia oficial, no como promoción.</p>
+  <div class="tabla-wrap">
+    <table>
+      <thead><tr><th>Producto</th><th>Establecimiento</th><th>Precio</th><th>Tipo de dato</th><th>Fecha</th></tr></thead>
+      <tbody id="tablaComparacion"><tr><td colspan="5">Aún no hay datos comparables para esta ubicación.</td></tr></tbody>
+    </table>
+  </div>
+  <p id="estadoProfeco" class="nota">La integración automática del archivo oficial descargable de PROFECO está pendiente de validar su formato y actualización. <a href="https://datos.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar datos abiertos de PROFECO ↗</a></p>
+  <p class="nota">Los precios publicados por PROFECO son referencias tomadas en una fecha concreta y pueden cambiar en tienda. <a href="https://qqp.profeco.gob.mx/" target="_blank" rel="noopener noreferrer">Consultar Quién es Quién en los Precios ↗</a></p>
+</section>
+
+<section class="carrito">
+  <h2>🛍️ Mi carrito</h2>
+  <div id="listaCarrito">Tu carrito está vacío.</div>
+  <div class="total" id="total">$0.00</div>
+  <div class="resumen" id="resumen">Agrega productos para calcular el total y el ahorro estimado.</div>
+  <button class="dorado" id="vaciarCarrito" style="width:100%;margin-top:12px">Vaciar carrito</button>
+</section>
+</main>
+<footer>Precios al Día · Comparar para ahorrar<br>Los precios dependen de la fecha, ubicación y disponibilidad de cada establecimiento.</footer>
+
 <script>
 'use strict';
-const $=id=>document.getElementById(id), estados=['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila de Zaragoza','Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','México','Michoacán de Ocampo','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz de Ignacio de la Llave','Yucatán','Zacatecas'];
-const URL_MUNICIPIOS='https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json',CLAVE_CARRITO='precios_al_dia_carrito_v2';let catalogoMunicipios=null,productos=[],carrito=leerCarrito(),ultimaUbicacion='',timerAuto=null;
-function leerCarrito(){try{return JSON.parse(localStorage.getItem(CLAVE_CARRITO))||{}}catch(e){return {}}}function guardarCarrito(){try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}}function dinero(v){return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'})}function norm(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
-function llenarEstados(){estados.forEach(n=>{let o=document.createElement('option');o.value=n;o.textContent=n;$('estado').appendChild(o)})}function aliasEstado(e){return ({'Coahuila de Zaragoza':'Coahuila','México':'Estado de México','Michoacán de Ocampo':'Michoacán','Veracruz de Ignacio de la Llave':'Veracruz'})[e]||e}function municipiosDe(datos){if(!Array.isArray(datos))return [];return datos.map(x=>typeof x==='string'?x:(x&&(x.nombre||x.municipio||x.name||x.Municipio))||'').filter(Boolean)}function buscarMunicipios(datos,e){if(!datos)return [];let n=aliasEstado(e),k=Object.keys(datos).find(x=>norm(x)===norm(n));if(k)return municipiosDe(datos[k]);if(Array.isArray(datos.estados)){let x=datos.estados.find(y=>y&&norm(y.nombre||y.estado||y.name)===norm(n));if(x)return municipiosDe(x.municipios)}return []}
-async function cargarCatalogo(){try{let r=await fetch(URL_MUNICIPIOS);if(!r.ok)throw Error();catalogoMunicipios=await r.json();$('estadoCarga').textContent='Catálogo de municipios disponible.'}catch(e){$('estadoCarga').textContent='No se pudo cargar el catálogo de municipios. Revisa tu conexión.'}}function cargarMunicipios(){let e=$('estado').value,s=$('municipio');s.innerHTML='';let o=document.createElement('option');o.value='';o.textContent=e?'Selecciona un municipio':'Selecciona un estado primero';s.appendChild(o);let lista=[...new Set(buscarMunicipios(catalogoMunicipios,e))].sort((a,b)=>a.localeCompare(b,'es'));lista.forEach(n=>{let x=document.createElement('option');x.value=n;x.textContent=n;s.appendChild(x)});s.disabled=!lista.length;if(e&&!lista.length)o.textContent='Catálogo no disponible';productos=[];ultimaUbicacion='';$('listaLugares').innerHTML='';$('estadoLugares').textContent='Selecciona municipio para buscar establecimientos.';actualizarTiendas();mostrarProductos();limpiarTabla()}
-function adaptar(x,i){return {id:String(x.id||x.productId||x.sku||i),nombre:x.nombre||x.name||x.product||'Producto',categoria:x.categoria||x.category||'Otros',tienda:x.tienda||x.store||x.establecimiento||'Tienda en línea',precio:Number(x.precio??x.price??x.currentPrice),anterior:Number(x.precioAnterior??x.listPrice??x.originalPrice??0),imagen:x.imagen||x.image||x.imageUrl||'',contenido:x.contenido||x.content||x.presentation||'',unidad:x.unidad||x.unit||'pieza',vigencia:x.vigencia||x.validUntil||'',consultado:x.consultado||x.scrapedAt||x.checkedAt||'',fuente:x.fuente||x.url||x.sourceUrl||'',ubicacion:x.ubicacion||'',tipo:x.tipo||'Precio en línea',verificada:x.verificada===true||x.verified===true||x.available===true}}
-async function consultarOfertas(force=false){let e=$('estado').value,m=$('municipio').value;if(!e||!m){$('estadoOfertas').textContent='Selecciona estado y municipio para consultar precios.';productos=[];mostrarProductos();limpiarTabla();return}let key=e+'|'+m;if(!force&&key===ultimaUbicacion)return;ultimaUbicacion=key;$('estadoOfertas').textContent='Consultando fuentes disponibles para '+m+', '+e+'...';$('sinProductos').classList.add('oculto');try{let r=await fetch('./api/offers?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'}),d=await r.json();if(!r.ok)throw Error(d.mensaje||'Error de consulta');let raw=Array.isArray(d.ofertas)?d.ofertas:[];productos=raw.map(adaptar).filter(p=>p.verificada&&Number.isFinite(p.precio)&&p.precio>0&&p.fuente);$('estadoOfertas').textContent=d.mensaje||('Consulta para '+m+', '+e+'.');$('actualizacion').textContent='Última consulta: '+new Date().toLocaleString('es-MX');actualizarTiendas();mostrarProductos();renderTabla();actualizarCarrito()}catch(err){productos=[];$('estadoOfertas').textContent='No fue posible consultar las fuentes. Intenta más tarde.';mostrarProductos();limpiarTabla()}}
-async function buscarEstablecimientos(){let e=$('estado').value,m=$('municipio').value;if(!e||!m){$('estadoLugares').textContent='Primero selecciona estado y municipio.';return}$('estadoLugares').textContent='Buscando establecimientos registrados en el mapa...';$('listaLugares').innerHTML='';try{let r=await fetch('./api/places?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'}),d=await r.json();if(!r.ok)throw Error();let arr=Array.isArray(d.establecimientos)?d.establecimientos:[];$('estadoLugares').textContent=d.mensaje||('Establecimientos encontrados: '+arr.length+'.');arr.forEach(p=>{let card=document.createElement('div');card.className='lugar';let name=document.createElement('strong');name.textContent=p.nombre||'Establecimiento';let detail=document.createElement('span');detail.textContent=[p.tipo,p.direccion].filter(Boolean).join(' · ')||'Ubicación registrada en OpenStreetMap';card.append(name,detail);if(p.url){let a=document.createElement('a');a.href=p.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Ver mapa ↗';a.className='nota';card.appendChild(a)}$('listaLugares').appendChild(card)})}catch(e){$('estadoLugares').textContent='No se pudo completar la búsqueda de establecimientos. Prueba más tarde.'}}
-function actualizarTiendas(){let s=$('filtroTienda'),v=s.value,ts=[...new Set(productos.map(p=>p.tienda))].sort((a,b)=>a.localeCompare(b,'es'));s.innerHTML='<option value="Todos">Todos los establecimientos</option>';ts.forEach(t=>{let o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o)});s.value=ts.includes(v)?v:'Todos'}function etiqueta(t){let e=document.createElement('span');e.className='etiqueta';e.textContent=t;return e}
-function mostrarProductos(){let c=$('listaProductos');c.innerHTML='';let q=norm($('busqueda').value),cat=$('categoria').value,store=$('filtroTienda').value,list=productos.filter(p=>(norm(p.nombre).includes(q)||norm(p.tienda).includes(q))&&(cat==='Todos'||p.categoria===cat)&&(store==='Todos'||p.tienda===store));$('sinProductos').classList.toggle('oculto',list.length>0);list.forEach(p=>{let card=document.createElement('article');card.className='producto';if(p.imagen){let img=document.createElement('img');img.src=p.imagen;img.alt=p.nombre;img.loading='lazy';img.onerror=()=>img.remove();card.appendChild(img)}let b=document.createElement('div');b.className='producto-cuerpo';let h=document.createElement('h3');h.textContent=p.nombre;b.appendChild(h);if(p.contenido)b.appendChild(etiqueta(p.contenido));b.appendChild(etiqueta('Unidad: '+p.unidad));let pr=document.createElement('div');pr.className='precio';pr.textContent=dinero(p.precio);b.appendChild(pr);if(p.anterior>p.precio){let a=document.createElement('div');a.className='precio-anterior';a.textContent=dinero(p.anterior);b.appendChild(a);let d=document.createElement('p');d.className='descuento';d.textContent='Ahorro '+Math.round((1-p.precio/p.anterior)*100)+'%';b.appendChild(d)}b.append(etiqueta(p.categoria),etiqueta(p.tienda),etiqueta(p.tipo));let info=document.createElement('p');info.className='nota';info.textContent=[p.ubicacion||'Precio en línea; sucursal no confirmada',p.vigencia?'Vigencia: '+p.vigencia:'Vigencia no informada',p.consultado?'Consultado: '+p.consultado:''].filter(Boolean).join(' · ');b.appendChild(info);let link=document.createElement('a');link.className='nota';link.href=p.fuente;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ver fuente ↗';b.appendChild(link);let actions=document.createElement('div');actions.className='producto-acciones';let qty=document.createElement('input');qty.type='number';qty.min='1';qty.max='999';qty.value='1';qty.className='cantidad-producto';qty.setAttribute('aria-label','Cantidad');let add=document.createElement('button');add.className='verde';add.textContent='Agregar';add.addEventListener('click',()=>agregar(p.id,Math.max(1,Math.min(999,parseInt(qty.value,10)||1))));actions.append(qty,add);b.appendChild(actions);card.appendChild(b);c.appendChild(card)})}
-function limpiarTabla(){ $('tablaComparacion').innerHTML='<tr><td colspan="5">Aún no hay datos comparables para esta ubicación.</td></tr>'}function renderTabla(){let body=$('tablaComparacion');body.innerHTML='';if(!productos.length){limpiarTabla();return}productos.forEach(p=>{let tr=document.createElement('tr');[p.nombre,p.tienda,dinero(p.precio),p.tipo,p.consultado||'Fecha no informada'].forEach(v=>{let td=document.createElement('td');td.textContent=v;tr.appendChild(td)});body.appendChild(tr)})}
-function agregar(id,n=1){let p=productos.find(x=>x.id===id);if(!p)return;carrito[id]=(carrito[id]||0)+n;guardarCarrito();actualizarCarrito()}function cantidad(id,n){let v=(carrito[id]||0)+n;if(v<=0)delete carrito[id];else carrito[id]=v;guardarCarrito();actualizarCarrito()}function actualizarCarrito(){let c=$('listaCarrito');c.innerHTML='';let total=0,ahorro=0,unidades=0,ids=Object.keys(carrito);if(!ids.length)c.textContent='Tu carrito está vacío.';ids.forEach(id=>{let p=productos.find(x=>x.id===id),q=Number(carrito[id]);if(!p||q<1)return;total+=p.precio*q;unidades+=q;if(p.anterior>p.precio)ahorro+=(p.anterior-p.precio)*q;let row=document.createElement('div');row.className='item-carrito';let n=document.createElement('span');n.textContent=p.nombre+' ('+p.unidad+') · '+dinero(p.precio*q);let ctr=document.createElement('div');ctr.className='cantidad';let m=document.createElement('button');m.textContent='−';m.addEventListener('click',()=>cantidad(id,-1));let num=document.createElement('strong');num.textContent=q;let plus=document.createElement('button');plus.textContent='+';plus.addEventListener('click',()=>cantidad(id,1));ctr.append(m,num,plus);row.append(n,ctr);c.appendChild(row)});$('total').textContent=dinero(total);let avg=total+ahorro>0?ahorro/(total+ahorro)*100:0;$('resumen').textContent='Unidades: '+unidades+' | Ahorro potencial: '+dinero(ahorro)+' | Descuento promedio estimado: '+avg.toFixed(1)+'%.';guardarCarrito()}
-$('estado').addEventListener('change',cargarMunicipios);$('municipio').addEventListener('change',()=>{ultimaUbicacion='';buscarEstablecimientos();consultarOfertas(true)});$('buscarLugar').addEventListener('click',buscarEstablecimientos);$('busqueda').addEventListener('input',mostrarProductos);$('categoria').addEventListener('change',mostrarProductos);$('filtroTienda').addEventListener('change',mostrarProductos);$('vaciarCarrito').addEventListener('click',()=>{if(confirm('¿Quieres vaciar todo el carrito?')){carrito={};guardarCarrito();actualizarCarrito()}});$('compartir').addEventListener('click',async()=>{let data={title:'Precios al Día',text:'Compara precios y encuentra ofertas en México',url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(location.href);alert('Enlace copiado.')}}catch(e){}});
-llenarEstados();actualizarCarrito();cargarCatalogo();if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
-</script></body></html>
+const $=id=>document.getElementById(id);
+const estados=['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Ciudad de México','Coahuila de Zaragoza','Colima','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','México','Michoacán de Ocampo','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz de Ignacio de la Llave','Yucatán','Zacatecas'];
+const URL_MUNICIPIOS='https://raw.githubusercontent.com/cisnerosnow/json-estados-municipios-mexico/master/estados-municipios.json';
+const CLAVE_CARRITO='precios_al_dia_carrito_v2';
+let catalogoMunicipios=null,productos=[],carrito=leerCarrito(),ultimaUbicacion='';
+
+function leerCarrito(){try{return JSON.parse(localStorage.getItem(CLAVE_CARRITO))||{}}catch(e){return {}}}
+function guardarCarrito(){try{localStorage.setItem(CLAVE_CARRITO,JSON.stringify(carrito))}catch(e){}}
+function dinero(v){return Number(v||0).toLocaleString('es-MX',{style:'currency',currency:'MXN'})}
+function norm(t){return String(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+
+function llenarEstados(){
+  estados.forEach(n=>{let o=document.createElement('option');o.value=n;o.textContent=n;$('estado').appendChild(o)});
+}
+function aliasEstado(e){
+  return ({'Coahuila de Zaragoza':'Coahuila','México':'Estado de México','Michoacán de Ocampo':'Michoacán','Veracruz de Ignacio de la Llave':'Veracruz'})[e]||e;
+}
+function municipiosDe(datos){
+  if(!Array.isArray(datos))return [];
+  return datos.map(x=>typeof x==='string'?x:(x&&(x.nombre||x.municipio||x.name||x.Municipio))||'').filter(Boolean);
+}
+function buscarMunicipios(datos,e){
+  if(!datos)return [];
+  let n=aliasEstado(e),k=Object.keys(datos).find(x=>norm(x)===norm(n));
+  if(k)return municipiosDe(datos[k]);
+  if(Array.isArray(datos.estados)){
+    let x=datos.estados.find(y=>y&&norm(y.nombre||y.estado||y.name)===norm(n));
+    if(x)return municipiosDe(x.municipios);
+  }
+  return [];
+}
+async function cargarCatalogo(){
+  try{
+    let r=await fetch(URL_MUNICIPIOS);
+    if(!r.ok)throw Error();
+    catalogoMunicipios=await r.json();
+    $('estadoCarga').textContent='Catálogo de municipios disponible.';
+  }catch(e){
+    $('estadoCarga').textContent='No se pudo cargar el catálogo de municipios. Revisa tu conexión.';
+  }
+}
+function cargarMunicipios(){
+  let e=$('estado').value,s=$('municipio');
+  s.innerHTML='';
+  let o=document.createElement('option');
+  o.value='';o.textContent=e?'Selecciona un municipio':'Selecciona un estado primero';
+  s.appendChild(o);
+  let lista=[...new Set(buscarMunicipios(catalogoMunicipios,e))].sort((a,b)=>a.localeCompare(b,'es'));
+  lista.forEach(n=>{let x=document.createElement('option');x.value=n;x.textContent=n;s.appendChild(x)});
+  s.disabled=!lista.length;
+  if(e&&!lista.length)o.textContent='Catálogo no disponible';
+  productos=[];ultimaUbicacion='';
+  $('listaLugares').innerHTML='';
+  $('estadoLugares').textContent='Selecciona municipio para buscar establecimientos.';
+  actualizarTiendas();mostrarProductos();limpiarTabla();
+}
+
+function adaptar(x,i){
+  return {
+    id:String(x.id||x.productId||x.sku||i),
+    nombre:x.nombre||x.name||x.product||'Producto',
+    categoria:x.categoria||x.category||'Otros',
+    tienda:x.tienda||x.store||x.establecimiento||'Tienda en línea',
+    precio:Number(x.precio??x.price??x.currentPrice),
+    anterior:Number(x.precioAnterior??x.listPrice??x.originalPrice??0),
+    imagen:x.imagen||x.image||x.imageUrl||'',
+    contenido:x.contenido||x.content||x.presentation||'',
+    unidad:x.unidad||x.unit||'pieza',
+    vigencia:x.vigencia||x.validUntil||'',
+    consultado:x.consultado||x.scrapedAt||x.checkedAt||'',
+    fuente:x.fuente||x.url||x.sourceUrl||'',
+    ubicacion:x.ubicacion||'',
+    tipo:x.tipo||'Precio en línea',
+    verificada:x.verificada===true||x.verified===true||x.available===true
+  };
+}
+async function consultarOfertas(force=false){
+  let e=$('estado').value,m=$('municipio').value;
+  if(!e||!m){
+    $('estadoOfertas').textContent='Selecciona estado y municipio para consultar precios.';
+    productos=[];mostrarProductos();limpiarTabla();return;
+  }
+  let key=e+'|'+m;
+  if(!force&&key===ultimaUbicacion)return;
+  ultimaUbicacion=key;
+  $('estadoOfertas').textContent='Consultando fuentes disponibles para '+m+', '+e+'...';
+  $('sinProductos').classList.add('oculto');
+  try{
+    let r=await fetch('./api/offers?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'});
+    let d=await r.json();
+    if(!r.ok)throw Error(d.mensaje||'Error de consulta');
+    let raw=Array.isArray(d.ofertas)?d.ofertas:[];
+    productos=raw.map(adaptar).filter(p=>p.verificada&&Number.isFinite(p.precio)&&p.precio>0&&p.fuente);
+    $('estadoOfertas').textContent=d.mensaje||('Consulta para '+m+', '+e+'.');
+    $('actualizacion').textContent='Última consulta: '+new Date().toLocaleString('es-MX');
+    actualizarTiendas();mostrarProductos();renderTabla();actualizarCarrito();
+  }catch(err){
+    productos=[];
+    $('estadoOfertas').textContent='No fue posible consultar las fuentes. Intenta más tarde.';
+    mostrarProductos();limpiarTabla();
+  }
+}
+
+async function buscarEstablecimientos(){
+  let e=$('estado').value,m=$('municipio').value;
+  if(!e||!m){$('estadoLugares').textContent='Primero selecciona estado y municipio.';return}
+  $('estadoLugares').textContent='Buscando establecimientos registrados en el mapa...';
+  $('listaLugares').innerHTML='';
+  try{
+    let r=await fetch('./api/places?estado='+encodeURIComponent(e)+'&municipio='+encodeURIComponent(m),{cache:'no-store'});
+    let d=await r.json();
+    if(!r.ok)throw Error();
+    let arr=Array.isArray(d.establecimientos)?d.establecimientos:[];
+    $('estadoLugares').textContent=d.mensaje||('Establecimientos encontrados: '+arr.length+'.');
+    arr.forEach(p=>{
+      let card=document.createElement('div');card.className='lugar';
+      let name=document.createElement('strong');name.textContent=p.nombre||'Establecimiento';
+      let detail=document.createElement('span');
+      detail.textContent=[p.tipo,p.direccion].filter(Boolean).join(' · ')||'Ubicación registrada en OpenStreetMap';
+      card.append(name,detail);
+      if(p.url){
+        let a=document.createElement('a');a.href=p.url;a.target='_blank';a.rel='noopener noreferrer';
+        a.textContent='Ver mapa ↗';a.className='nota';card.appendChild(a);
+      }
+      $('listaLugares').appendChild(card);
+    });
+  }catch(e){
+    $('estadoLugares').textContent='No se pudo completar la búsqueda de establecimientos. Prueba más tarde.';
+  }
+}
+
+function actualizarTiendas(){
+  let s=$('filtroTienda'),v=s.value;
+  let ts=[...new Set(productos.map(p=>p.tienda))].sort((a,b)=>a.localeCompare(b,'es'));
+  s.innerHTML='<option value="Todos">Todos los establecimientos</option>';
+  ts.forEach(t=>{let o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o)});
+  s.value=ts.includes(v)?v:'Todos';
+}
+function etiqueta(t){let e=document.createElement('span');e.className='etiqueta';e.textContent=t;return e}
+
+function mostrarProductos(){
+  let c=$('listaProductos');c.innerHTML='';
+  let q=norm($('busqueda').value),cat=$('categoria').value,store=$('filtroTienda').value;
+  let list=productos.filter(p=>(norm(p.nombre).includes(q)||norm(p.tienda).includes(q))&&(cat==='Todos'||p.categoria===cat)&&(store==='Todos'||p.tienda===store));
+  $('sinProductos').classList.toggle('oculto',list.length>0);
+  list.forEach(p=>{
+    let card=document.createElement('article');card.className='producto';
+    if(p.imagen){
+      let img=document.createElement('img');img.src=p.imagen;img.alt=p.nombre;img.loading='lazy';
+      img.onerror=()=>img.remove();card.appendChild(img);
+    }
+    let b=document.createElement('div');b.className='producto-cuerpo';
+    let h=document.createElement('h3');h.textContent=p.nombre;b.appendChild(h);
+    if(p.contenido)b.appendChild(etiqueta(p.contenido));
+    b.appendChild(etiqueta('Unidad: '+p.unidad));
+    let pr=document.createElement('div');pr.className='precio';pr.textContent=dinero(p.precio);b.appendChild(pr);
+    if(p.anterior>p.precio){
+      let a=document.createElement('div');a.className='precio-anterior';a.textContent=dinero(p.anterior);b.appendChild(a);
+      let d=document.createElement('p');d.className='descuento';d.textContent='Ahorro '+Math.round((1-p.precio/p.anterior)*100)+'%';b.appendChild(d);
+    }
+    b.append(etiqueta(p.categoria),etiqueta(p.tienda),etiqueta(p.tipo));
+    let info=document.createElement('p');info.className='nota';
+    info.textContent=[p.ubicacion||'Precio en línea; sucursal no confirmada',p.vigencia?'Vigencia: '+p.vigencia:'Vigencia no informada',p.consultado?'Consultado: '+p.consultado:''].filter(Boolean).join(' · ');
+    b.appendChild(info);
+    let link=document.createElement('a');link.className='nota';link.href=p.fuente;link.target='_blank';link.rel='noopener noreferrer';link.textContent='Ver fuente ↗';b.appendChild(link);
+    let actions=document.createElement('div');actions.className='producto-acciones';
+    let qty=document.createElement('input');qty.type='number';qty.min='1';qty.max='999';qty.value='1';qty.className='cantidad-producto';qty.setAttribute('aria-label','Cantidad');
+    let add=document.createElement('button');add.className='verde';add.textContent='Agregar';
+    add.addEventListener('click',()=>agregar(p.id,Math.max(1,Math.min(999,parseInt(qty.value,10)||1))));
+    actions.append(qty,add);b.appendChild(actions);card.appendChild(b);c.appendChild(card);
+  });
+}
+
+function limpiarTabla(){
+  $('tablaComparacion').innerHTML='<tr><td colspan="5">Aún no hay datos comparables para esta ubicación.</td></tr>';
+}
+function renderTabla(){
+  let body=$('tablaComparacion');body.innerHTML='';
+  if(!productos.length){limpiarTabla();return}
+  productos.forEach(p=>{
+    let tr=document.createElement('tr');
+    [p.nombre,p.tienda,dinero(p.precio),p.tipo,p.consultado||'Fecha no informada'].forEach(v=>{
+      let td=document.createElement('td');td.textContent=v;tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+}
+
+function agregar(id,n=1){
+  let p=productos.find(x=>x.id===id);if(!p)return;
+  carrito[id]=(carrito[id]||0)+n;guardarCarrito();actualizarCarrito();
+}
+function cantidad(id,n){
+  let v=(carrito[id]||0)+n;
+  if(v<=0)delete carrito[id];else carrito[id]=v;
+  guardarCarrito();actualizarCarrito();
+}
+function actualizarCarrito(){
+  let c=$('listaCarrito');c.innerHTML='';
+  let total=0,ahorro=0,unidades=0,ids=Object.keys(carrito);
+  if(!ids.length)c.textContent='Tu carrito está vacío.';
+  ids.forEach(id=>{
+    let p=productos.find(x=>x.id===id),q=Number(carrito[id]);
+    if(!p||q<1)return;
+    total+=p.precio*q;unidades+=q;
+    if(p.anterior>p.precio)ahorro+=(p.anterior-p.precio)*q;
+    let row=document.createElement('div');row.className='item-carrito';
+    let n=document.createElement('span');n.textContent=p.nombre+' ('+p.unidad+') · '+dinero(p.precio*q);
+    let ctr=document.createElement('div');ctr.className='cantidad';
+    let m=document.createElement('button');m.textContent='−';m.addEventListener('click',()=>cantidad(id,-1));
+    let num=document.createElement('strong');num.textContent=q;
+    let plus=document.createElement('button');plus.textContent='+';plus.addEventListener('click',()=>cantidad(id,1));
+    ctr.append(m,num,plus);row.append(n,ctr);c.appendChild(row);
+  });
+  $('total').textContent=dinero(total);
+  let avg=total+ahorro>0?ahorro/(total+ahorro)*100:0;
+  $('resumen').textContent='Unidades: '+unidades+' | Ahorro potencial: '+dinero(ahorro)+' | Descuento promedio estimado: '+avg.toFixed(1)+'%.';
+  guardarCarrito();
+}
+
+$('fotoProducto').addEventListener('change',()=>{
+  const file=$('fotoProducto').files&&$('fotoProducto').files[0];
+  const img=$('vistaFotoProducto'),msg=$('estadoFotoProducto');
+  if(!file){img.removeAttribute('src');img.style.display='none';msg.textContent='';return}
+  if(!file.type.startsWith('image/')){msg.textContent='Selecciona un archivo de imagen.';return}
+  if(file.size>10*1024*1024){
+    $('fotoProducto').value='';msg.textContent='La imagen debe pesar menos de 10 MB.';
+    img.style.display='none';return;
+  }
+  if(img.dataset.url)URL.revokeObjectURL(img.dataset.url);
+  const url=URL.createObjectURL(file);
+  img.src=url;img.dataset.url=url;img.style.display='block';
+  msg.textContent='Fotografía seleccionada. El reconocimiento automático del producto requiere una integración adicional.';
+});
+
+$('estado').addEventListener('change',cargarMunicipios);
+$('municipio').addEventListener('change',()=>{
+  ultimaUbicacion='';buscarEstablecimientos();consultarOfertas(true);
+});
+$('buscarLugar').addEventListener('click',buscarEstablecimientos);
+$('busqueda').addEventListener('input',mostrarProductos);
+$('categoria').addEventListener('change',mostrarProductos);
+$('filtroTienda').addEventListener('change',mostrarProductos);
+$('vaciarCarrito').addEventListener('click',()=>{
+  if(confirm('¿Quieres vaciar todo el carrito?')){
+    carrito={};guardarCarrito();actualizarCarrito();
+  }
+});
+$('compartir').addEventListener('click',async()=>{
+  let data={title:'Precios al Día',text:'Compara precios y encuentra ofertas en México',url:location.href};
+  try{
+    if(navigator.share)await navigator.share(data);
+    else{await navigator.clipboard.writeText(location.href);alert('Enlace copiado.');}
+  }catch(e){}
+});
+
+llenarEstados();
+actualizarCarrito();
+cargarCatalogo();
+if('serviceWorker'in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
