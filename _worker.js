@@ -128,6 +128,99 @@ async function queryOverpass(query) {
   throw new Error(ultimoError);
 }
 
+async function probarPrecioCheck(env) {
+  const apiKey = env.PRECIOCHECK_API_KEY;
+
+  if (!apiKey) {
+    return json({
+      conectado: false,
+      estado: "secreto_no_encontrado",
+      mensaje: "No se encontró PRECIOCHECK_API_KEY en los secretos de Cloudflare."
+    }, 503);
+  }
+
+  try {
+    const response = await fetch(
+      "https://preciocheck.com/api/v1/categorias",
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "X-API-Key": apiKey
+        },
+        signal: AbortSignal.timeout(15000)
+      }
+    );
+
+    if (response.status === 401 || response.status === 403) {
+      return json({
+        conectado: false,
+        estado: "clave_rechazada",
+        codigo: response.status,
+        mensaje: "PrecioCheck rechazó la clave. Revisa el secreto configurado en Cloudflare."
+      }, 502);
+    }
+
+    if (response.status === 429) {
+      return json({
+        conectado: false,
+        estado: "limite_alcanzado",
+        codigo: 429,
+        mensaje: "PrecioCheck informó que se alcanzó el límite de consultas. Inténtalo más tarde."
+      }, 429);
+    }
+
+    if (!response.ok) {
+      return json({
+        conectado: false,
+        estado: "error_proveedor",
+        codigo: response.status,
+        mensaje: "PrecioCheck respondió con un error HTTP."
+      }, 502);
+    }
+
+    let data;
+
+    try {
+      data = await response.json();
+    } catch (error) {
+      return json({
+        conectado: false,
+        estado: "respuesta_invalida",
+        mensaje: "PrecioCheck respondió, pero el formato recibido no es JSON válido."
+      }, 502);
+    }
+
+    if (data.ok === false) {
+      return json({
+        conectado: false,
+        estado: "respuesta_no_confirmada",
+        mensaje: "La API respondió, pero no confirmó la consulta."
+      }, 502);
+    }
+
+    const categorias = Array.isArray(data.categorias)
+      ? data.categorias.length
+      : 0;
+
+    return json({
+      conectado: true,
+      estado: "conexion_correcta",
+      proveedor: "PrecioCheck",
+      prueba: "Consulta de categorías",
+      totalCategorias: categorias,
+      mensaje: "La conexión con PrecioCheck funciona correctamente."
+    });
+
+  } catch (error) {
+    return json({
+      conectado: false,
+      estado: "error_de_conexion",
+      mensaje: "No fue posible conectar con PrecioCheck. Inténtalo de nuevo."
+    }, 503);
+  }
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -142,9 +235,13 @@ export default {
         estado: "backend_activo",
         busquedaLocal: "openstreetmap_overpass",
         fuenteEstablecimientos: "OpenStreetMap",
-        preciosOnline: "desactivados",
-        cargosExternos: "desactivados"
+        preciosOnline: "pendientes_de_integracion",
+        proveedorPrecios: "PrecioCheck"
       });
+    }
+
+    if (url.pathname === "/api/preciocheck/test") {
+      return probarPrecioCheck(env);
     }
 
     if (url.pathname === "/api/places") {
@@ -290,7 +387,7 @@ export default {
         total: 0,
         ofertas: [],
         disponible: false,
-        mensaje: "La consulta automática de precios comerciales está desactivada. No se mostrarán precios estimados ni se ejecutarán servicios externos."
+        mensaje: "La consulta automática de precios comerciales aún no está activada. No se mostrarán precios estimados ni ofertas inventadas."
       });
     }
 
